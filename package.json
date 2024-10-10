@@ -1,0 +1,32 @@
+{
+  "name": "asfi_meet_start",
+  "version": "1.0.0",
+  "description": "ASFI CREATE MEETING",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaellfunso/asfi_meet_start.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michaellfunso/asfi_meet_start/issues"
+  },
+  "homepage": "https://github.com/michaellfunso/asfi_meet_start#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7",
+    "uuid": "^10.0.0"
+  }
+}
