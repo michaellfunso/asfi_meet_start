@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join | ASFIMeet</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="register-container">
+        <img src="/assets/asfimeet.png" width="70px" alt="">
+        <h2>Join a Stream</h2>
+        <form>
+            <div class="form-group">
+                <label for="roomID">Room ID</label>
+                <input type="text" id="roomID" name="roomID" placeholder="Enter Room ID" required>
+            </div>
+            
+            <div class="bottom">
+              <button type="submit" class="btn">Join Room</button>
+            <p><a href="/create/" class="signin">Create a room</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const asfiMemberSelect = document.getElementById('asfiMember');
+        const membershipIdGroup = document.getElementById('membershipIdGroup');
+
+        asfiMemberSelect.addEventListener('change', function() {
+            if (asfiMemberSelect.value === 'yes') {
+                membershipIdGroup.style.display = 'block';
+            } else {
+                membershipIdGroup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
