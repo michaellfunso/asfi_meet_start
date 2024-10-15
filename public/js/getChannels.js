@@ -16,6 +16,7 @@ fetch(`/allChannels`, {
                 meetingList.innerHTML +=`
                 <tr>
                 <td>${meetings.title}</td>
+                <td>${meetings.channel_secret}</td>
                 <td>${meetings.host}</td>
                 <td>${meetings.view}</td>
                 <td>Start as host</td>
