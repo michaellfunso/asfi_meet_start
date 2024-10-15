@@ -168,9 +168,10 @@
     <h2>Meeting Manager</h2>
     <ul>
       <li><a href="#" id="all-meetings">All Meetings</a></li>
-      <li><a href="#" id="upcoming-meetings">Upcoming Meetings</a></li>
-      <li><a href="#" id="past-meetings">Past Meetings</a></li>
-      <li><a href="#" id="create-meeting">Create New Meeting</a></li>
+      <li><a href="#" id="all-meetings">Posters</a></li>
+      <!-- <li><a href="#" id="upcoming-meetings">Upcoming Meetings</a></li>
+      <li><a href="#" id="past-meetings">Past Meetings</a></li> -->
+      <li><a href="/create">Create New Meeting</a></li>
     </ul>
   </div>
 
@@ -179,8 +180,8 @@
       <h1>Dashboard Overview</h1>
       <div class="stats">
         <div>Total Meetings: <span id="total-meetings">0</span></div>
-        <div>Upcoming Meetings: <span id="upcoming-count">0</span></div>
-        <div>Past Meetings: <span id="past-count">0</span></div>
+        <!-- <div>Upcoming Meetings: <span id="upcoming-count">0</span></div>
+        <div>Past Meetings: <span id="past-count">0</span></div> -->
       </div>
     </header>
 
@@ -189,6 +190,18 @@
       <h2>All Meetings</h2>
       <div class="meeting-grid" id="meeting-grid">
         <!-- Meetings will be dynamically added here -->
+         <table>
+          <thead>
+            <td>Meeting Title</td>
+            <td>Host URL</td>
+            <td>Attendee URL</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="meetingList">
+            
+          </tbody>
+         </table>
       </div>
     </section>
 
@@ -207,7 +220,8 @@
     </section>
   </div>
 
-  <script>
+  <script type="module" src="/js/getChannels.js"></script>
+  <!-- <script>
     let meetings = [];
 
     const renderMeetings = () => {
@@ -259,6 +273,6 @@
       document.getElementById('create-meeting-form').style.display = 'none';
       document.getElementById('meeting-lists').style.display = 'block';
     });
-  </script>
+  </script> -->
 </body>
 </html>

@@ -12,7 +12,8 @@ const createMeeting = async (req,res) =>{
     const secretSalt = createSecretSalt()
     const rtcToken = generateUserToken(channelId)
     const rtmToken = generateUserToken(channelId)
-    const {roomName} = req.body
+    const {roomName, roomId} = req.body
+    console.log(roomId)
     const pstn = "123-456-7890"
 
     db.query("INSERT INTO channels SET ?", [{title:roomName,channel_secret:channelId, pstn:pstn, host:hostId, view:attendeeId, channel:channelId,

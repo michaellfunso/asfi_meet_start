@@ -10,6 +10,8 @@ const createMeeting = require("../controllers/data/createMeeting")
 const login = require("../controllers/data/login")
 const router = express.Router()
 const bodyParser = require("body-parser");
+const loggedIn = require("../controllers/data/loggedIn")
+const channels = require("../controllers/data/channels")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -26,12 +28,13 @@ router.use((req, res, next) => {
   });
 router.get("/",loginPage)
 router.get("/register", signupPage)
-router.get("/create", CreatePage)
-router.get("/join", joinPage)
+router.get("/create", loggedIn, CreatePage)
+router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
-router.get("/manageposters", managepostersPage);
-router.get("/managemeetings", managemeetingsPage);
+router.get("/manageposters", loggedIn, managepostersPage);
+router.get("/meetings", loggedIn, managemeetingsPage);
+router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
 
