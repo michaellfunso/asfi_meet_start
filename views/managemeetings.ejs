@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Management Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f2f5;
+    }
+    .sidebar {
+      background-color: #2c3e50;
+      color: white;
+      width: 250px;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+    }
+    .sidebar h2 {
+      color: #fff;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin: 20px 0;
+    }
+    .sidebar ul li a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 10px;
+      display: block;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover {
+      background-color: #34495e;
+      border-radius: 5px;
+    }
+    .main-content {
+      margin-left: 270px;
+      padding: 40px;
+      width: 100%;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    .stats {
+      display: flex;
+      gap: 20px;
+    }
+    .stats div {
+      background-color: #6e34db;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .stats div:hover {
+      transform: scale(1.05);
+    }
+    .meeting-lists {
+      margin-top: 40px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .meeting-lists h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .meeting-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .meeting-card {
+      background-color: #ecf0f1;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .meeting-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    .meeting-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #2c3e50;
+    }
+    .meeting-card p {
+      margin: 10px 0;
+      color: #7f8c8d;
+    }
+    .meeting-card button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .meeting-card button:hover {
+      background-color: #c0392b;
+    }
+    .create-meeting-form {
+      margin-top: 40px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .create-meeting-form h2 {
+      font-size: 1.5rem;
+      color: #2c3e50;
+    }
+    .create-meeting-form label {
+      display: block;
+      margin: 15px 0 5px;
+      color: #34495e;
+    }
+    .create-meeting-form input, .create-meeting-form select, .create-meeting-form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #bdc3c7;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .create-meeting-form button {
+      background-color: #2ecc71;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .create-meeting-form button:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Meeting Manager</h2>
+    <ul>
+      <li><a href="#" id="all-meetings">All Meetings</a></li>
+      <li><a href="#" id="upcoming-meetings">Upcoming Meetings</a></li>
+      <li><a href="#" id="past-meetings">Past Meetings</a></li>
+      <li><a href="#" id="create-meeting">Create New Meeting</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h1>Dashboard Overview</h1>
+      <div class="stats">
+        <div>Total Meetings: <span id="total-meetings">0</span></div>
+        <div>Upcoming Meetings: <span id="upcoming-count">0</span></div>
+        <div>Past Meetings: <span id="past-count">0</span></div>
+      </div>
+    </header>
+
+    <!-- Meeting list section -->
+    <section class="meeting-lists" id="meeting-lists">
+      <h2>All Meetings</h2>
+      <div class="meeting-grid" id="meeting-grid">
+        <!-- Meetings will be dynamically added here -->
+      </div>
+    </section>
+
+    <!-- Meeting form section -->
+    <section class="create-meeting-form" id="create-meeting-form" style="display:none;">
+      <h2>Create New Meeting</h2>
+      <form id="meeting-form">
+        <label for="title">Meeting Title</label>
+        <input type="text" id="meeting-title" required>
+        <label for="date">Meeting Date</label>
+        <input type="datetime-local" id="meeting-date" required>
+        <label for="duration">Duration (in minutes)</label>
+        <input type="number" id="meeting-duration" required>
+        <button type="submit">Schedule Meeting</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    let meetings = [];
+
+    const renderMeetings = () => {
+      const meetingGrid = document.getElementById('meeting-grid');
+      meetingGrid.innerHTML = '';
+      meetings.forEach((meeting, index) => {
+        const meetingCard = document.createElement('div');
+        meetingCard.classList.add('meeting-card');
+        meetingCard.innerHTML = `
+          <h3>${meeting.title}</h3>
+          <p>Date: ${new Date(meeting.date).toLocaleString()}</p>
+          <p>Duration: ${meeting.duration} minutes</p>
+          <button onclick="deleteMeeting(${index})">Delete</button>
+        `;
+        meetingGrid.appendChild(meetingCard);
+      });
+      updateStats();
+    };
+
+    const updateStats = () => {
+      document.getElementById('total-meetings').textContent = meetings.length;
+      document.getElementById('upcoming-count').textContent = meetings.filter(meeting => new Date(meeting.date) > new Date()).length;
+      document.getElementById('past-count').textContent = meetings.filter(meeting => new Date(meeting.date) <= new Date()).length;
+    };
+
+    const deleteMeeting = (index) => {
+      meetings.splice(index, 1);
+      renderMeetings();
+    };
+
+    document.getElementById('meeting-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const title = document.getElementById('meeting-title').value;
+      const date = document.getElementById('meeting-date').value;
+      const duration = document.getElementById('meeting-duration').value;
+      meetings.push({ title, date, duration });
+      renderMeetings();
+      document.getElementById('meeting-form').reset();
+      document.getElementById('create-meeting-form').style.display = 'none';
+      document.getElementById('meeting-lists').style.display = 'block';
+    });
+
+    document.getElementById('create-meeting').addEventListener('click', () => {
+      document.getElementById('create-meeting-form').style.display = 'block';
+      document.getElementById('meeting-lists').style.display = 'none';
+    });
+
+    document.getElementById('all-meetings').addEventListener('click', () => {
+      document.getElementById('create-meeting-form').style.display = 'none';
+      document.getElementById('meeting-lists').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
