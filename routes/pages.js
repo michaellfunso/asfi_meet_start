@@ -33,7 +33,7 @@ router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/manageposters", loggedIn, managepostersPage);
-router.get("/dashboard", loggedIn, managemeetingsPage); 
+router.get("/v3/dashboard", loggedIn, managemeetingsPage); 
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
