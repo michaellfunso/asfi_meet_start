@@ -1,4 +1,4 @@
-const managepostersPage = async (req, res) => {
+const dashboard = async (req, res) => {
   if(req.cookies.posterUser){
   res.render("managemeetings");
   }else{
@@ -6,4 +6,4 @@ const managepostersPage = async (req, res) => {
   }
 };
 
-module.exports = managepostersPage;
+module.exports = dashboard;

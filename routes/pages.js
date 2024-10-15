@@ -12,6 +12,7 @@ const router = express.Router()
 const bodyParser = require("body-parser");
 const loggedIn = require("../controllers/data/loggedIn")
 const channels = require("../controllers/data/channels")
+const dashboard = require("../controllers/managemeetingsPage")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -33,7 +34,7 @@ router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/manageposters", loggedIn, managepostersPage);
-router.get("/c/dashboard", loggedIn, managemeetingsPage); 
+router.get("/dashboard", loggedIn, dashboard); 
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
