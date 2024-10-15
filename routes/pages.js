@@ -25,7 +25,7 @@ router.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
-  });
+  }); 
 router.get("/",loginPage)
 router.get("/register", signupPage)
 router.get("/create", loggedIn, CreatePage)
@@ -33,7 +33,7 @@ router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/manageposters", loggedIn, managepostersPage);
-router.get("/meetings", loggedIn, managemeetingsPage);
+router.get("/dashboard", loggedIn, managemeetingsPage);
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)

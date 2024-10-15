@@ -19,10 +19,12 @@ fetch(`/allChannels`, {
                 <td>${meetings.channel_secret}</td>
                 <td>${meetings.host}</td>
                 <td>${meetings.view}</td>
-                <td>Start as host</td>
+                <td>
+                <a href=https://posters.asfischolar.com/posterlist/${meetings.channel_secret} target=_blank>View Posters</a>
+                </td>
                  </tr>`
             } 
-        }else[
+        }else[ 
             meetingList.innerHTML = "No Meeting Availabe"
         ]
         }else{

@@ -1,7 +1,6 @@
 const login = async (req,res) =>{
     try{
     const {user, pass} = req.body
-    console.log(process.env.ASFISCHOLAR_ENDPOINT)
 
 async function response() {
         return  await fetch(`${process.env.ASFISCHOLAR_ENDPOINT}/api/login`, {
@@ -12,7 +11,6 @@ async function response() {
         }
     }).then(res=>res.json())
     .then(data =>{
-        console.log(data)
         return data
     })
 }

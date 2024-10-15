@@ -1,4 +1,5 @@
 const CreatePage = async (req,res) =>{
+    
     if(req.cookies.posterUser){
     res.render("create")
     }else{
