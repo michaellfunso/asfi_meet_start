@@ -29,8 +29,16 @@ createMeetingForm.addEventListener("submit", function(e) {
 
             // URL TEMPLATE FORMAT 
             // const url = `${currentDomain}/${hostURL} `
-            hostLink.value = `${currentDomain}/${hostURL}`
-            attendeeLink.value = `${currentDomain}/${attendeeURL}`
+            hostLink.value = `${currentDomain}/v3/${hostURL}`
+            attendeeLink.value = `${currentDomain}/v3/${attendeeURL}`
         }
     })
+})
+
+
+const meetingLink = document.getElementById("meetingLink")
+
+meetingLink.addEventListener("submit", function(e){
+    e.preventDefault()
+    window.location.href = `${hostLink.value}`
 })

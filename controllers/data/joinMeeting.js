@@ -34,6 +34,7 @@ const joinMeeting = async (req, res) => {
 }
 
   } catch (error) {
+    console.log(error)
     return res.json({ error: error.message });
   }
 };
