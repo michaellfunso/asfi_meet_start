@@ -26,7 +26,7 @@ router.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   }); 
-router.get("/",loginPage)
+router.get("/", dashboard)
 router.get("/register", signupPage)
 router.get("/create", loggedIn, CreatePage)
 router.get("/join", loggedIn, joinPage)
