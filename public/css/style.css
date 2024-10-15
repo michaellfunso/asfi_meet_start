@@ -36,6 +36,9 @@ body {
     background: #222; /* Scrollbar track color */
     border-radius: 10px;
 }
+#start-container{
+    display: none;
+}
         h2 {
             text-align: center;
             margin-bottom: 20px;
@@ -182,7 +185,82 @@ padding: 15px;
 .toggle-input:checked + .toggle-slider:before {
   transform: translateX(20px); /* Move the circle */
 }
+/* General button styling */
+.btn-copy {
+    display: inline-block;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 8px 16px; /* Some padding */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    margin-left: 10px; /* Space between input and button */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
 
+/* Hover effect for the button */
+.btn-copy:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+/* Optional: Adjust font weight and padding for a more modern look */
+.btn-copy:active {
+    background-color: #3e8e41; /* Even darker when clicked */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[readonly] {
+    padding: 8px;
+    width: calc(100% - 90px); /* Leave space for the copy button */
+    margin-right: 10px;
+}
+
+.bottom .btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.bottom .btn:hover {
+    background-color: #0069d9;
+}
+
+.signin {
+    color: #007bff;
+}
+
+/* Notification Popup Styles */
+    .notification {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        border-radius: 4px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 80vh;
+        transform: translateX(-50%);
+        font-size: 17px;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease-in-out;
+    }
+
+    .notification.show {
+        visibility: visible;
+        opacity: 1;
+    }
 @media only screen and (max-width: 600px) {
     .register-container {
             background-color: #222;

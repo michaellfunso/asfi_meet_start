@@ -1,4 +1,8 @@
 const createMeetingForm = document.getElementById("createMeeting")
+const hostLink = document.getElementById("hostLink")
+const attendeeLink = document.getElementById("attendeeLink")
+const createContainer = document.getElementById("create-container")
+const startContainer = document.getElementById("start-container")
 
 createMeetingForm.addEventListener("submit", function(e) {
     e.preventDefault()
@@ -20,9 +24,13 @@ createMeetingForm.addEventListener("submit", function(e) {
             const attendeeURL = data.attendee 
             const currentDomain = window.location.origin 
 
+            createContainer.style.display = "none";
+            startContainer.style.display = "block";
+
             // URL TEMPLATE FORMAT 
             // const url = `${currentDomain}/${hostURL} `
-           alert(data.success)
+            hostLink.value = `${currentDomain}/${hostURL}`
+            attendeeLink.value = `${currentDomain}/${attendeeURL}`
         }
     })
 })
