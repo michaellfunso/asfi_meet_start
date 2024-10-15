@@ -4,7 +4,6 @@ const signupPage = require("../controllers/signUpPage")
 const CreatePage = require("../controllers/createPage")
 const joinPage = require("../controllers/joinPage")
 const managepostersPage = require("../controllers/managepostersPage")
-const managemeetingsPage = require("../controllers/managemeetingsPage");
 const joinMeeting = require("../controllers/data/joinMeeting")
 const createMeeting = require("../controllers/data/createMeeting")
 const login = require("../controllers/data/login")
@@ -33,8 +32,9 @@ router.get("/create", loggedIn, CreatePage)
 router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
+router.get("/cc/dashboard", loggedIn, dashboard); 
+
 router.get("/manageposters", loggedIn, managepostersPage);
-router.get("/dashboard", loggedIn, dashboard); 
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
