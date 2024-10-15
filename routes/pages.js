@@ -30,11 +30,16 @@ router.get("/login", loginPage)
 router.post("/api/login", login)
 
 router.post("/createMeeting", createMeeting)
+
+// router.get("/:passphrase", async(req,res) =>{
+//   const passPhrase = req.params.passPhrase 
+//   res.redirect(`/v3/${passPhrase}`)
+// })
 router.get("/v3/:channel", joinMeeting)
 
 
 router.get("*", async(req,res) =>{
-    res.redirect("/")
+    res.json({error:"INVALID URL"})
 })
 
 module.exports  = router

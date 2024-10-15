@@ -5,6 +5,7 @@ form.addEventListener("submit", (e) =>{
         user: user.value,
         pass: pass.value
     }
+    console.log(login)
     fetch("/api/login", {
         method: "POST",
         body: JSON.stringify(login),
@@ -13,6 +14,7 @@ form.addEventListener("submit", (e) =>{
         }
     }).then(res => res.json())
     .then(data => {
+    console.log(data)
         if(data.status == "error") {
             success.style.visibility = "hidden";
             success.style.contentVisibility = "hidden";
