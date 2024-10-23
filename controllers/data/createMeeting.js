@@ -4,16 +4,15 @@ const { v4: uuidv4 } = require('uuid');
 
 const createMeeting = async (req,res) =>{
     try{
-    const channelId = uuidv4();
-    const hostId = uuidv4();
-    const attendeeId = uuidv4();
+    const {roomName, roomId, RoomDetails, ChannelDetails} = req.body
+    const channelId = ChannelDetails.createChannel.channel;
+    const hostId = roomId.attendee;
+    const attendeeId = roomId.host;
  
-    
     const secretSalt = createSecretSalt()
     const rtcToken = generateUserToken(channelId)
     const rtmToken = generateUserToken(channelId)
-    const {roomName, roomId} = req.body
-    console.log(roomId)
+
     const pstn = "123-456-7890"
 
     db.query("INSERT INTO channels SET ?", [{title:roomName,channel_secret:channelId, pstn:pstn, host:hostId, view:attendeeId, channel:channelId,
