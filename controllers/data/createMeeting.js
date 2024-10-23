@@ -8,6 +8,7 @@ const createMeeting = async (req,res) =>{
     const channelId = ChannelDetails.createChannel.channel;
     const hostId = roomId.attendee;
     const attendeeId = roomId.host;
+
  
     const secretSalt = createSecretSalt()
     const rtcToken = generateUserToken(channelId)

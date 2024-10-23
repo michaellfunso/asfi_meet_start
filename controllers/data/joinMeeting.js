@@ -18,12 +18,12 @@ const joinMeeting = async (req, res) => {
     if(MeetingData.waitingRoom === "yes") {
        return res.render("waitingRoom")
     }else{
-        return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/v3/${MeetingData.view}`)
+        return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/${MeetingData.view}`)
     }
     } else {
         const MeetingByHost = await findChannelByHost(channel)
         if(MeetingByHost.channel){
-           return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/v3/${MeetingByHost.host}`)
+           return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/${MeetingByHost.host}`)
         }else{
     return res.json({ error: "invalid Meeting ID" });
         }
