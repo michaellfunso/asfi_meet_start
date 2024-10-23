@@ -13,7 +13,7 @@ async function findChannelByPassphrase(passphrase) {
         if(data[0]){
         resolve(data[0]); 
         }else{
-        resolve([]);
+          resolve([]); 
       }
     }
     });

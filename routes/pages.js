@@ -12,6 +12,7 @@ const bodyParser = require("body-parser");
 const loggedIn = require("../controllers/data/loggedIn")
 const channels = require("../controllers/data/channels")
 const dashboard = require("../controllers/managemeetingsPage")
+const meetingLinks = require("../controllers/data/meetingLinks")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -38,6 +39,7 @@ router.get("/manageposters", loggedIn, managepostersPage);
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
+router.get("/v9/m/:channel", meetingLinks)
 
 // router.get("/:passphrase", async(req,res) =>{
 //   const passPhrase = req.params.passPhrase 

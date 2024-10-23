@@ -31,7 +31,7 @@ const createMeeting = async (req,res) =>{
                 return res.json({error:err})
             }else{
 
-                return res.json({success:`Meeting Created Succesfully host: ${hostId}, attendee:${channelId}`, host:hostId, attendee:attendeeId})
+                return res.json({success:`Meeting Created Succesfully host: ${hostId}, attendee:${channelId}`, host:hostId, attendee:attendeeId, channelSecret:channelId})
             }
         })
     }catch(error){

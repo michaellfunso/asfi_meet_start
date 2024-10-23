@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create | ASFIMeet</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="register-container" id="create-container">
+        <img src="/assets/asfimeet.png" width="70px" alt="">
+        <h2>Create a Room</h2>
+        <form id="createMeeting" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="roomName">Room Name</label>
+                <input type="text" id="roomName" name="roomName" placeholder="Enter a Name" required>
+            </div>
+            <div class="toggle-container">
+  <label class="toggle-label">
+    <div>
+Make everyone a Co-Host 
+    <span class="info-icon">ℹ</span>
+    </div>
+    <div>
+<input type="checkbox" class="toggle-input">
+    <span class="toggle-slider"></span>
+    </div>
+    
+</label>
+</div>
+            
+            <div class="bottom">
+              <button type="submit" class="btn">Create a Room</button>
+            <p><a href="/join/" class="signin">Join with a room ID</a></p>
+            </div>
+        </form>
+    </div>
+
+<div class="register-container" id="start-container">
+        <img src="/assets/asfimeet.png" width="70px" alt="">
+        <h2>Name of the Room</h2>
+        <form id="meetingLink" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="attendeeLink">Attendee Link</label>
+                <input type="text" id="attendeeLink" name="attendeeLink" readonly>  <span class="btn-copy" data-target="attendeeLink">Copy</span>
+                <p>Share this with attendees you want to invite.</p>
+            </div>
+             <div class="form-group">
+                <label for="hostLink">Host Link</label>
+                <input type="text" id="hostLink" name="hostLink" readonly> <span class="btn-copy" data-target="hostLink">Copy</span>
+                <p>Share this with other co-hosts you want to invite.</p>
+            </div>
+                 
+            <div class="bottom">
+              <button type="submit" class="btn">Start Room (AS HOST)</button>
+            <p><a href="javascript:void(0)" id="copyInvite" class="signin">Copy Invite to clipboard</a></p>
+            </div>
+        </form>
+</div>
+
+<!-- Notification Popup -->
+<div id="notificationPopup" class="notification">
+    <span id="notificationMessage">Link copied to clipboard!</span>
+</div>
+
+    <script type="module" src="/js/createMeeting.js"></script>
+    <!-- <script>
+    // Function to copy the value of the target input field
+    function copyToClipboard(inputId) {
+        var copyText = document.getElementById(inputId);
+        copyText.select();
+        document.execCommand("copy");
+        alert("Copied: " + copyText.value);
+    }
+
+    // Attach event listeners to the copy buttons
+    document.querySelectorAll('.btn-copy').forEach(function(copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            var target = copyBtn.getAttribute('data-target');
+            copyToClipboard(target);
+        });
+    });
+
+    // Copy all invite links when clicking "Copy Invite to clipboard"
+    document.getElementById('copyInvite').addEventListener('click', function() {
+        var attendeeLink = document.getElementById('attendeeLink').value;
+        var hostLink = document.getElementById('hostLink').value;
+        var combinedLinks = `Attendee Link: ${attendeeLink}\nHost Link: ${hostLink}`;
+        
+        // Create a temporary text area to hold the combined text for copying
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = combinedLinks;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+        
+        alert("Copied the invite links to clipboard.");
+    });
+</script> -->
+
+<script>
+    // Function to copy the value of the target input field
+    function copyToClipboard(inputId) {
+        var copyText = document.getElementById(inputId);
+        copyText.select();
+        document.execCommand("copy");
+
+        // Show the notification popup
+        showNotification("Link copied to clipboard!");
+    }
+
+    // Function to show the notification
+    function showNotification(message) {
+        var notification = document.getElementById("notificationPopup");
+        var notificationMessage = document.getElementById("notificationMessage");
+
+        notificationMessage.textContent = message;
+        notification.classList.add("show");
+
+        // Hide the notification after 3 seconds
+        setTimeout(function() {
+            notification.classList.remove("show");
+        }, 3000);
+    }
+
+    // Attach event listeners to the copy buttons
+    document.querySelectorAll('.btn-copy').forEach(function(copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            var target = copyBtn.getAttribute('data-target');
+            copyToClipboard(target);
+        });
+    });
+
+    // Copy all invite links when clicking "Copy Invite to clipboard"
+    document.getElementById('copyInvite').addEventListener('click', function() {
+        var attendeeLink = document.getElementById('attendeeLink').value;
+        var hostLink = document.getElementById('hostLink').value;
+        var combinedLinks = `Attendee Link: ${attendeeLink}\nHost Link: ${hostLink}`;
+        
+        // Create a temporary text area to hold the combined text for copying
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = combinedLinks;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+        
+        // Show the notification popup
+        showNotification("Invite links copied to clipboard!");
+    });
+</script>
+</body>
+</html>
