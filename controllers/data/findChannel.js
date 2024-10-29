@@ -3,7 +3,6 @@ const { db } = require("../../routes/db.config");
 
 async function findChannelByPassphrase(passphrase) {
     
-
   return new Promise((resolve, reject) => {
     db.query("SELECT * FROM channels WHERE channel_secret = ?", [passphrase], (err, data) => {
       if (err) {

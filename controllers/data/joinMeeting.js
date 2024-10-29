@@ -32,14 +32,14 @@ const joinMeeting = async (req, res) => {
            return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/v6/${MeetingByHost.host}`)
         }else{
           console.log("INVALID ID")
-    return res.json({ error: "invalid Meeting ID" });
+    return res.json({ error: "invalid Meeting HOST ID" });
         }
     }
 
 }else{
   console.log("INVALID CHANNEL ID")
 
-    return res.json({ error: "invalid Meeting ID" });
+    return res.json({ error: "invalid Channel ID" });
 }
 
   } catch (error) {
