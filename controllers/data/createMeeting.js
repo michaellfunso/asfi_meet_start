@@ -6,8 +6,8 @@ const createMeeting = async (req,res) =>{
     try{
     const {roomName, roomId, RoomDetails, ChannelDetails} = req.body
     const channelId = ChannelDetails.createChannel.channel;
-    const hostId = roomId.attendee;
-    const attendeeId = roomId.host;
+    const hostId = roomId.host;
+    const attendeeId = roomId.attendee;
 
  
     const secretSalt = createSecretSalt()
