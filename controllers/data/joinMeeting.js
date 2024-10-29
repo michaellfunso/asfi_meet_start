@@ -8,15 +8,15 @@ const joinMeeting = async (req, res) => {
   try {
     const { channel } = req.params;
   
+    console.log(channel)
     const meetingExsits = await MeetingExists(channel)
     // Check if the meeting exists 
 
-    console.log(meetingExsits)
     if(meetingExsits.channel){
      
-    const MeetingData = await FindChannelByView(channel);
+    const MeetingData = await FindChannelByView(meetingExsits.view);
 
-    if (MeetingData.length > 0 && MeetingData.channel) {
+    if (MeetingData.channel) {
       // Use a POST redirect by rendering an HTML form
     if(MeetingData.waitingRoom === "yes") {
        return res.render("waitingRoom")
