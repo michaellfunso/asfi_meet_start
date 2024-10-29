@@ -5,7 +5,7 @@ async function FindChannelByView(passphrase) {
     
 
   return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM channels WHERE view = ?", [passphrase], (err, data) => {
+    db.query("SELECT * FROM channels WHERE channel = ?", [passphrase], (err, data) => {
       if (err) {
         console.log(err);
         reject(err); // Reject the promise with the error

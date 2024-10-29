@@ -14,9 +14,9 @@ const joinMeeting = async (req, res) => {
 
     if(meetingExsits.channel){
      
-    const MeetingData = await FindChannelByView(meetingExsits.view);
+    const MeetingData = await FindChannelByView(channel);
 
-    if (MeetingData.channel) {
+    if (MeetingData.channel && MeetingData.view !== channel) {
       // Use a POST redirect by rendering an HTML form
     if(MeetingData.waitingRoom === "yes") {
        return res.render("waitingRoom")
@@ -25,7 +25,7 @@ const joinMeeting = async (req, res) => {
         // console.log("VIEW", MeetingData.view)
         // return res.render("joinBrute", {channelToken:MeetingData.view})
     }
-    } else {
+    } else if(meetingExsits.host === channel) {
         const MeetingByHost = await findChannelByHost(channel)
         if(MeetingByHost.channel){
         // return res.render("joinBrute", {channelToken:MeetingByHost.host})
