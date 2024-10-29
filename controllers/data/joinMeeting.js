@@ -10,7 +10,8 @@ const joinMeeting = async (req, res) => {
   
     const meetingExsits = await MeetingExists(channel)
     // Check if the meeting exists 
- 
+
+    console.log(meetingExsits)
     if(meetingExsits.channel){
      
     const MeetingData = await FindChannelByView(channel);
@@ -32,19 +33,18 @@ const joinMeeting = async (req, res) => {
            return res.redirect(`${process.env.ASFI_MEET_ENDPOINT}/v6/${MeetingByHost.host}`)
         }else{
           console.log("INVALID ID")
-    return res.json({ error: "invalid Meeting HOST ID" });
+    return res.json({ error: `invalid Meeting HOST ID ${channel}` });
         }
     }
 
-}else{
-  console.log("INVALID CHANNEL ID")
-
-    return res.json({ error: "invalid Channel ID" });
-}
+  }else{
+    console.log("INVALID CHANNEL ID")
+    return res.json({ error: `invalid Channel ID ${channel}` });
+  }
 
   } catch (error) {
     console.log(error)
-    return res.json({ error: error.message });
+    return res.json({ internalError: error.message });
   }
 };
 
