@@ -113,7 +113,7 @@ fetch(`/mostLiked`, {
             for(let i=0; i<mostlikedData.length; i++){
             const likes = mostlikedData[i]
             const posterId  = likes.poster_id
-            const totalLikes = likes.total_views
+            const totalLikes = likes.total_likes
 
             const posterDetails = await GetPosterDetails(posterId)
         
@@ -154,7 +154,7 @@ fetch(`/mostDisliked`, {
             for(let i=0; i<mostdislikedData.length; i++){
             const dislikes = mostdislikedData[i]
             const posterId  = dislikes.poster_id
-            const totalDislikes = dislikes.total_views
+            const totalDislikes = dislikes.total_dislikes
 
             const posterDetails = await GetPosterDetails(posterId)
         
