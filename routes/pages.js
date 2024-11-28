@@ -13,6 +13,11 @@ const loggedIn = require("../controllers/data/loggedIn")
 const channels = require("../controllers/data/channels")
 const dashboard = require("../controllers/managemeetingsPage")
 const meetingLinks = require("../controllers/data/meetingLinks")
+const getMostLiked = require("../controllers/data/getMostLiked")
+const getMostdisliked = require("../controllers/data/getMostDisliked")
+const getMostRated = require("../controllers/data/getMostRated")
+const getMostviewed = require("../controllers/data/getMostViewed")
+const getPosterTitle = require("../controllers/data/getPosterTItle")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -41,6 +46,11 @@ router.get("/allChannels", channels)
 router.post("/createMeeting", createMeeting)
 router.get("/v9/m/:channel", meetingLinks)
 
+router.get("/mostLiked", getMostLiked)
+router.get("/mostDisliked", getMostdisliked)
+router.get("/mostViewed", getMostviewed) 
+router.get("/mostRated", getMostRated)
+router.get("/posterDetails/:posterId", getPosterTitle)
 // router.get("/:passphrase", async(req,res) =>{
 //   const passPhrase = req.params.passPhrase 
 //   res.redirect(`/v3/${passPhrase}`)
