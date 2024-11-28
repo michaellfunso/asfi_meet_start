@@ -10,7 +10,7 @@ const getMostRated = async (req,res) =>{
                 if(err){
                     throw err
                 }else if(data){
-                    return res.json({success:"MostRated", dislikedList: data})
+                    return res.json({success:"MostRated", ratedList: data})
                 }
             })
          
