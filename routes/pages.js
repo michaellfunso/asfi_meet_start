@@ -44,7 +44,7 @@ router.get("/meetings", loggedIn, dashboard);
 router.get("/posteroverview", loggedIn, posterOverVIew); 
 router.get("/manageposters", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
-
+ 
 router.post("/createMeeting", createMeeting)
 router.get("/v9/m/:channel", meetingLinks)
 
