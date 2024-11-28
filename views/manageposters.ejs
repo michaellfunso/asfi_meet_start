@@ -165,13 +165,12 @@
 </head>
 <body>
   <div class="sidebar">
-    <h2>Poster Manager</h2>
+    <h2>Posters Overview</h2>
     <ul>
       <li><a href="#" id="all-posters">All Posters</a></li>
-      <li><a href="/dashboard" id="all-posters">Meetings</a></li>
-      <li><a href="#" id="create-poster">Create New Poster</a></li>
+      <li><a href="/" id="all-posters">Back to Meetings</a></li>
     </ul>
-  </div>
+  </div> 
 
   <div class="main-content">
     <header>
@@ -183,11 +182,77 @@
 
     <!-- Poster list section -->
     <section class="poster-lists" id="poster-lists">
-      <h2>All Posters</h2>
-      <div class="poster-grid" id="poster-grid">
+      <h2>Most Rated Posters</h2>
+      <div class="poster-grid" id="most-rated">
         <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Rating</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-ratedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      <h2>Most Viewed Posters</h2>
+      <div class="poster-grid" id="most-viewed">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Views</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-viewedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      <h2>Most Liked Posters</h2>
+      <div class="poster-grid" id="most-liked">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Likes</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-likedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      
+
+      <h2>Most Disliked Posters</h2>
+      <div class="poster-grid" id="most-disliked">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Dislikes</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-dislikedList">
+            
+          </tbody>
+         </table>
       </div>
     </section>
+    
 
     <!-- Poster form section
     <section class="create-poster-form" id="create-poster-form" style="display:none;">
@@ -206,57 +271,8 @@
     </section> -->
   </div>
 
-  <script>
-    let posters = [];
+  <script type="module" src="/js/getPosterOverview.js"></script>
 
-    const renderPosters = () => {
-      const posterGrid = document.getElementById('poster-grid');
-      posterGrid.innerHTML = '';
-      posters.forEach((poster, index) => {
-        const posterCard = document.createElement('div');
-        posterCard.classList.add('poster-card');
-        posterCard.innerHTML = `
-          <h3>${poster.title}</h3>
-          <p>Status: ${poster.status}</p>
-          <p>Due Date: ${poster.dueDate}</p>
-          <button onclick="deletePoster(${index})">Delete</button>
-        `;
-        posterGrid.appendChild(posterCard);
-      });
-      updateStats();
-    };
-
-    const updateStats = () => {
-      document.getElementById('total-posters').textContent = posters.length;
-      document.getElementById('active-count').textContent = posters.filter(poster => poster.status === 'active').length;
-      document.getElementById('upcoming-count').textContent = posters.filter(poster => poster.status === 'upcoming').length;
-      document.getElementById('archived-count').textContent = posters.filter(poster => poster.status === 'archived').length;
-    };
-
-    const deletePoster = (index) => {
-      posters.splice(index, 1);
-      renderPosters();
-    };
-
-    document.getElementById('poster-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const title = document.getElementById('poster-title').value;
-      const status = document.getElementById('poster-status').value;
-      const dueDate = document.getElementById('due-date').value;
-      posters.push({ title, status, dueDate });
-      renderPosters();
-      document.getElementById('poster-form').reset();
-    });
-
-    document.getElementById('create-poster').addEventListener('click', () => {
-      document.getElementById('create-poster-form').style.display = 'block';
-      document.getElementById('poster-lists').style.display = 'none';
-    });
-
-    document.getElementById('all-posters').addEventListener('click', () => {
-      document.getElementById('create-poster-form').style.display = 'none';
-      document.getElementById('poster-lists').style.display = 'block';
-    });
-  </script>
+  
 </body>
 </html>
