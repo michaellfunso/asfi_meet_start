@@ -13,7 +13,7 @@ const getMostRated = async (req,res) =>{
                     return res.json({success:"MostRated", dislikedList: data})
                 }
             })
-        
+         
 
     }catch(error){
         return res.json({error:error.message})

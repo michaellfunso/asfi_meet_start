@@ -51,7 +51,7 @@ router.get("/mostDisliked", getMostdisliked)
 router.get("/mostViewed", getMostviewed) 
 router.get("/mostRated", getMostRated)
 router.get("/posterDetails/:posterId", getPosterTitle)
-// router.get("/:passphrase", async(req,res) =>{
+// router.get("/:passphrase", async(req,res) =>{ 
 //   const passPhrase = req.params.passPhrase 
 //   res.redirect(`/v3/${passPhrase}`)
 // })

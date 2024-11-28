@@ -1,6 +1,6 @@
 const { db } = require("../../routes/db.config")
 
-const getMostLiked = async (req,res) =>{
+const getMostLiked = async (req,res) =>{ 
     try{
         db.query(`SELECT poster_id, COUNT(*) AS total_likes
             FROM poster_reactions

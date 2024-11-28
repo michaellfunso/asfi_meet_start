@@ -7,7 +7,7 @@ const getMostdisliked = async (req,res) =>{
             WHERE reaction = 'disliked'
             GROUP BY poster_id
             ORDER BY total_dislikes DESC
-            `, async(err, data)=>{
+            `, async(err, data)=>{ 
                 if(err){
                     throw err
                 }else if(data){

@@ -3,7 +3,7 @@ const { db } = require("../../routes/db.config")
 const getPosterTitle = async (req,res) =>{
     try{
         const posterId = req.params.posterId
-        db.query("SELECT * FROM posterdecks WHERE poster_id = ?", [posterId], async (err, data)=>{
+        db.query("SELECT * FROM posterdecks WHERE poster_deck_id = ?", [posterId], async (err, data)=>{
             if(err){
                 throw err
             }else{

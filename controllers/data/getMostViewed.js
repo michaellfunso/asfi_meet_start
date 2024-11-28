@@ -7,7 +7,7 @@ const getMostviewed = async (req,res) =>{
             WHERE reaction = 'viewed'
             GROUP BY poster_id
             ORDER BY total_views DESC
-            `, async(err, data)=>{
+            `, async(err, data)=>{ 
                 if(err){
                     throw err
                 }else if(data){
