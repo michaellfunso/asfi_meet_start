@@ -42,7 +42,7 @@ router.post("/api/login", login)
 router.get("/meetings", loggedIn, dashboard);
 
 router.get("/manageposters", loggedIn, posterOverVIew); 
-router.get("/pages/manageposters", loggedIn, managepostersPage)
+router.get("/c/manage", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
