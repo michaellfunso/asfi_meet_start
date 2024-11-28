@@ -18,6 +18,7 @@ const getMostdisliked = require("../controllers/data/getMostDisliked")
 const getMostRated = require("../controllers/data/getMostRated")
 const getMostviewed = require("../controllers/data/getMostViewed")
 const getPosterTitle = require("../controllers/data/getPosterTItle")
+const posterOverVIew = require("../controllers/posterOverView")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -40,7 +41,8 @@ router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/meetings", loggedIn, dashboard);
 
-router.get("/manageposters", loggedIn, managepostersPage);
+router.get("/manageposters", loggedIn, posterOverVIew);
+router.get("/pages/manageposters", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
 
 router.post("/createMeeting", createMeeting)
