@@ -2,7 +2,7 @@ const { db } = require("../../routes/db.config")
 
 const getMostRated = async (req,res) =>{
     try{
-        db.query(`SELECT posterId, COUNT(*) AS total_ratings
+        db.query(`SELECT posterId, SUM(rating) AS total_ratings
             FROM ratings
             GROUP BY posterId
             ORDER BY total_ratings DESC
