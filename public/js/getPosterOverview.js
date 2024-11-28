@@ -4,6 +4,11 @@ const mostlikedList = document.getElementById("most-likedList")
 const mostdislikedList = document.getElementById("most-dislikedList")
 const TotalPosters = document.getElementById("total-posters")
 
+const AllLikedItems = []
+const AllDisLikedItems = []
+const AllRatedItems = []
+const AllViewedITems = []
+
 async function GetPosterDetails(posterId){
     return fetch(`/posterDetails/${posterId}`,{
         method:"GET"
@@ -46,7 +51,14 @@ fetch(`/mostRated`, {
                 <a href=https://posters.asfischolar.com/event/poster/${posterId} target=_blank>View Poster</a>
                 </td>
                  </tr>`
+                 AllRatedItems.push({
+                    title: posterTitle,
+                    presenter: posterOwner ,
+                    count: totalRatings
+                 })
+                
             } 
+            console.log(AllRatedItems)
         }else[ 
             mostratedList.innerHTML = "No Rating Availabe"
         ]
