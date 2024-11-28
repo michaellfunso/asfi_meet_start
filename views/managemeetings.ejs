@@ -91,11 +91,11 @@
       margin-bottom: 20px;
       color: #2c3e50;
     }
-    .meeting-grid {
+    /* .meeting-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
-    }
+    } */
     .meeting-card {
       background-color: #ecf0f1;
       padding: 20px;
@@ -161,6 +161,54 @@
     .create-meeting-form button:hover {
       background-color: #27ae60;
     }
+
+    #meetingList tr{
+        margin-bottom: 10px;
+    }
+
+    /* Responsive adjustments */
+@media (max-width: 768px) {
+  body{
+    display: flex;
+    flex-direction: column;
+   
+  }
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .meeting-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats div {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -169,7 +217,7 @@
     <ul>
       <li><a href="#" id="all-meetings">All Meetings</a></li>
       <li><a href="https://posters.asfischolar.com/sessionDashboard">Posters</a></li>
-      <li><a href="https://posters.asfischolar.com/create/secret" id="all-meetings">Generate Secret</a></li>
+      <li><a href="https://posters.asfischolar.com/create/secret" id="all-meetings">Generate Private</a></li>
 
       <!-- <li><a href="#" id="upcoming-meetings">Upcoming Meetings</a></li>
       <li><a href="#" id="past-meetings">Past Meetings</a></li> -->
@@ -208,7 +256,7 @@
       </div>
     </section>
 
-    <!-- Meeting form section -->
+    <!-- Meeting form section
     <section class="create-meeting-form" id="create-meeting-form" style="display:none;">
       <h2>Create New Meeting</h2>
       <form id="meeting-form">
@@ -220,7 +268,7 @@
         <input type="number" id="meeting-duration" required>
         <button type="submit">Schedule Meeting</button>
       </form>
-    </section>
+    </section> -->
   </div>
 
   <script type="module" src="/js/getChannels.js"></script>

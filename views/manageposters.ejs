@@ -153,13 +153,13 @@
       font-size: 1rem;
     }
     .create-poster-form button {
-      background-color: #2ecc71;
+      background-color: #802ecc;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
     }
     .create-poster-form button:hover {
-      background-color: #27ae60;
+      background-color: #7127ae;
     }
   </style>
 </head>
@@ -168,9 +168,7 @@
     <h2>Poster Manager</h2>
     <ul>
       <li><a href="#" id="all-posters">All Posters</a></li>
-      <li><a href="#" id="active-posters">Active Posters</a></li>
-      <li><a href="#" id="upcoming-posters">Upcoming Posters</a></li>
-      <li><a href="#" id="archived-posters">Archived Posters</a></li>
+      <li><a href="/dashboard" id="all-posters">Meetings</a></li>
       <li><a href="#" id="create-poster">Create New Poster</a></li>
     </ul>
   </div>
@@ -180,9 +178,6 @@
       <h1>Dashboard Overview</h1>
       <div class="stats">
         <div>Total Posters: <span id="total-posters">0</span></div>
-        <div>Active Posters: <span id="active-count">0</span></div>
-        <div>Upcoming Posters: <span id="upcoming-count">0</span></div>
-        <div>Archived Posters: <span id="archived-count">0</span></div>
       </div>
     </header>
 
@@ -194,7 +189,7 @@
       </div>
     </section>
 
-    <!-- Poster form section -->
+    <!-- Poster form section
     <section class="create-poster-form" id="create-poster-form" style="display:none;">
       <h2>Create New Poster</h2>
       <form id="poster-form">
@@ -203,14 +198,12 @@
         <label for="status">Poster Status</label>
         <select id="poster-status">
           <option value="active">Active</option>
-          <option value="upcoming">Upcoming</option>
-          <option value="archived">Archived</option>
         </select>
         <label for="date">Due Date</label>
         <input type="date" id="due-date" required>
         <button type="submit">Add Poster</button>
       </form>
-    </section>
+    </section> -->
   </div>
 
   <script>
