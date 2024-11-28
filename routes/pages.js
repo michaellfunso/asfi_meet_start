@@ -41,7 +41,7 @@ router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/meetings", loggedIn, dashboard);
 
-router.get("/manageposters", loggedIn, posterOverVIew);
+router.get("/manageposters", loggedIn, posterOverVIew); 
 router.get("/pages/manageposters", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
 
