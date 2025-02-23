@@ -19,6 +19,7 @@ const getMostRated = require("../controllers/data/getMostRated")
 const getMostviewed = require("../controllers/data/getMostViewed")
 const getPosterTitle = require("../controllers/data/getPosterTItle")
 const posterOverVIew = require("../controllers/posterOverView")
+const createRoomButton = require("../controllers/external/createRoom")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -35,8 +36,6 @@ router.use((req, res, next) => {
   }); 
 router.get("/", dashboard)
 router.get("/register", signupPage)
-router.get("/create", loggedIn, CreatePage)
-router.get("/join", loggedIn, joinPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/meetings", loggedIn, dashboard);
@@ -57,7 +56,10 @@ router.get("/posterDetails/:posterId", getPosterTitle)
 //   const passPhrase = req.params.passPhrase 
 //   res.redirect(`/v3/${passPhrase}`)
 // })
-router.get("/v3/:channel", joinMeeting)
+// router.get("/v3/:channel", joinMeeting)
+router.get("/create", loggedIn, CreatePage)
+router.post("/api/createMeeting", createRoomButton)
+router.get("/join/:meeting", joinPage)
 
 
 router.get("*", async(req,res) =>{

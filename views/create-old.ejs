@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -58,12 +58,12 @@ Make everyone a Co-Host
         </form>
 </div>
 
-<!-- Notification Popup -->
-<div id="notificationPopup" class="notification">
+ Notification Popup -->
+<!-- <div id="notificationPopup" class="notification">
     <span id="notificationMessage">Link copied to clipboard!</span>
 </div>
 
-    <script type="module" src="/js/createMeeting.js"></script>
+    <script type="module" src="/js/createMeeting.js"></script> -->
     <!-- <script>
     // Function to copy the value of the target input field
     function copyToClipboard(inputId) {
@@ -98,7 +98,7 @@ Make everyone a Co-Host
         alert("Copied the invite links to clipboard.");
     });
 </script> -->
-
+<!-- 
 <script>
     // Function to copy the value of the target input field
     function copyToClipboard(inputId) {
@@ -108,9 +108,9 @@ Make everyone a Co-Host
 
         // Show the notification popup
         showNotification("Link copied to clipboard!");
-    }
+    } -->
 
-    // Function to show the notification
+    <!-- // Function to show the notification
     function showNotification(message) {
         var notification = document.getElementById("notificationPopup");
         var notificationMessage = document.getElementById("notificationMessage");
@@ -122,16 +122,16 @@ Make everyone a Co-Host
         setTimeout(function() {
             notification.classList.remove("show");
         }, 3000);
-    }
-
+    } -->
+<!-- 
     // Attach event listeners to the copy buttons
     document.querySelectorAll('.btn-copy').forEach(function(copyBtn) {
         copyBtn.addEventListener('click', function() {
             var target = copyBtn.getAttribute('data-target');
             copyToClipboard(target);
         });
-    });
-
+    }); -->
+<!-- 
     // Copy all invite links when clicking "Copy Invite to clipboard"
     document.getElementById('copyInvite').addEventListener('click', function() {
         var attendeeLink = document.getElementById('attendeeLink').value;
@@ -149,6 +149,6 @@ Make everyone a Co-Host
         // Show the notification popup
         showNotification("Invite links copied to clipboard!");
     });
-</script>
-</body>
-</html>
+</script> -->
+<!-- </body>
+</html> -->

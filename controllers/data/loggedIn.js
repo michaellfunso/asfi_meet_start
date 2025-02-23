@@ -13,12 +13,12 @@ const loggedIn = async (req,res, next) =>{
                 next()
             }else{
                 console.log(data.error)
-                return res.redirect("/login")
+                return res.render("signin")
             }
 
         })
     }else{
-        return res.redirect("/login")
+        return res.render("signin")
     }
 }
 
