@@ -58,7 +58,7 @@ router.get("/posterDetails/:posterId", getPosterTitle)
 // })
 // router.get("/v3/:channel", joinMeeting)
 router.get("/create", loggedIn, CreatePage)
-router.post("/api/createMeeting", createRoomButton)
+router.post("/createMeetingFromRequest", createRoomButton)
 router.get("/join/:meeting", joinPage)
 
 
