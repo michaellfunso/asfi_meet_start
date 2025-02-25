@@ -6,7 +6,7 @@ const CreatePage = async (req,res) =>{
     if(req.cookies.posterUser){ 
     res.render("create", {createMeetLink})
     }else{
-        res.render("signin")
+        res.render("signin", {createMeetLink})
     }
 }
 
