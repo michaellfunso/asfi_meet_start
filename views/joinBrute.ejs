@@ -67,14 +67,15 @@
         }
     </style>
 
-    <iframe src="<%=meetingRoom%>/<%=meetingId%>" frameborder="0" allow="camera; microphone; screen-wake-lock; display-capture" class="room" id="roomContainer"></iframe>
+    <iframe src="<%=meetingRoom%>/<%=meetingId%>" frameborder="0" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection"
+        class="room" id="roomContainer"></iframe>
 
     <div class="gutter">
         <button id="posterButton">Posters</button>
     </div>
 
     <div class="postersFrameContainer small" id="posterFrameContainer">
-        <iframe src="<%= postersRoom %>/posterlist/<%= meetingId %>" frameborder="0" class="poster"></iframe>
+        <iframe src="<%= postersRoom %>/posterlist/<%= meetingId %>" frameborder="0" class="poster" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection"></iframe>
     </div>
 
     <script>
