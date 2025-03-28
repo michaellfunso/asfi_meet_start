@@ -8,14 +8,14 @@ const posterOverVIew = async (req,res) =>{
             const username  = req.user.username
             const roleAdmin = await isAdmin(useremail, username)
             if(roleAdmin){
-                res.render("create", {createMeetLink})
+                res.render("posteroverview")
+
             }else{
               res.render("userDashboard")
             }
         }else{
             res.render("signin")
         }
-    res.render("posteroverview")
     }catch(error){
         return res.json({error:error.message})
     }
