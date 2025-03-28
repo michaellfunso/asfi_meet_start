@@ -35,7 +35,7 @@ body {
     justify-content: center; /* Centering links */
     align-items: center;
     background: #131313;
-    border-radius: 40px;
+    border-radius: 18px;
     padding: 15px 20px;
     position: fixed;
     top: 20px;
@@ -62,7 +62,7 @@ body {
 
 .nav-links a:hover {
     background: #555;
-    border-radius: 5px;
+    border-radius: 18px;
 }
 
 /* Menu button (hidden by default) */
@@ -118,7 +118,7 @@ body {
 input, button {
     padding: 10px;
     margin: 5px;
-    border-radius: 5px;
+    border-radius: 18px;
     border: none;
 }
 input {
@@ -136,7 +136,7 @@ button {
     min-height: 400px;
     max-height: 60vh;
     overflow: scroll;
-    border-radius: 5px;
+    border-radius: 18px;
     scrollbar-width: thin; /* Makes scrollbar thinner */
     scrollbar-color: #555 #222; /* Handle and track colors */
 }
@@ -147,12 +147,12 @@ button {
 
 .meetings::-webkit-scrollbar-track {
     background: #222; /* Track background */
-    border-radius: 5px;
+    border-radius: 18px;
 }
 
 .meetings::-webkit-scrollbar-thumb {
     background: #555; /* Scrollbar handle */
-    border-radius: 5px;
+    border-radius: 18px;
 }
 
 .meetings::-webkit-scrollbar-thumb:hover {
@@ -163,7 +163,7 @@ button {
     background: #444;
     padding: 10px;
     margin: 5px 0;
-    border-radius: 5px;
+    border-radius: 18px;
 }
 
 input[type="radio"]:checked {
@@ -207,7 +207,7 @@ input[type="radio"]:checked {
 }
 .createMeetingForm select{
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 18px;
     border: none;
     background-color: #444;
     color: white;
