@@ -20,6 +20,11 @@ const getMostviewed = require("../controllers/data/getMostViewed")
 const getPosterTitle = require("../controllers/data/getPosterTItle")
 const posterOverVIew = require("../controllers/posterOverView")
 const createRoomButton = require("../controllers/external/createRoom")
+const deleteMeeting = require("../controllers/asfi_meet_v9/deleteMeeting")
+const startASFIScholarCall = require("../controllers/asfi_meet_v9/startCallFromASFISCHOLAR")
+const createAdmin = require("../controllers/asfi_meet_v9/createAdmin")
+const manageAdminsPage = require("../controllers/manageAdminsPage")
+const deleteAdmin = require("../controllers/asfi_meet_v9/deleteAdmin")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -33,7 +38,7 @@ router.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
-  }); 
+}); 
 router.get("/", loggedIn, dashboard)
 router.get("/register", signupPage)
 router.get("/login", loginPage)
@@ -57,10 +62,14 @@ router.get("/posterDetails/:posterId", getPosterTitle)
 //   res.redirect(`/v3/${passPhrase}`)
 // })
 // router.get("/v3/:channel", joinMeeting)
+router.post("/deleteMeeting", deleteMeeting)
 router.get("/create", loggedIn, CreatePage)
 router.get("/createMeetingFromRequest", createRoomButton)
 router.get("/join/:meeting", joinPage)
-
+router.get("/call/:meeting", startASFIScholarCall)
+router.post("/createAdmin", loggedIn, createAdmin)
+router.get("/createAdmin", loggedIn, manageAdminsPage)
+router.post("/deleteAdmin", loggedIn, deleteAdmin)
 
 router.get("*", async(req,res) =>{
     res.json({error:"INVALID URL"})

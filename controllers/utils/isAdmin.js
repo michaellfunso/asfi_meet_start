@@ -7,7 +7,8 @@ const isAdmin = async (email, username) =>{
             console.error("Error executing query:", err);
             reject(err);
         } else {
-            if (result.length > 0) {
+         
+            if (result[0]) {
                 resolve(true); // User is an admin
             } else {
                 resolve(false); // User is not an admin

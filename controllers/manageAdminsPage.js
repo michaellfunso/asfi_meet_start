@@ -1,16 +1,16 @@
-const getAllMeetingsForAdmin = require("./asfi_meet_v9/getAllMeetingsForAdmin");
+const getAllAdmins = require("./asfi_meet_v9/getAllAdmins");
 const getPublicMeetings = require("./asfi_meet_v9/getPublicMeetings");
 const isAdmin = require("./utils/isAdmin");
 
-const dashboard = async (req, res) => {
+const manageAdminsPage = async (req, res) => {
   if(req.cookies.posterUser){
     const useremail = req.user.email 
     const username  = req.user.username
     const roleAdmin = await isAdmin(useremail, username)
    
     if(roleAdmin){
-      const publicMeetings = await getAllMeetingsForAdmin()
-      res.render("adminDashboard", {publicMeetings})
+      const adminAccounts = await getAllAdmins()
+      res.render("createAdminAccount", {adminAccounts})
     }else{
       const publicMeetings = await getPublicMeetings()
 
@@ -21,4 +21,4 @@ const dashboard = async (req, res) => {
   }
 };
 
-module.exports = dashboard;
+module.exports = manageAdminsPage;

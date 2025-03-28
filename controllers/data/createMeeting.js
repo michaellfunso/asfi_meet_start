@@ -1,43 +1,44 @@
-const { db } = require("../../routes/db.config");
-const { createSecretSalt, generateUserToken, GenerateRandomID } = require("../utils/saltAndToken");
+
 const { v4: uuidv4 } = require('uuid'); 
+const { db } = require('../../routes/db.config');
 
 const createMeeting = async (req,res) =>{
     try{
-    const {roomName, roomId, RoomDetails, ChannelDetails} = req.body
-    const channelId = ChannelDetails.createChannel.channel;
-    const hostId = roomId.host;
-    const attendeeId = roomId.attendee;
+        const {title, time, isPrivate } = req.body
+     
+       // Function to capitalize each word and remove spaces
+        const formatTitle = (str) => {
+            return str
+                .replace(/\s+/g, '') // Remove all white spaces
+                .replace(/\b\w/g, char => char.toUpperCase()); // Capitalize each word
+        };
 
- 
-    const secretSalt = createSecretSalt()
-    const rtcToken = generateUserToken(channelId)
-    const rtmToken = generateUserToken(channelId)
-
-    const pstn = "123-456-7890"
-
-    db.query("INSERT INTO channels SET ?", [{title:roomName,channel_secret:channelId, pstn:pstn, host:hostId, view:attendeeId, channel:channelId,
-        secret: secretSalt,
-        mainUserRTCToken: rtcToken,
-        mainUserRtmToken: rtmToken,
-        whiteboardRoomUUid:channelId,
-        whiteboardRoomToken:channelId,
-        screenShareRtcToken:rtcToken,
-        screenShareRtmToken:rtmToken,
-        screenShareUid: GenerateRandomID(),
-        }], async (err, inserted) =>{
+        const rid = formatTitle(title);
+        const secret = uuidv4();
+     
+        db.query("SELECT * FROM channels WHERE channel = ? ", [rid], async(err, data) =>{
             if(err){
                 console.log(err)
-                return res.json({error:err})
+            }
+            if(data[0]){
+                return res.json({success:"Meeting Already Exists"})
             }else{
-
-                return res.json({success:`Meeting Created Succesfully host: ${hostId}, attendee:${channelId}`, host:hostId, attendee:attendeeId, channelSecret:channelId})
+                db.query("INSERT INTO channels SET ?", [{title:title, channel_secret:secret, channel:rid, time, privateMeeting:isPrivate}], async (err, inserted) =>{
+                        if(err){
+                            console.log(err)
+                            return res.json({error:err})
+                        }else{
+            
+                            return res.json({success:`Meeting Created Succesfully host:`, meetingId:inserted.insertId, channel:rid})
+                        }
+                    })
             }
         })
     }catch(error){
-        return res.json({error:error.message})
+        console.log(error)
+        res.json({error:error.message})
     }
-
 }
+
 
 module.exports = createMeeting

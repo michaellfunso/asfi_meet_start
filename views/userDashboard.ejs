@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASFI Meet Dashboard</title>
+    <title>Meeting Scheduler</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
 </head>
 <body>
-    <h1> Calendar</h1>
+    <%- include('userMeetingsNavbar.ejs') %>
+    <div class="container">
+        <h1>ASFIMeet Events</h1>
+    
+        <div class="meetings" id="meetingList">
+            <h3>Upcoming Meetings</h3>
+            <% if(publicMeetings && publicMeetings.length > 0){ %>
+                <% publicMeetings.forEach(function(meeting) { %>
+                    <div class="meeting-item">
+                        <p><strong><%= meeting.title %></strong> - <%= meeting.time %></p>
+                        <button onclick="addToCalendar('<%= meeting.title %>', '<%= meeting.time %>')">Add to Calendar</button>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No upcoming meetings.</p>
+            <%} %>
+        </div>
+    </div>
+
+    <script>
+
+        function addToCalendar(title, date) {
+            console.log(date)
+            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${date}/${date}`;
+            window.open(calendarLink, '_blank');
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Accounts</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('adminMeetingsNavbar.ejs') %>
+    <div class="container">
+        <h1>ASFIMeet Events</h1>
+        <div class="createMeetingForm">
+            <input type="text" id="AdminName" placeholder="Enter admin ASFIScholar username or email">
+
+         
+
+            <button onclick="addAdmin()">Create Admin</button>
+        </div>
+        <h3>Admin Accounts</h3>
+
+        <div class="meetings" id="AdminList">
+            <% if(adminAccounts && adminAccounts.length > 0) { %>
+                <% adminAccounts.forEach(function(admin) { %>
+                    <div class="meeting-item">
+                        <p><strong><%= admin.user %></strong></p>
+                        
+                        <div class="meetingsControlsContainer">
+                    
+                        <button onclick="deleteAdmin('<%= admin.id %>')" class="deleteAdmin">Remove Access</button>
+
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No upcoming meetings.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function addAdmin() {
+            const name = document.getElementById('AdminName').value;
+
+            if (!name) {
+                alert("Please enter a valid name or email.");
+                return;
+            }
+            const AdminData = {
+                user: name,
+            };
+
+            fetch('/createAdmin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(AdminData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Admin created successfully');
+
+                    const AdminList = document.getElementById('AdminList');
+                    const AdminItem = document.createElement('div');
+                    AdminItem.classList.add('meeting-item');
+
+                    AdminItem.innerHTML = `
+                        <p><strong>${name}</strong></p>
+                        <div class="meetingsControlsContainer">
+                    
+                        <button onclick="deleteAdmin('${data.AdminId}')" class="deleteAdmin">Remove Access</button>
+                        </div>
+                        
+                    `;
+
+                    AdminList.prepend(AdminItem);
+                    document.getElementById('AdminName').value = '';
+                } else {
+                    alert(data.error);
+                    console.error('Error creating Admin:', data.error);
+                }
+            })
+            .catch(error => {
+                alert("Error creating Admin. Please try again.");
+                console.error('Error:', error);
+            });
+        }
+
+          
+        function deleteAdmin(Admin){
+        fetch('/deleteAdmin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Id:Admin})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) {
+                    console.log('Admin deleted successfully');
+                    const AdminItem = document.querySelector(`.meeting-item:has(button[onclick*="${Admin}"])`);
+                    if (AdminItem) {
+                        AdminItem.remove();
+                    }
+                } else {
+                    alert(data.error);
+                    console.error('Error deleting Admin:', data.error);
+                }
+            })
+            .catch(error => {
+                alert("Error deleting Admin. Please try again.");
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

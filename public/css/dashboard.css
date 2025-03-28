@@ -1,0 +1,136 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+}
+.navbar {
+    position: fixed;
+    background: rgba(15, 15, 15, 0.8);
+    /* border:1px solid purple; */
+    width: 90%;
+    border-radius: 25px;
+
+    margin: 20px auto;
+    padding: 15px 0;
+    display: flex;
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    gap: 20px;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: purple;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 80px 20px 20px; /* Adjusted for navbar */
+}
+input, button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+input {
+    width: 70%;
+}
+button {
+    background-color: purple;
+    color: white;
+    cursor: pointer;
+}
+.meetings {
+    margin-top: 20px;
+    background: #333;
+    padding: 10px;
+    min-height: 400px;
+    max-height: 60vh;
+    overflow: scroll;
+    border-radius: 5px;
+}
+.meeting-item {
+    background: #444;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+
+
+/* For admin  */
+.createMeetingForm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 600px;
+
+}
+.createMeetingForm input{
+    width: 100%;
+    background: #333;
+    color: white;
+    max-width: 600px;
+    transition: ease-in-out 0.3s; 
+}
+.createMeetingForm input:focus {
+    outline: none;
+    border: 2px solid purple;
+}
+
+.createMeetingForm button{
+    width: 100%;
+    max-width: 600px;
+
+}
+.createMeetingForm label{
+    font-size: 16px;
+    color: white;
+}
+.createMeetingForm select{
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #444;
+    color: white;
+}
+.createMeetingForm select option{
+    background-color: #444;
+    color: white;
+}
+.createMeetingForm select option:hover{
+    background-color: #555;
+}
+.createMeetingForm select option:active{
+    background-color: #666;
+}
+.radioContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;  
+}
+.radio-group{
+    display: flex;
+    gap: 10px;
+}
+.radio-group input{
+    /* margin-right: 5px; */
+    width: 50%;
+}
+.radio-group label{
+    font-size: 16px;
+    color: white;
+}
+
+.deleteMeeting{
+    background-color: rgb(255, 0, 43);
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Scheduler</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('adminMeetingsNavbar.ejs') %>
+    <div class="container">
+        <h1>ASFIMeet Events</h1>
+        <div class="createMeetingForm">
+            <input type="text" id="meetingName" placeholder="Enter meeting name">
+            <input type="datetime-local" id="meetingTime" placeholder="Enter meeting time">
+
+            <div class="radioContainer">
+                <div class="radio-group">
+                    <input type="radio" id="publicMeeting" name="isPrivate" value="no" checked>
+                    <label for="publicMeeting">Public</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="privateMeeting" name="isPrivate" value="yes">
+                    <label for="privateMeeting">Private</label>
+                </div>
+            </div>
+
+            <button onclick="addMeeting()">Create Meeting</button>
+        </div>
+        <h3>Upcoming Meetings</h3>
+
+        <div class="meetings" id="meetingList">
+            <% if(publicMeetings && publicMeetings.length > 0) { %>
+                <% publicMeetings.forEach(function(meeting) { %>
+                    <div class="meeting-item">
+                        <p><strong><%= meeting.title %></strong> - <%= new Date(meeting.time).toLocaleString() %></p>
+                        
+                        <div class="meetingsControlsContainer">
+                    
+                        <a href="/join/<%= meeting.channel %>"><button >Start Meeting</button></a>
+                        <button id="/join/<%= meeting.channel %>">Copy Link</button>
+                            <button onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calendar</button>
+                        <button onclick="deleteMeeting('<%= meeting.id %>')" class="deleteMeeting">Delete Meeting</button>
+
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No upcoming meetings.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function addMeeting() {
+            const name = document.getElementById('meetingName').value;
+            const meetingTime = document.getElementById('meetingTime').value;
+
+            if (!name) {
+                alert("Please enter a meeting name.");
+                return;
+            }
+            if (!meetingTime) {
+                alert("Please select a meeting time.");
+                return;
+            }
+
+            const formattedTime = new Date(meetingTime).toISOString(); // Send in UTC format
+            const displayTime = new Date(meetingTime).toLocaleString(); // Display in user's timezone
+            const isPrivate = document.querySelector('input[name="isPrivate"]:checked').value;
+
+            const meetingData = {
+                title: name,
+                time: formattedTime,
+                isPrivate: isPrivate
+            };
+
+            fetch('/createMeeting', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(meetingData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Meeting created successfully');
+
+                    const meetingList = document.getElementById('meetingList');
+                    const meetingItem = document.createElement('div');
+                    meetingItem.classList.add('meeting-item');
+
+                    meetingItem.innerHTML = `
+                        <p><strong>${name}</strong> - ${displayTime}</p>
+                        <div class="meetingsControlsContainer">
+                            <a href="/join/${data.channel}"><button >Start Meeting</button></a>
+                            <button id="/join/${data.channel}">Copy Link</button>
+                        <button onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
+                        <button onclick="deleteMeeting('${data.meetingId}')" class="deleteMeeting">Delete Meeting</button>
+                        </div>
+                        
+                    `;
+
+                    meetingList.prepend(meetingItem);
+                    document.getElementById('meetingName').value = '';
+                    document.getElementById('meetingTime').value = '';
+                } else {
+                    alert(data.error);
+                    console.error('Error creating meeting:', data.error);
+                }
+            })
+            .catch(error => {
+                alert("Error creating meeting. Please try again.");
+                console.error('Error:', error);
+            });
+        }
+
+        function addToCalendar(title, date) {
+            const formattedDate = date.replace(/-|:|\.\d{3}/g, ""); // Format for Google Calendar
+            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${formattedDate}/${formattedDate}`;
+            window.open(calendarLink, '_blank');
+        }
+        function deleteMeeting(meeting){
+            fetch('/deleteMeeting', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Id:meeting})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) {
+                    console.log('Meeting deleted successfully');
+                    const meetingItem = document.querySelector(`.meeting-item:has(button[onclick*="${meeting}"])`);
+                    if (meetingItem) {
+                        meetingItem.remove();
+                    }
+                } else {
+                    alert(data.error);
+                    console.error('Error deleting meeting:', data.error);
+                }
+            })
+            .catch(error => {
+                alert("Error deleting meeting. Please try again.");
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
