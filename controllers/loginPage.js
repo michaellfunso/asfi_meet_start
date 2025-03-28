@@ -1,6 +1,6 @@
 const loginPage = async (req,res) =>{
     if(req.cookies.posterUser){
-        res.redirect("/meetings")
+        res.redirect("/")
     }else{
     res.render("signin")
     }

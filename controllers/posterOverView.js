@@ -1,5 +1,20 @@
+const isAdmin = require("./utils/isAdmin")
+
 const posterOverVIew = async (req,res) =>{
     try{
+        
+        if(req.cookies.posterUser){
+            const useremail = req.user.email 
+            const username  = req.user.username
+            const roleAdmin = await isAdmin(useremail, username)
+            if(roleAdmin){
+                res.render("create", {createMeetLink})
+            }else{
+              res.render("userDashboard")
+            }
+        }else{
+            res.render("signin")
+        }
     res.render("posteroverview")
     }catch(error){
         return res.json({error:error.message})

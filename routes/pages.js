@@ -34,7 +34,7 @@ router.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   }); 
-router.get("/", dashboard)
+router.get("/", loggedIn, dashboard)
 router.get("/register", signupPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
@@ -44,7 +44,7 @@ router.get("/posteroverview", loggedIn, posterOverVIew);
 router.get("/manageposters", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
  
-router.post("/createMeeting", createMeeting)
+router.post("/createMeeting", loggedIn, createMeeting)
 router.get("/v9/m/:channel", meetingLinks)
 
 router.get("/mostLiked", getMostLiked)
