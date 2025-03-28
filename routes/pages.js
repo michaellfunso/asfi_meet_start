@@ -25,6 +25,7 @@ const startASFIScholarCall = require("../controllers/asfi_meet_v9/startCallFromA
 const createAdmin = require("../controllers/asfi_meet_v9/createAdmin")
 const manageAdminsPage = require("../controllers/manageAdminsPage")
 const deleteAdmin = require("../controllers/asfi_meet_v9/deleteAdmin")
+const asfiMeetFileUpload = require("../controllers/asfi_meet_v9/uploadToCloudinary")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -70,6 +71,7 @@ router.get("/call/:meeting", startASFIScholarCall)
 router.post("/createAdmin", loggedIn, createAdmin)
 router.get("/createAdmin", loggedIn, manageAdminsPage)
 router.post("/deleteAdmin", loggedIn, deleteAdmin)
+router.post("/asfiMeetFileUpload", asfiMeetFileUpload)
 
 router.get("*", async(req,res) =>{
     res.json({error:"INVALID URL"})
