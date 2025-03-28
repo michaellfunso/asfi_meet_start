@@ -1,5 +1,14 @@
-<div class="navbar">
-    <a href="https://asfischolar.org">ASFIScholar</a>
-    <a href="https://asfirj.org">ASFIRJ</a>
-    <a href="https://posters.asfischolar.com">ASFIPosters</a>
-</div>
+<nav class="navbar">
+    <span class="menu-btn" onclick="toggleMenu()">☰</span>
+    <div class="nav-links">
+        <a href="https://asfischolar.org">ASFIScholar</a>
+        <a href="https://asfirj.org">ASFIRJ</a>
+        <a href="https://posters.asfischolar.com">ASFIPosters</a>
+    </div>
+</nav>
+
+<script>
+    function toggleMenu() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    }
+</script>

@@ -5,10 +5,9 @@ body {
     color: #fff;
     text-align: center;
 }
-.navbar {
+/* .navbar {
     position: fixed;
     background: rgba(15, 15, 15, 0.8);
-    /* border:1px solid purple; */
     width: 90%;
     border-radius: 25px;
 
@@ -28,10 +27,92 @@ body {
 
 .navbar a:hover {
     color: purple;
+} */
+
+/* Navbar container */
+.navbar {
+    display: flex;
+    justify-content: center; /* Centering links */
+    align-items: center;
+    background: #131313;
+    border-radius: 40px;
+    padding: 15px 20px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    margin: auto;
+    z-index: 1000;
 }
+
+/* Navbar links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    background: #555;
+    border-radius: 5px;
+}
+
+/* Menu button (hidden by default) */
+.menu-btn {
+    display: none;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    left: 20px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: space-between;
+        width: 90%; /* Make navbar fit smaller screens */
+        height: 10px;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #131313;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 12px;
+    }
+}
+
 .container {
     max-width: 600px;
     margin: auto;
+    margin-top: 30px;
     padding: 80px 20px 20px; /* Adjusted for navbar */
 }
 input, button {
@@ -56,12 +137,38 @@ button {
     max-height: 60vh;
     overflow: scroll;
     border-radius: 5px;
+    scrollbar-width: thin; /* Makes scrollbar thinner */
+    scrollbar-color: #555 #222; /* Handle and track colors */
 }
+
+.meetings::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+.meetings::-webkit-scrollbar-track {
+    background: #222; /* Track background */
+    border-radius: 5px;
+}
+
+.meetings::-webkit-scrollbar-thumb {
+    background: #555; /* Scrollbar handle */
+    border-radius: 5px;
+}
+
+.meetings::-webkit-scrollbar-thumb:hover {
+    background: #777; /* Handle on hover */
+}
+
 .meeting-item {
     background: #444;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
+}
+
+input[type="radio"]:checked {
+    border-color: purple; /* Change border color */
+    background-color: purple; /* Change background color */
 }
 
 
@@ -70,13 +177,15 @@ button {
 .createMeetingForm{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     margin-top: 20px;
     max-width: 600px;
 
 }
 .createMeetingForm input{
-    width: 100%;
+    width: 60%;
     background: #333;
     color: white;
     max-width: 600px;
