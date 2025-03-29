@@ -74,7 +74,13 @@ router.post("/createAdmin", loggedIn, createAdmin)
 router.get("/createAdmin", loggedIn, manageAdminsPage)
 router.post("/deleteAdmin", loggedIn, deleteAdmin)
 router.post("/asfiMeetFileUpload", asfiMeetFileUpload)
+router.get("/logout",(req,res) => {
+  
+  res.clearCookie('posterUser');
 
+  res.redirect('/');
+  
+})
 router.get("*", async(req,res) =>{
     res.json({error:"INVALID URL"})
 })
