@@ -170,6 +170,10 @@
     console.log("Text copied to clipboard!");
     messageContainer.innerText = 'Link copied to clipboard!';
     messageContainer.style.display = 'block';
+
+setTimeout(() => {
+    messageContainer.innerText = '';
+}, 2000);  // 3000 milliseconds = 3 seconds
 }
 
 
