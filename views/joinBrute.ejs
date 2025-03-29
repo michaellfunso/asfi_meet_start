@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join meeting</title>
+    <title>Join meeting | <%= meetingId %></title>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="/css/meetingPage.css">
 </head>
 <body>
@@ -18,17 +18,17 @@
     <div class="gutter">
         <p id="status">Not Recording</p>
         <button id="posterButton">Posters</button>
-<!-- 
+
         <button onclick="startRecording()">Start Recording</button>
         <button onclick="stopRecording()">Stop Recording</button>
-         -->
+        
     </div>
 
     <div class="postersFrameContainer small" id="posterFrameContainer">
         <iframe src="<%= postersRoom %>/posterlist/<%= meetingId %>" frameborder="0" class="poster" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection"></iframe>
     </div>
 
-<!-- <script src="/js/recording.js" ></script> -->
+<script src="/js/recording.js" ></script>
    
     <script>
         const posterButton = document.getElementById("posterButton")
