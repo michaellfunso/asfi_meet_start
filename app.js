@@ -9,6 +9,8 @@ const app =  express();
 app.use(cors());
 const cookie = require("cookie-parser");
 const PORT = process.env.PORT || 2020;
+
+
 const server = require("http").Server(app)
 const session = require("express-session"); 
 
@@ -30,6 +32,10 @@ app.use("/assets", express.static(__dirname + '/public/assets', {type: 'files'})
 app.use("/css", express.static(__dirname + "/public/css", { type: 'text/css' }))
 app.use("/js", express.static(__dirname + "/public/js", { type: 'text/javascript' }))
 app.use("/js", express.static(__dirname + "/public/js", { type: 'text/javascript' }))
+
+app.use("/recordings", express.static("recordings"));
+// app.use("/recordings", express.static(__dirname + '/recordings', {type: 'files'}))
+
 
 
 
