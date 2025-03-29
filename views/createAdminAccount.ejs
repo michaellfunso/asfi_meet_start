@@ -4,23 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Accounts</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ASFIMeet is a secure and high-quality video conferencing platform from ASFI. Host meetings, collaborate, and connect with teams effortlessly.">
+    <meta name="keywords" content="video conferencing, online meetings, virtual meetings, remote work, team collaboration">
+    <meta name="author" content="Weperch Technologies Limited">
+    
+    <!-- Open Graph (For Social Media Sharing) -->
+    <meta property="og:title" content="ASFIMeet - Seamless Video Conferencing">
+    <meta property="og:description" content="Host secure and high-quality video meetings with ASFIMeet. Collaborate with your team anytime, anywhere.">
+    <meta property="og:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
+    <meta property="og:url" content="https://asfischolar.net">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card (For Twitter Sharing) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ASFIMeet - Seamless Video Conferencing">
+    <meta name="twitter:description" content="Experience high-quality, secure video meetings with MeetNow. Connect, collaborate, and stay productive.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="" type="image/x-icon">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://asfischolar.net">
     <link rel="stylesheet" href="/css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="admin">
     <%- include('adminMeetingsNavbar.ejs') %>
+
+    <div class="headAdmin">Add Admin</div>
     <div class="container">
-        <h1>ASFIMeet Events</h1>
+       
         <div class="createMeetingForm">
+            <h1>ASFIMeet Events</h1>
             <input type="text" id="AdminName" placeholder="Enter admin ASFIScholar username or email">
 
          
 
             <button onclick="addAdmin()">Create Admin</button>
         </div>
-        <h3>Admin Accounts</h3>
+        
 
         <div class="meetings" id="AdminList">
+            <h3>Admin Accounts</h3>
             <% if(adminAccounts && adminAccounts.length > 0) { %>
                 <% adminAccounts.forEach(function(admin) { %>
                     <div class="meeting-item">

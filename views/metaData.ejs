@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASFIMeet | Meeting Scheduler</title>
 
     <!-- SEO Meta Tags -->
+    <title>ASFIMeet - Seamless Video Conferencing</title>
     <meta name="description" content="ASFIMeet is a secure and high-quality video conferencing platform from ASFI. Host meetings, collaborate, and connect with teams effortlessly.">
     <meta name="keywords" content="video conferencing, online meetings, virtual meetings, remote work, team collaboration">
     <meta name="author" content="Weperch Technologies Limited">
@@ -28,38 +23,3 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://asfischolar.net">
-  <link rel="stylesheet" href="/css/dashboard.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-</head>
-</head>
-<body class="user">
-    <%- include('userMeetingsNavbar.ejs') %>
-    <div class="container">
-        <div class="headAdmin">ASFIMeet Events</div>
-        <h3>Upcoming Meetings</h3>
-        <div class="meetings" id="meetingList">
-            
-            <% if(publicMeetings && publicMeetings.length > 0){ %>
-                <% publicMeetings.forEach(function(meeting) { %>
-                    <div class="meeting-item">
-                        <p><strong><%= meeting.title %></strong> - <span><%= meeting.time %></span></p>
-                        <button onclick="addToCalendar('<%= meeting.title %>', '<%= meeting.time %>')">Add to Calendar</button>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <p>No upcoming meetings.</p>
-            <%} %>
-        </div>
-    </div>
-
-    <script>
-
-        function addToCalendar(title, date) {
-            console.log(date)
-            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${date}/${date}`;
-            window.open(calendarLink, '_blank');
-        }
-    </script>
-</body>
-</html>

@@ -19,6 +19,7 @@ const getMostRated = require("../controllers/data/getMostRated")
 const getMostviewed = require("../controllers/data/getMostViewed")
 const getPosterTitle = require("../controllers/data/getPosterTItle")
 const posterOverVIew = require("../controllers/posterOverView")
+const recordingsPage = require("../controllers/recordingsPage")
 const createRoomButton = require("../controllers/external/createRoom")
 const deleteMeeting = require("../controllers/asfi_meet_v9/deleteMeeting")
 const startASFIScholarCall = require("../controllers/asfi_meet_v9/startCallFromASFISCHOLAR")
@@ -46,6 +47,7 @@ router.get("/login", loginPage)
 router.post("/api/login", login)
 router.get("/meetings", loggedIn, dashboard);
 
+router.get("/recordings", loggedIn, recordingsPage);
 router.get("/posteroverview", loggedIn, posterOverVIew); 
 router.get("/manageposters", loggedIn, managepostersPage)
 router.get("/allChannels", channels)
