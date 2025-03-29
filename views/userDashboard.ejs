@@ -43,7 +43,7 @@
             <% if(publicMeetings && publicMeetings.length > 0){ %>
                 <% publicMeetings.forEach(function(meeting) { %>
                     <div class="meeting-item">
-                        <p><strong><%= meeting.title %></strong> - <span><%= meeting.time %></span></p>
+                        <p><strong><%= meeting.title %></strong> <span><%= meeting.time %></span></p>
                         <button onclick="addToCalendar('<%= meeting.title %>', '<%= meeting.time %>')">Add to Calendar</button>
                     </div>
                 <% }); %>

@@ -36,10 +36,14 @@ fetch(`/mostRated`, {
             const totalRatings = ratings.total_ratings
 
             const posterDetails = await GetPosterDetails(posterId)
+            let posterTitle =''
+            let posterOwner = ''
+
+            if(posterDetails.length > 0){
         
-            const posterTitle = posterDetails[0].poster_deck_title
-            const posterOwner = posterDetails[0].poster_deck_owner
- 
+            posterTitle = posterDetails[0].poster_deck_title
+            posterOwner = posterDetails[0].poster_deck_owner
+            }
 
 
                 mostratedList.innerHTML +=`

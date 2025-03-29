@@ -153,21 +153,21 @@ button {
     scrollbar-color: #555 #222; /* Handle and track colors */
 }
 
-.meetings::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 4px; /* Width of the scrollbar */
 }
 
-.meetings::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: #222; /* Track background */
     border-radius: 18px;
 }
 
-.meetings::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #555; /* Scrollbar handle */
     border-radius: 18px;
 }
 
-.meetings::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background: #777; /* Handle on hover */
 }
 
@@ -361,6 +361,7 @@ input[type="radio"]:checked {
     }
     .createMeetingForm{
         margin-top: 10px;
+        width: 80%;
     }
     .meetingListContainer{
         width: 100%;

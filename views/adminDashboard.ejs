@@ -63,7 +63,7 @@
             <% publicMeetings.forEach(function(meeting) { %>
                 <div class="meeting-item">
                     <p>
-                        <strong><%= meeting.title %></strong> - <span><%= new Date(meeting.time).toLocaleString() %></span> 
+                        <strong><%= meeting.title %></strong> <span><%= new Date(meeting.time).toLocaleString() %></span> 
                     </p>
                     
                     <div class="meetingsControlsContainer">
@@ -125,7 +125,7 @@
                     meetingItem.classList.add('meeting-item');
 
                     meetingItem.innerHTML = `
-                        <p><strong>${name}</strong> - <span> ${displayTime}</span></p>
+                        <p><strong>${name}</strong> <span> ${displayTime}</span></p>
                         <div class="meetingsControlsContainer">
                             <a href="/join/${data.channel}"><button >Start Meeting</button></a>
                             <button id="/join/${data.channel}">Copy Link</button>
