@@ -34,6 +34,7 @@ body {
     display: flex;
     justify-content: center; /* Centering links */
     align-items: center;
+    justify-content: space-between;
     backdrop-filter: blur(10px);
     background: #131313c7;
     border-radius: 18px;
@@ -178,6 +179,9 @@ button {
     margin: 5px 0;
     border-radius: 8px;
     justify-content: space-between;
+}
+.meeting-item button{
+    height: 40px;
 }
 .meeting-item p{
     font-size: 12px;
@@ -361,7 +365,7 @@ input[type="radio"]:checked {
     }
     .createMeetingForm{
         margin-top: 10px;
-        width: 80%;
+        width: 95%;
     }
     .meetingListContainer{
         width: 100%;
@@ -383,4 +387,18 @@ input[type="radio"]:checked {
     .user .meetings{
         width: 80%;
     }
+    .logo img{
+        display: none;
+    }
+}
+
+.logo img{
+    height: 30px;
+}
+.signout{
+    background-color: rgb(214, 36, 36);
+}
+.signout a{
+    text-decoration: none;
+    color: white;
 }
