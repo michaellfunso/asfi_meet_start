@@ -80,5 +80,5 @@ function stopStreaming() {
   }
 }
 
-document.getElementById("startStream").addEventListener("click", startStreaming);
-document.getElementById("stopStream").addEventListener("click", stopStreaming);
+// document.getElementById("startStream").addEventListener("click", startStreaming);
+// document.getElementById("stopStream").addEventListener("click", stopStreaming);
