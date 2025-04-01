@@ -181,15 +181,21 @@
           </thead>
 
           <tbody id="most-ratedList">
-            <tr>
-                <td>Meeting title</td>
-                <td>
-                <a href="" target=_blank>Preview</a>
+        <% if(recordings && recordings.length > 0){ for(let i=0; i<recordings.length; i++){%>
+          <tr>
+            <td><%=recordings[i].meeting_title %>
+              <br>
+             <span style="font-size: 11px;"> <%=recordings[i].time_stamp %></span>
+            
+            </td>
+            <td>
+            <a href="<%=recordings[i].file_url%>" target=_blank>Preview</a>
+            </td>
+            <td>
+                <a href="/r/download/<%=recordings[i].meeting_title%>_<%=recordings[i].time_stamp %>?url=<%=recordings[i].file_url%>" target=_blank>Download</a>
                 </td>
-                <td>
-                    <a href="" target=_blank>Download</a>
-                    </td>
-                 </tr>
+             </tr>
+        <% }} %>
           </tbody>
          </table>
       </div>

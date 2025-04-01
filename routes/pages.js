@@ -27,6 +27,9 @@ const createAdmin = require("../controllers/asfi_meet_v9/createAdmin")
 const manageAdminsPage = require("../controllers/manageAdminsPage")
 const deleteAdmin = require("../controllers/asfi_meet_v9/deleteAdmin")
 const asfiMeetFileUpload = require("../controllers/asfi_meet_v9/uploadToCloudinary")
+const uploadRecordings = require("../controllers/asfi_meet_v9/uploadRecording")
+const getRecordings = require("../controllers/asfi_meet_v9/getRecorfings")
+const downloadAsMp4 = require("../controllers/asfi_meet_v9/downloadAsMp4")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -65,15 +68,17 @@ router.get("/posterDetails/:posterId", getPosterTitle)
 //   res.redirect(`/v3/${passPhrase}`)
 // })
 // router.get("/v3/:channel", joinMeeting)
-router.post("/deleteMeeting", deleteMeeting)
+router.post("/deleteMeeting", loggedIn, deleteMeeting)
 router.get("/create", loggedIn, CreatePage)
 router.get("/createMeetingFromRequest", createRoomButton)
-router.get("/join/:meeting", joinPage)
+router.get("/join/:meeting", loggedIn, joinPage)
 router.get("/call/:meeting", startASFIScholarCall)
 router.post("/createAdmin", loggedIn, createAdmin)
 router.get("/createAdmin", loggedIn, manageAdminsPage)
 router.post("/deleteAdmin", loggedIn, deleteAdmin)
 router.post("/asfiMeetFileUpload", asfiMeetFileUpload)
+router.post("/uploadRecording", uploadRecordings)
+router.get("/r/download/:meetingId", downloadAsMp4)
 router.get("/logout",(req,res) => {
   
   res.clearCookie('posterUser');
@@ -81,8 +86,14 @@ router.get("/logout",(req,res) => {
   res.redirect('/');
   
 })
+
+router.get("/live", (req,res) => {
+    res.redirect(`https://support.google.com/youtube/answer/2474026`)
+})
 router.get("*", async(req,res) =>{
-    res.json({error:"INVALID URL"})
+    res.render("404", {message:"Page Not Found"})
+
+    // res.json({error:"INVALID URL"})
 })
 
 module.exports  = router

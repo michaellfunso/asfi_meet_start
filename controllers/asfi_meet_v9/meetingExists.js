@@ -12,7 +12,7 @@ const meetingExists = (meetingId) => {
             } else {
              
                 if (result[0]) {
-                    resolve(true); // User is an admin
+                    resolve(result[0]); // User is an admin
                 } else {
                     resolve(false); // User is not an admin
                 }

@@ -7,25 +7,52 @@
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <link rel="stylesheet" href="/css/meetingPage.css">
 </head>
 <body>
+    <input type="hidden" readonly value="<%= meetingId %>" id="meetingId">
   
 
     <iframe src="<%=meetingRoom%>/<%=meetingId%>" frameborder="0" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection"
         class="room" id="roomContainer"></iframe>
 
+        <div class="joinRight" id="joinRight">
     <div class="gutter">
         <!-- <p id="status">Not Recording</p> -->
         <button id="posterButton">Posters</button>
-<!-- 
-        <button onclick="startRecording()">Start Recording</button>
-        <button onclick="stopRecording()">Stop Recording</button> -->
+
+        <% if(isOwner == true){ %>
+        <div class="otherButtons">
+
+        <div class="buttonGroup" id="startButtonGroup">
+        <button  id="startRecord"></button>
+        <span class="label">Record</span>
+        </div>
+
+        <div class="buttonGroup hidden" id="stopButtonGroup">
+        <button id="stopRecord"></button>
+        <span class="label">Stop Recording</span>
+        </div>
+
+        <div class="buttonGroup" id="startStreamGroup">
+        <button  id="startStream"></button>
+        <span class="label">Stream</span>
+        </div>
+
+        <div class="buttonGroup hidden" id="stopStreamGroup">
+        <button id="stopStream"></button>
+        <span class="label">Stop Stream</span>
+        </div>
+
+        </div>
+    <% } %>
         
     </div>
 
     <div class="postersFrameContainer small" id="posterFrameContainer">
-        <iframe src="<%= postersRoom %>/posterlist/<%= meetingId %>" frameborder="0" class="poster" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection"></iframe>
+        <iframe src="<%= postersRoom %>/posterlist/<%= meetingId %>" frameborder="0" class="poster" allow="camera; microphone; screen-wake-lock; display-capture; fullscreen;autoplay; clipboard-write; speaker-selection" ></iframe>
+    </div>
     </div>
 
 <!-- <script src="/js/recording.js" ></script> -->
@@ -34,6 +61,7 @@
         const posterButton = document.getElementById("posterButton")
         const posterContainer = document.getElementById("posterFrameContainer")
         const roomContainer = document.getElementById("roomContainer")
+        const joinRight = document.getElementById("joinRight")
 
         posterButton.addEventListener("click", function() {
             console.log("buttonClicked")
@@ -45,6 +73,7 @@
 
     </script>
 
-
+<script src="/js/recording.js"></script>
+<script src="/js/streamToYoutube.js"></script>
 </body>
 </html>

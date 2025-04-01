@@ -1,9 +1,17 @@
 const { db } = require("../../routes/db.config");
+const isAdmin = require("../utils/isAdmin");
 
 const deleteMeeting = async (req, res) => {
     try {
         const {Id} = req.body;
-
+        
+        const adminUser = await isAdmin(req.user.email)
+        if(!adminUser){
+        const adminUser = await isAdmin(req.user.username)
+            if(!adminUser){
+                return res.status(403).json({error:"You are not authorized to create an admin"})
+            }
+        }
         db.query("DELETE FROM channels WHERE id = ?", [Id], (err, result) => {
             if (err) {
                 console.error("Error executing query:", err);

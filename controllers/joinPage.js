@@ -10,10 +10,17 @@ const joinPage = async (req,res)=>{
         
         // Check if the meeting Exists  
         const isMeeting = await meetingExists(meetingId)
+        let isGroupOwner = false
+        if(isMeeting !== false){
+            const meetingData = isMeeting
+            if(meetingData.isGroupOwner == req.user.id){
+                isGroupOwner = true
+            }
+        }
         if(isMeeting === false){
-            return res.json({error:"Meeting does not exist"})
+            res.render("404", {message:"Meeting does not exist"})
         }else{
-            res.render("joinBrute", {meetingId, postersRoom, meetingRoom}) 
+            res.render("joinBrute", {meetingId, postersRoom, meetingRoom, isOwner:isGroupOwner}) 
         }
         // Check if the meeting is public
     }catch(error){

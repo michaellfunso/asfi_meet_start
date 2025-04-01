@@ -1,3 +1,4 @@
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const express = require("express");
 // console.log(pdfJsPath);
 
@@ -28,6 +29,21 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", ["./views"]);
 
+app.use(
+    '/jitsi',
+    createProxyMiddleware({
+        target: 'https://call.asfischolar.net',
+        changeOrigin: true,
+        secure: false,
+        ws: true,  // Enable WebSocket proxying
+        pathRewrite: {
+            '^/jitsi': '',  // Remove "/jitsi" from the proxied request
+        },
+        onProxyReq: (proxyReq, req, res) => {
+            proxyReq.setHeader('Origin', 'https://call.asfischolar.net');
+        }
+    })
+);
 app.use("/assets", express.static(__dirname + '/public/assets', {type: 'files'}))
 app.use("/css", express.static(__dirname + "/public/css", { type: 'text/css' }))
 app.use("/js", express.static(__dirname + "/public/js", { type: 'text/javascript' }))
@@ -44,6 +60,8 @@ app.use("/recordings", express.static("recordings"));
 
 app.use("/", require("./routes/pages"));
 // server.listen(PORT);
+
+
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

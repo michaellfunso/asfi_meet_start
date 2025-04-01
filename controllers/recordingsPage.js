@@ -1,3 +1,4 @@
+const getRecordings = require("./asfi_meet_v9/getRecorfings")
 const isAdmin = require("./utils/isAdmin")
 
 const recordingsPage= async (req,res) =>{
@@ -8,7 +9,8 @@ const recordingsPage= async (req,res) =>{
             const username  = req.user.username
             const roleAdmin = await isAdmin(useremail, username)
             if(roleAdmin){
-                res.render("recordings")
+                const recordings = await getRecordings()
+                res.render("recordings", {recordings})
 
             }else{
               res.render("userDashboard")
@@ -17,7 +19,9 @@ const recordingsPage= async (req,res) =>{
             res.render("signin")
         }
     }catch(error){
-        return res.json({error:error.message})
+        res.render("404", {message:error.message})
+
+        // return res.json({error:error.message})
     }
 }
 

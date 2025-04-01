@@ -5,6 +5,7 @@ const { db } = require('../../routes/db.config');
 const createMeeting = async (req,res) =>{
     try{
         const {title, time, isPrivate } = req.body
+        const userId = req.user.id
      
        // Function to capitalize each word and remove spaces
         const formatTitle = (str) => {
@@ -23,7 +24,7 @@ const createMeeting = async (req,res) =>{
             if(data[0]){
                 return res.json({success:"Meeting Already Exists"})
             }else{
-                db.query("INSERT INTO channels SET ?", [{title:title, channel_secret:secret, channel:rid, time, privateMeeting:isPrivate}], async (err, inserted) =>{
+                db.query("INSERT INTO channels SET ?", [{title:title, channel_secret:secret, channel:rid, time, privateMeeting:isPrivate, isGroupOwner:userId}], async (err, inserted) =>{
                         if(err){
                             console.log(err)
                             return res.json({error:err})
