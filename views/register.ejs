@@ -89,6 +89,7 @@
         const asfiMemberSelect = document.getElementById('asfiMember');
         const membershipIdGroup = document.getElementById('membershipIdGroup');
 
+        if(asfiMemberSelect){
         asfiMemberSelect.addEventListener('change', function() {
             if (asfiMemberSelect.value === 'yes') {
                 membershipIdGroup.style.display = 'block';
@@ -96,6 +97,7 @@
                 membershipIdGroup.style.display = 'none';
             }
         });
+    }
     </script>
 </body>
 </html>

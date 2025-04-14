@@ -30,6 +30,9 @@ const asfiMeetFileUpload = require("../controllers/asfi_meet_v9/uploadToCloudina
 const uploadRecordings = require("../controllers/asfi_meet_v9/uploadRecording")
 const getRecordings = require("../controllers/asfi_meet_v9/getRecorfings")
 const downloadAsMp4 = require("../controllers/asfi_meet_v9/downloadAsMp4")
+const ScholarAdmin = require("../controllers/scholarAdmin/scholarAdminLoggedIn")
+const SCholarManagePosters = require("../controllers/scholarAdmin/scholarManagePosters")
+const scholarManageMeetings = require("../controllers/scholarAdmin/scholarmanageMeetings")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -86,6 +89,12 @@ router.get("/logout",(req,res) => {
   res.redirect('/');
   
 })
+
+// FOr Scholar Admin 
+router.get("/posters/:user", ScholarAdmin, SCholarManagePosters)
+router.get("/meetings/:user", ScholarAdmin, scholarManageMeetings)
+
+
 
 router.get("/live", (req,res) => {
     res.redirect(`https://support.google.com/youtube/answer/2474026`)

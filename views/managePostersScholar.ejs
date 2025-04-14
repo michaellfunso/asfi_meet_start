@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASFIMeet | Poster Management Dashboard</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="ASFIMeet is a secure and high-quality video conferencing platform from ASFI. Host meetings, collaborate, and connect with teams effortlessly.">
+  <meta name="keywords" content="video conferencing, online meetings, virtual meetings, remote work, team collaboration">
+  <meta name="author" content="Weperch Technologies Limited">
+  
+  <!-- Open Graph (For Social Media Sharing) -->
+  <meta property="og:title" content="ASFIMeet - Seamless Video Conferencing">
+  <meta property="og:description" content="Host secure and high-quality video meetings with ASFIMeet. Collaborate with your team anytime, anywhere.">
+  <meta property="og:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
+  <meta property="og:url" content="https://asfischolar.net">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter Card (For Twitter Sharing) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ASFIMeet - Seamless Video Conferencing">
+  <meta name="twitter:description" content="Experience high-quality, secure video meetings with ASFIMeet. Connect, collaborate, and stay productive.">
+  <meta name="twitter:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://res.cloudinary.com/diml8ljwa/image/upload/v1743263848/asfifavicon_r5jqat.png" type="image/x-icon">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://asfischolar.net">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      font-family:sans-serif;
+      background-color: #222;
+      font-size: 15px;
+    }
+    h1,h2{
+      font-size: 18px;
+    }
+    .sidebar {
+      background-color: rgba(15, 15, 15);
+      color: white;
+      width: 250px;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.show {
+      transform: translateX(0);
+    }
+    .sidebar h2 {
+      text-align: center;
+      font-size: 15px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin: 20px 0;
+    }
+    .sidebar ul li a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 15px;
+      display: block;
+      padding: 10px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover {
+      background-color: #4b345e;
+    }
+    .menu-icon {
+      display: none;
+      font-size: 18px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      transition: transform 0.3s ease-in-out;
+    }
+    .menu-icon.slide {
+      transform: translateX(600%);
+    }
+    .main-content {
+      margin-left: 270px;
+      padding: 20px;
+      width: 100%;
+      transition: margin-left 0.3s;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .poster-grid{
+      overflow-x: auto;
+      margin-bottom: 40px;
+    }
+    .poster-lists {
+      margin-top: 40px;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead td {
+      font-weight: bold;
+      background: #444;
+      padding: 10px;
+      color: rgb(190, 190, 190);
+    }
+    tbody td {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    tbody td a {
+      display: flex;
+      justify-content: center;
+      width: 120px;
+      text-decoration: none;
+      background-color: purple;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .menu-icon {
+        display: block;
+        font-size: 25px;
+        background: purple;
+        color: white;
+        padding: 6px;
+        border-radius: 8px;
+      }
+      .main-content {
+        margin-left: 0;
+        margin-top: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="main-content" style="width: 100%; margin: auto;">
+    <header>
+      <h1>Dashboard Overview</h1>
+      <div class="stats">
+        <div>Total Posters: <span id="total-posters">0</span></div>
+      </div>
+    </header>
+
+    <!-- Poster list section -->
+    <section class="poster-lists" id="poster-lists">
+      <h2>Most Rated Posters</h2>
+      <div class="poster-grid" id="most-rated">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Rating</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-ratedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      <h2>Most Viewed Posters</h2>
+      <div class="poster-grid" id="most-viewed">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Views</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-viewedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      <h2>Most Liked Posters</h2>
+      <div class="poster-grid" id="most-liked">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Likes</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-likedList">
+            
+          </tbody>
+         </table>
+      </div>
+
+      
+
+      <h2>Most Disliked Posters</h2>
+      <div class="poster-grid" id="most-disliked">
+        <!-- Posters will be dynamically added here -->
+        <table>
+          <thead>
+            <td>Poster Title</td>
+            <td>Presenter Name</td>
+            <td>Total Dislikes</td>
+            <td>Actions</td>
+          </thead>
+
+          <tbody id="most-dislikedList">
+            
+          </tbody>
+         </table>
+      </div>
+    </section>
+    
+
+   
+  </div>
+  <script>
+    function toggleSidebar() {
+      
+      document.getElementById("sidebar").classList.toggle("show");
+      document.getElementById("menu-icon").classList.toggle("slide");
+    }
+  </script>
+  <script type="module" src="/js/getPosterOverview.js"></script>
+
+  
+</body>
+</html>

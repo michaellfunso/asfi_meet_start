@@ -1,5 +1,5 @@
-let mediaRecorder;
-let canvasStream;
+// let mediaRecorder;
+// let canvasStream;
 const startButtonGroup = document.getElementById("startButtonGroup");
 const stopButtonGroup = document.getElementById("stopButtonGroup");
 
