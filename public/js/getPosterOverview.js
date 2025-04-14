@@ -21,7 +21,20 @@ async function GetPosterDetails(posterId){
         }
     })
 }
-
+function getTotalPosters(){
+    fetch(`/getTotalPosters`, {
+        method:"POST"
+    }).then(res => res.json())
+    .then(data =>{
+        
+        if(data.success){
+            TotalPosters.innerText = new Number(data.totalPosters).toLocaleString()
+        }else{
+            TotalPosters.innerText = 0
+        }
+    })
+}
+getTotalPosters()
 fetch(`/mostRated`, {
     method:"GET"
 }).then(res =>res.json())
@@ -62,7 +75,6 @@ fetch(`/mostRated`, {
                  })
                 
             } 
-            console.log(AllRatedItems)
         }else[ 
             mostratedList.innerHTML = "No Rating Availabe"
         ]
@@ -90,10 +102,14 @@ fetch(`/mostViewed`, {
 
             const posterDetails = await GetPosterDetails(posterId)
         
-            const posterTitle = posterDetails[0].poster_deck_title
-            const posterOwner = posterDetails[0].poster_deck_owner
- 
+            let posterTitle =''
+            let posterOwner = ''
 
+            if(posterDetails.length > 0){
+        
+            posterTitle = posterDetails[0].poster_deck_title
+            posterOwner = posterDetails[0].poster_deck_owner
+            }
 
                 mostviewedList.innerHTML +=`
                 <tr>
@@ -132,10 +148,14 @@ fetch(`/mostLiked`, {
             const totalLikes = likes.total_likes
 
             const posterDetails = await GetPosterDetails(posterId)
+            let posterTitle =''
+            let posterOwner = ''
+
+            if(posterDetails.length > 0){
         
-            const posterTitle = posterDetails[0].poster_deck_title
-            const posterOwner = posterDetails[0].poster_deck_owner
- 
+            posterTitle = posterDetails[0].poster_deck_title
+            posterOwner = posterDetails[0].poster_deck_owner
+            }
 
 
             mostlikedList.innerHTML +=`
@@ -173,10 +193,14 @@ fetch(`/mostDisliked`, {
             const totalDislikes = dislikes.total_dislikes
 
             const posterDetails = await GetPosterDetails(posterId)
+            let posterTitle =''
+            let posterOwner = ''
+
+            if(posterDetails.length > 0){
         
-            const posterTitle = posterDetails[0].poster_deck_title
-            const posterOwner = posterDetails[0].poster_deck_owner
- 
+            posterTitle = posterDetails[0].poster_deck_title
+            posterOwner = posterDetails[0].poster_deck_owner
+            }
 
 
             mostdislikedList.innerHTML +=`

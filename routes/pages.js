@@ -33,6 +33,7 @@ const downloadAsMp4 = require("../controllers/asfi_meet_v9/downloadAsMp4")
 const ScholarAdmin = require("../controllers/scholarAdmin/scholarAdminLoggedIn")
 const SCholarManagePosters = require("../controllers/scholarAdmin/scholarManagePosters")
 const scholarManageMeetings = require("../controllers/scholarAdmin/scholarmanageMeetings")
+const getTotalPosters = require("../controllers/data/getTotalPosters")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -93,7 +94,7 @@ router.get("/logout",(req,res) => {
 // FOr Scholar Admin 
 router.get("/posters/:user", ScholarAdmin, SCholarManagePosters)
 router.get("/meetings/:user", ScholarAdmin, scholarManageMeetings)
-
+router.post("/getTotalPosters", getTotalPosters)
 
 
 router.get("/live", (req,res) => {
