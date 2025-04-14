@@ -68,14 +68,14 @@ body {
 }
 
 .otherButtons #startStream{
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(134, 57, 206);
 
 }
 .otherButtons #stopStream{
     background-color: rgb(240, 52, 52);
 }
 .otherButtons #startRecord{
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(134, 57, 206);
 }
 .buttonGroup {
     display: flex;
@@ -130,6 +130,10 @@ body {
     /* flex-grow: 1; */
 }
 @media (max-width: 1136px), (max-width:768px) {
+    body{
+        display: flex;
+        flex-direction: column;
+    }
     .small{
         height: 0px;
         width: 100%;
@@ -153,7 +157,7 @@ body {
         
     }
     .gutter{
-        height: 100px;
+        height: 60px;
         width: 100%;
         align-items: center;
         justify-content: center;
