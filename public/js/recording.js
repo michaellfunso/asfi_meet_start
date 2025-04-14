@@ -100,7 +100,13 @@ function stopRecording() {
 
 // Button setup
 const startRecord = document.getElementById("startRecord");
-const stopRecord = document.getElementById("stopRecord");
+
+if(startRecord){
 startRecord.addEventListener("click", startRecording);
+}
+const stopRecord = document.getElementById("stopRecord");
+
+if(stopRecord){
 stopRecord.addEventListener("click", stopRecording);
+}
 
