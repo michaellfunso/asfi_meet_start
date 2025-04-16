@@ -44,38 +44,58 @@ async function startRecording() {
 
     const chunks = [];
     mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+    // mediaRecorder.onstop = async () => {
+    //   const blob = new Blob(chunks, { type: 'video/webm' });
+      
+    //   // Create FormData and append the recording
+    //   const formData = new FormData();
+    //   formData.append('file', blob, 'recording.webm');
+    //   formData.append('meetingId', meetingId)
+      
+    //    // Cleanup
+    //    stream.getTracks().forEach(track => track.stop());
+    //    canvasStream.getTracks().forEach(track => track.stop());
+    //   try {
+    //     // Send to your endpoint
+    //     const response = await fetch('/uploadRecording', {
+    //       method: 'POST',
+    //       body: formData
+    //     });
+        
+    //     if (response.ok) {
+    //       console.log('Recording uploaded successfully');
+    //       const result = await response.json();
+    //       console.log('Server response:', result);
+    //     } else {
+    //       console.error('Upload failed:', response.statusText);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error uploading recording:', error);
+    //   }
+      
+     
+    // };
     mediaRecorder.onstop = async () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
       
-      // Create FormData and append the recording
-      const formData = new FormData();
-      formData.append('file', blob, 'recording.webm');
-      formData.append('meetingId', meetingId)
-      
-       // Cleanup
-       stream.getTracks().forEach(track => track.stop());
-       canvasStream.getTracks().forEach(track => track.stop());
-      try {
-        // Send to your endpoint
-        const response = await fetch('/uploadRecording', {
-          method: 'POST',
-          body: formData
-        });
-        
-        if (response.ok) {
-          console.log('Recording uploaded successfully');
-          const result = await response.json();
-          console.log('Server response:', result);
-        } else {
-          console.error('Upload failed:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error uploading recording:', error);
-      }
-      
-     
+      // Cleanup
+      stream.getTracks().forEach(track => track.stop());
+      canvasStream.getTracks().forEach(track => track.stop());
+    
+      // Save file to local
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `recording-${meetingId}.webm`;
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    
+      console.log('Recording downloaded locally.');
     };
-
+    
     mediaRecorder.start();
     console.log("Recording started (no mouse cursor)!");
 
