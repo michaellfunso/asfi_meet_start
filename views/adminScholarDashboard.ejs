@@ -68,7 +68,7 @@
                     
                     <div class="meetingsControlsContainer">
                 
-                    <a href="/join/<%= meeting.channel %>"><button >Start Meeting</button></a>
+                    <a href="/join/<%= meeting.channel %>" target="_blank"><button >Start Meeting</button></a>
                     <button onclick="copyLink(`https://asfischolar.net/join/<%= meeting.channel %>`)">Copy Link</button>
                         <button onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
                     <button onclick="deleteMeeting('<%= meeting.id %>')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
@@ -128,7 +128,7 @@
                     meetingItem.innerHTML = `
                         <p><strong>${name}</strong> <span> ${displayTime}</span></p>
                         <div class="meetingsControlsContainer">
-                            <a href="/join/${data.channel}"><button >Start Meeting</button></a>
+                            <a href="/join/${data.channel}" target="_blank"><button >Start Meeting</button></a>
                             <button onclick="copyLink('https://asfischolar.net/join/${data.channel}')">Copy Link</button>
                         <button onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
                         <button onclick="deleteMeeting('${data.meetingId}')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
