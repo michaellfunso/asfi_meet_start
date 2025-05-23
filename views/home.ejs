@@ -34,23 +34,59 @@
         
         <!-- CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+             .nav-highlight { @apply border-l-4 border-purple-600 bg-purple-50; }
+        .method-post { color: #8B5CF6; }
+        .param-required { color: #EF4444; }
+        .feature-icon {
+            @apply w-14 h-14 flex items-center justify-center rounded-xl mb-4;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu { display: none; }
+            .mobile-menu.active { display: block; }
+            main { margin-left: 0; padding: 1rem; }
+            aside { position: relative; width: 100%; height: auto; }
+            .flex { flex-direction: column; }
+            .feature-icon { width: 2.5rem; height: 2.5rem; }
+            .text-3xl { font-size: 1.875rem; }
+            .text-2xl { font-size: 1.5rem; }
+            .text-xl { font-size: 1.25rem; }
+        }
+        </style>
     </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <!-- Mobile Navigation -->
+    <div class="md:hidden flex justify-between items-center p-4 border-b">
+        <a href="/"><img src="/assets/asfimeet.png" alt="ASFIMeet" class="h-8"></a>
+        <button id="mobileMenuToggle" class="text-gray-600 p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="md:hidden hidden bg-white shadow-lg" id="mobileMenu">
+        <div class="px-4 py-2 space-y-2">
+            <a href="/documentation" class="block p-2 text-gray-600 hover:bg-gray-100">Documentation</a>
+            <a href="/#features" class="block p-2 text-gray-600 hover:bg-gray-100">Features</a>
+            <a href="/#testimonials" class="block p-2 text-gray-600 hover:bg-gray-100">Testimonials</a>
+            <a href="/#faq" class="block p-2 text-gray-600 hover:bg-gray-100">FAQ</a>
+            <a href="/dashboard" class="block p-2 text-purple-600 hover:bg-gray-100">Sign In</a>
+        </div>
+    </div>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <div class="flex items-center">
-                   
-                    <img src="/assets/asfimeet.png" alt="ASFIMeet" class="h-8 w-30 mr-2">
-                    
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
+                <a href="/"><img src="/assets/asfimeet.png" alt="ASFIMeet" class="h-8 w-30 mr-2"></a>
+                <div class="flex items-center space-x-8">
                     <a href="/documentation" class="text-gray-600 hover:text-purple-600">Documentation</a>
-                    <a href="#features" class="text-gray-600 hover:text-purple-600">Features</a>
-                    <a href="#testimonials" class="text-gray-600 hover:text-purple-600">Testimonials</a>
-                    <a href="#faq" class="text-gray-600 hover:text-purple-600">FAQ</a>
-                    <a href="/dashboard"><button class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">Sign In</button></a>
+                    <a href="/#features" class="text-gray-600 hover:text-purple-600">Features</a>
+                    <a href="/#testimonials" class="text-gray-600 hover:text-purple-600">Testimonials</a>
+                    <a href="/#faq" class="text-gray-600 hover:text-purple-600">FAQ</a>
+                    <a href="/dashboard" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">Sign In</a>
                 </div>
             </div>
         </div>
@@ -569,6 +605,20 @@
 </footer>
 
     <script>
+          // Mobile Menu Toggle
+          const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
         // Modal Handling
         function toggleModal() {
             document.getElementById('modal').classList.toggle('hidden');
