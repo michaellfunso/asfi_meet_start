@@ -52,6 +52,9 @@ router.get("/dashboard", loggedIn, dashboard)
 router.get("/", async(req,res) =>{
     res.render("home")
 })
+router.get("/terms", async(req,res) =>{
+    res.render("terms")
+})
 router.get("/documentation", async(req,res) =>{
     res.render("documentation")
 })
