@@ -49,6 +49,12 @@ router.use((req, res, next) => {
     next();
 }); 
 router.get("/", loggedIn, dashboard)
+router.get("/home", async(req,res) =>{
+    res.render("home")
+})
+router.get("/documentation", async(req,res) =>{
+    res.render("documentation")
+})
 router.get("/register", signupPage)
 router.get("/login", loginPage)
 router.post("/api/login", login)
