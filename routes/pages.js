@@ -48,8 +48,8 @@ router.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 }); 
-router.get("/", loggedIn, dashboard)
-router.get("/home", async(req,res) =>{
+router.get("/dashboard", loggedIn, dashboard)
+router.get("/", async(req,res) =>{
     res.render("home")
 })
 router.get("/documentation", async(req,res) =>{
