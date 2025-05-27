@@ -9,7 +9,9 @@
     <meta name="description" content="ASFIMeet is a secure and high-quality video conferencing platform from ASFI. Host meetings, collaborate, and connect with teams effortlessly.">
     <meta name="keywords" content="video conferencing, online meetings, virtual meetings, remote work, team collaboration">
     <meta name="author" content="Weperch Technologies Limited">
-    
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src=" https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/ie7/ie7.min.js "></script>
+<link href=" https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.min.css " rel="stylesheet">
     <!-- Open Graph (For Social Media Sharing) -->
     <meta property="og:title" content="ASFIMeet - Seamless Video Conferencing">
     <meta property="og:description" content="Host secure and high-quality video meetings with ASFIMeet. Collaborate with your team anytime, anywhere.">
@@ -24,35 +26,65 @@
     <meta name="twitter:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
     
     <!-- Favicon -->
-    <link rel="icon" href="https://res.cloudinary.com/diml8ljwa/image/upload/v1743263848/asfifavicon_r5jqat.png" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://asfischolar.net">
 
     <link rel="stylesheet" href="/css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    
+<style>
+    .ql-toolbar.ql-snow{
+        width:100%;
+    }
+    .ql-toolbar.ql-snow + .ql-container.ql-snow{
+        width: 100%;
+        margin:0;
+        height: 200px;
+        max-height: 200px;
+    }
+    .ti{
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
+
     <%- include('adminMeetingsNavbar.ejs') %>
     <div class="container">
         
         <div class="createMeetingForm">
             <h1>ASFIMeet Events</h1>
-            <input type="text" id="meetingName" placeholder="Enter meeting name">
-            <input type="datetime-local" id="meetingTime" placeholder="Enter meeting time">
+            <input class="input" type="text" id="meetingName" placeholder="Enter meeting name">
+            <input class="input" type="datetime-local" id="meetingTime" placeholder="Enter meeting time">
 
             <div class="radioContainer">
                 <div class="radio-group">
-                    <input type="radio" id="publicMeeting" name="isPrivate" value="no" checked>
+                    <input class="input" type="radio" id="publicMeeting" name="isPrivate" value="no" checked>
                     <label for="publicMeeting">Public</label>
                 </div>
                 <div class="radio-group">
-                    <input type="radio" id="privateMeeting" name="isPrivate" value="yes">
+                    <input class="input" type="radio" id="privateMeeting" name="isPrivate" value="yes">
                     <label for="privateMeeting">Private</label>
                 </div>
             </div>
 
-            <button onclick="addMeeting()">Create Meeting</button>
+            <!-- <div class="radioContainer"> -->
+                <div style="display: flex; align-items: center; gap: 1px; width: 100%;">
+                    <input class="input" type="checkbox" id="preRegistration" name="preRegistration" value="yes" style="width: max-content; max-width: max-content;">
+                    <label for="preRegistration" title="Require Users to Register for this Event" >Require Pre-registration </label>
+                    <i class="ti ti-ticket" title="Requires Registration" style="font-size: 18px; font-weight: 9000; color:orange;"></i>
+                </div>
+<%- include("./modals/description-modal.ejs") %>
+         
+            <!-- </div> -->
+            
+
+            <button class="button" onclick="addMeeting()">Create Meeting</button>
         </div>
      
 <div class="meetingListContainer">
@@ -64,15 +96,29 @@
             <% publicMeetings.forEach(function(meeting) { %>
                 <div class="meeting-item">
                     <p>
-                        <strong><%= meeting.title %></strong> <span><%= new Date(meeting.time).toLocaleString() %></span> 
+                        <strong><%= meeting.title %>
+                         
+                            <% if(meeting.privateMeeting === "yes"){ %>
+
+                                <i class="ti ti-lock" style="font-size: 18px; color: orangered; font-weight:bolder;" title="Private Meeting"></i>
+                                <% } %>
+                                <% if(meeting.preRegistration === "yes"){ %>
+
+ <i class="ti ti-ticket" title="Requires Registration" style="font-size: 18px; font-weight: 9000; color:orange;"></i>
+                               
+                                <% } %>
+                        
+                        </strong> 
+                        <span><%= new Date(meeting.time).toLocaleString() %></span> 
                     </p>
                     
                     <div class="meetingsControlsContainer">
                 
-                    <a href="/join/<%= meeting.channel %>" target="_blank"><button >Start Meeting</button></a>
-                    <button onclick="copyLink(`https://asfischolar.net/join/<%= meeting.channel %>`)">Copy Link</button>
-                        <button onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
-                    <button onclick="deleteMeeting('<%= meeting.id %>')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
+                    <a href="/join/<%= meeting.channel %>" target="_blank"><button class="button" >Start Meeting</button></a>
+                    <button class="button" onclick="copyLink(`https://asfischolar.net/join/<%= meeting.channel %>`)">Copy Link</button>
+                        <button class="button" onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
+                        <button class="button" onclick="window.location.href='/participants/<%= meeting.channel%>'">View Participants</button>
+                    <button  onclick="deleteMeeting('<%= meeting.id %>')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
 
                     </div>
                 </div>
@@ -84,131 +130,10 @@
 </div>
         
     </div>
-
-    <script>
-        const messageContainer = document.getElementById('messageContainer');
-        function addMeeting() {
-            const name = document.getElementById('meetingName').value;
-            const meetingTime = document.getElementById('meetingTime').value;
-
-            if (!name) {
-                alert("Please enter a meeting name.");
-                return;
-            }
-            if (!meetingTime) {
-                alert("Please select a meeting time.");
-                return;
-            }
-
-            const formattedTime = new Date(meetingTime).toISOString(); // Send in UTC format
-            const displayTime = new Date(meetingTime).toLocaleString(); // Display in user's timezone
-            const isPrivate = document.querySelector('input[name="isPrivate"]:checked').value;
-
-            const meetingData = {
-                title: name,
-                time: formattedTime,
-                isPrivate: isPrivate
-            };
-
-            fetch('/createMeeting', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(meetingData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Meeting created successfully');
-
-                    const meetingList = document.getElementById('meetingList');
-                    const meetingItem = document.createElement('div');
-                    meetingItem.classList.add('meeting-item');
-
-                    meetingItem.innerHTML = `
-                        <p><strong>${name}</strong> <span> ${displayTime}</span></p>
-                        <div class="meetingsControlsContainer">
-                            <a href="/join/${data.channel}" target="_blank"><button >Start Meeting</button></a>
-                            <button onclick="copyLink('https://asfischolar.net/join/${data.channel}')">Copy Link</button>
-                        <button onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
-                        <button onclick="deleteMeeting('${data.meetingId}')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
-                        </div>
-                        
-                    `;
-
-                    meetingList.prepend(meetingItem);
-                    document.getElementById('meetingName').value = '';
-                    document.getElementById('meetingTime').value = '';
-                } else {
-                    alert(data.error);
-                    console.error('Error creating meeting:', data.error);
-                }
-            })
-            .catch(error => {
-                alert("Error creating meeting. Please try again.");
-                console.error('Error:', error);
-            });
-        }
-        function copyLink(text) {
-    // Create a temporary textarea element
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    
-    
-    document.body.appendChild(textarea);
-    
-   
-    textarea.select();
-    
-   
-    document.execCommand('copy');
-    
-
-    document.body.removeChild(textarea);
-    
-    console.log("Text copied to clipboard!");
-    messageContainer.innerText = 'Link copied to clipboard!';
-    messageContainer.style.display = 'block';
-
-setTimeout(() => {
-    messageContainer.innerText = '';
-}, 2000);  // 3000 milliseconds = 3 seconds
-}
+      <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
+  <script src="/assets/global/js/iziToast.min.js"></script>
+  <script src="/js/newMeeting.js"></script>
 
 
-        function addToCalendar(title, date) {
-            const formattedDate = date.replace(/-|:|\.\d{3}/g, ""); // Format for Google Calendar
-            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${formattedDate}/${formattedDate}`;
-            window.open(calendarLink, '_blank');
-        }
-        function deleteMeeting(meeting){
-            fetch('/deleteMeeting', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ Id:meeting})
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    console.log('Meeting deleted successfully');
-                    const meetingItem = document.querySelector(`.meeting-item:has(button[onclick*="${meeting}"])`);
-                    if (meetingItem) {
-                        meetingItem.remove();
-                    }
-                } else {
-                    alert(data.error);
-                    console.error('Error deleting meeting:', data.error);
-                }
-            })
-            .catch(error => {
-                alert("Error deleting meeting. Please try again.");
-                console.error('Error:', error);
-            });
-        }
-    </script>
 </body>
 </html>

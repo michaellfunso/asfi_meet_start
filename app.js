@@ -27,7 +27,7 @@ app.use(express.json());
 
 
 app.set("view engine", "ejs");
-app.set("views", ["./views"]);
+app.set("views", ["./views", "./views/meetings"]);
 
 app.use(
     '/jitsi',

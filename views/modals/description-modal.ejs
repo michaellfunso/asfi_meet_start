@@ -1,0 +1,144 @@
+
+    <!-- Quill stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<style>
+  #default-modal{
+    margin:0px;
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    width: 100%;
+  }
+  .bg-white{
+    background: white;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
+
+<!-- Main modal -->
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+         <div class=" max-w-4xl mx-auto">
+        <!-- Editor Container -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Toolbar -->
+            <div id="toolbar" class="border-b border-gray-200">
+                <!-- Font family dropdown -->
+                <!-- <select class="ql-font">
+                    <option value="sans-serif" selected>Sans Serif</option>
+                    <option value="serif">Serif</option>
+                    <option value="monospace">Monospace</option>
+                </select> -->
+                
+                <!-- Font size dropdown -->
+                <!-- <select class="ql-size">
+                    <option value="small">Small</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="large">Large</option>
+                    <option value="huge">Huge</option>
+                </select> -->
+                
+                <!-- Basic formatting buttons -->
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+                <button class="ql-strike"></button>
+                
+                <!-- Color pickers -->
+                <button class="ql-color"></button>
+                <button class="ql-background"></button>
+                
+                <!-- Alignment buttons -->
+                <button class="ql-align" value=""></button>
+                <button class="ql-align" value="center"></button>
+                <button class="ql-align" value="right"></button>
+                <button class="ql-align" value="justify"></button>
+                
+                <!-- Lists -->
+                <button class="ql-list" value="ordered"></button>
+                <button class="ql-list" value="bullet"></button>
+                <!-- <button class="ql-indent" value="-1"></button>
+                <button class="ql-indent" value="+1"></button>
+                 -->
+                <!-- Other formatting -->
+                <!-- <button class="ql-link"></button> -->
+                <!-- <button class="ql-image"></button>
+                <button class="ql-video"></button>
+                <button class="ql-code-block"></button> -->
+                
+                <!-- Clear formatting -->
+                <button class="ql-clean"></button>
+            </div>
+            
+            <!-- Editor Area -->
+            <div id="quilleditor" class="min-h-[300px]" style="color:#333;"></div>
+            
+            <!-- Optional Footer -->
+            <div class="bg-gray-50 px-4 py-2 border-t border-gray-200 text-sm text-gray-500">
+                <div class="flex justify-between items-center" style="color: #333;">
+                    <span>Word count: <span id="word-count">0</span></span>
+
+              
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- Modal footer -->
+            <!-- <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b light:border-gray-600">
+                <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+  
+
+    <!-- Include Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    
+    <script>
+        // Initialize Quill editor
+        const quill = new Quill('#quilleditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: '#toolbar'
+            },
+            placeholder: 'Add a Description to this meeting, this will be displayed on the pre-registration page.'
+        });
+        
+        // Word count functionality
+        function updateWordCount() {
+            const text = quill.getText().trim();
+            const wordCount = text ? text.split(/\s+/).length : 0;
+            document.getElementById('word-count').textContent = wordCount;
+        }
+        
+        quill.on('text-change', updateWordCount);
+        
+
+        
+        // Initialize word count
+        updateWordCount();
+    </script>
+
+
+<script>
+  const openModal = document.getElementById("preRegistration")
+    if(openModal.checked){
+    document.getElementById("default-modal").classList.remove("hidden");
+   } else {
+    document.getElementById("default-modal").classList.add("hidden");
+   }
+  openModal.addEventListener("change", function() {
+   if(openModal.checked){
+    document.getElementById("default-modal").classList.remove("hidden");
+   } else {
+    document.getElementById("default-modal").classList.add("hidden");
+   }
+  });
+</script>

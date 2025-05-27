@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <%- include("../partials/no-loginHeader.ejs") %>
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Seminar Participants</h1>
+            <div class="space-x-2">
+                <button onclick="exportToPDF()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                    Export PDF
+                </button>
+                <button onclick="exportToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                    Export CSV
+                </button>
+                <button onclick="openAddParticipantModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md d-none hidden">
+                    Add Participant
+                </button>
+            </div>
+        </div>
+
+        <!-- Participants Table -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="participantsTable" class="bg-white divide-y divide-gray-200">
+                    <!-- Participants will be loaded here -->
+                </tbody>
+            </table>
+            
+            <!-- Pagination Controls -->
+            <div class="px-6 py-3 border-t border-gray-200 bg-white">
+                <div class="flex flex-col sm:flex-row items-center justify-between">
+                    <div class="mb-2 sm:mb-0">
+                        <p class="text-sm text-gray-700" id="pagination-info">
+                            Showing <span class="font-medium">0</span> to <span class="font-medium">0</span> of <span class="font-medium">0</span> results
+                        </p>
+                    </div>
+                    <div class="flex space-x-1">
+                        <button id="prev-page" class="px-3 py-1 border rounded text-sm font-medium disabled:opacity-50">
+                            Previous
+                        </button>
+                        <div id="page-numbers" class="flex space-x-1">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        <button id="next-page" class="px-3 py-1 border rounded text-sm font-medium disabled:opacity-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Participant Modal -->
+        <div id="addParticipantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+                <div class="bg-purple-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Add New Participant</h2>
+                    <button onclick="closeAddParticipantModal()" class="text-white hover:text-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <form id="participantForm" class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name*</label>
+                            <input type="text" id="first_name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name*</label>
+                            <input type="text" id="last_name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address*</label>
+                        <input type="email" id="email_address" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="country" class="block text-sm font-medium text-gray-700">Country/Region*</label>
+                        <select id="country" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                            <option value="">Select country/region</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="organization" class="block text-sm font-medium text-gray-700">Organization*</label>
+                        <input type="text" id="organization" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="jobTitle" class="block text-sm font-medium text-gray-700">Job Title</label>
+                        <input type="text" id="jobTitle" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" id="age" min="18" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            Save Participant
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="/assets/global/js/iziToast.min.js"></script>
+   <script>
+    // Pagination state
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let totalParticipants = 0;
+    let totalPages = 1;
+    let allParticipants = [];
+
+    // Load participants from server
+    async function fetchParticipants(page = 1) {
+        try {
+            const response = await fetch(`/api/participants/<%=meetingId%>?page=${page}&limit=${itemsPerPage}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch participants');
+            }
+            
+            const data = await response.json();
+            
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+            
+            allParticipants = data.participants ? data.participants : [];
+            totalParticipants = data.pagination?.total || 0;
+            totalPages = data.pagination?.totalPages || 1;
+            currentPage = page;
+            
+            loadParticipants(allParticipants);
+            updatePaginationUI();
+            
+        } catch (error) {
+            console.error('Error fetching participants:', error);
+            // Show error message to user
+            const tableBody = document.getElementById('participantsTable');
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-sm text-red-500">
+                        Error loading participants: ${error.message}
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    // Load participants into table
+    function loadParticipants(participantsToShow) {
+        const tableBody = document.getElementById('participantsTable');
+        tableBody.innerHTML = '';
+        
+        if (!participantsToShow || participantsToShow.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                    No participants found
+                </td>
+            `;
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        participantsToShow.forEach(participant => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${participant.id}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${participant.first_name} ${participant.last_name}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${participant.email_address}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${participant.country}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${participant.age || 'N/A'}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${participant.organization}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <button onclick="deleteParticipant(${participant.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Update pagination UI
+    function updatePaginationUI() {
+        // Update pagination info text
+        const start = ((currentPage - 1) * itemsPerPage) + 1;
+        const end = Math.min(currentPage * itemsPerPage, totalParticipants);
+        document.getElementById('pagination-info').innerHTML = `
+            Showing <span class="font-medium">${start}</span> to <span class="font-medium">${end}</span> of <span class="font-medium">${totalParticipants}</span> results
+        `;
+        
+        // Update page numbers
+        const pageNumbersContainer = document.getElementById('page-numbers');
+        pageNumbersContainer.innerHTML = '';
+        
+        // Always show first page button if not already shown
+        if (currentPage > 2) {
+            addPageNumber(1, pageNumbersContainer);
+            if (currentPage > 3) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'px-3 py-1 text-sm';
+                ellipsis.textContent = '...';
+                pageNumbersContainer.appendChild(ellipsis);
+            }
+        }
+        
+        // Show current page and adjacent pages
+        for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+            addPageNumber(i, pageNumbersContainer);
+        }
+        
+        // Show last page button if not already shown
+        if (currentPage < totalPages - 1) {
+            if (currentPage < totalPages - 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'px-3 py-1 text-sm';
+                ellipsis.textContent = '...';
+                pageNumbersContainer.appendChild(ellipsis);
+            }
+            addPageNumber(totalPages, pageNumbersContainer);
+        }
+        
+        // Enable/disable prev/next buttons
+        document.getElementById('prev-page').disabled = currentPage === 1;
+        document.getElementById('next-page').disabled = currentPage === totalPages;
+    }
+
+    // Helper function to add page number button
+    function addPageNumber(pageNumber, container) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `px-3 py-1 border rounded text-sm font-medium ${
+            pageNumber === currentPage 
+                ? 'bg-purple-600 text-white border-purple-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+        }`;
+        pageBtn.textContent = pageNumber;
+        pageBtn.addEventListener('click', () => fetchParticipants(pageNumber));
+        container.appendChild(pageBtn);
+    }
+
+    // Modal functions
+    function openAddParticipantModal() {
+        document.getElementById('addParticipantModal').classList.remove('hidden');
+    }
+
+    function closeAddParticipantModal() {
+        document.getElementById('addParticipantModal').classList.add('hidden');
+        document.getElementById('participantForm').reset();
+    }
+
+    // Form submission
+    document.getElementById('participantForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const newParticipant = {
+            first_name: document.getElementById('first_name').value,
+            last_name: document.getElementById('last_name').value,
+            email_address: document.getElementById('email_address').value,
+            country: document.getElementById('country').value,
+            organization: document.getElementById('organization').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            age: document.getElementById('age').value || null,
+            meetingId: '<%=meetingId%>'
+        };
+        
+        try {
+            const response = await fetch('/api/participants/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newParticipant)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to add participant');
+            }
+            
+            const result = await response.json();
+            
+            if (result.error) {
+                iziToast.error({
+                    messsage:`Error: ${result.error}`,
+                    position:"topCenter"
+                })
+                return;
+            }
+            
+            // Refresh the participant list
+            fetchParticipants(1);
+            closeAddParticipantModal();
+            
+        } catch (error) {
+            console.error('Error adding participant:', error);
+             iziToast.error({
+                    messsage:`'Failed to add participant. Please try again.'`,
+                    position:"topCenter"
+                })
+        }
+    });
+
+    // Delete participant
+    async function deleteParticipant(id) {
+        if (!confirm('Are you sure you want to delete this participant?')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/participants/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to delete participant');
+            }
+            
+            const result = await response.json();
+            
+            if (result.error) {
+                   iziToast.error({
+                    messsage:`Error: ${result.error}`,
+                    position:"topCenter"
+                })
+                return;
+            }
+            
+            // Refresh the current page
+            fetchParticipants(currentPage);
+            
+        } catch (error) {
+            console.error('Error deleting participant:', error);
+             iziToast.error({
+                    messsage:'Failed to delete participant. Please try again.',
+                    position:"topCenter"
+                })
+        }
+    }
+
+    // Export to PDF
+    async function exportToPDF() {
+        try {
+            // Fetch all participants for export
+            const response = await fetch(`/api/participants/<%=meetingId%>?limit=1000`);
+            const data = await response.json();
+            
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+            
+            const exportParticipants = data.participants || [];
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.text('Seminar Participants List', 14, 16);
+            
+            doc.autoTable({
+                head: [['ID', 'Name', 'Email', 'Country', 'Age Group', 'Organization']],
+                body: exportParticipants.map(p => [
+                    p.id,
+                    `${p.first_name} ${p.last_name}`,
+                    p.email_address,
+                    p.country,
+                    p.age,
+                    p.organization
+                ]),
+                startY: 25,
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 2,
+                    valign: 'middle'
+                },
+                headStyles: {
+                    fillColor: [79, 70, 229],
+                    textColor: 255
+                }
+            });
+            
+            doc.save('seminar_participants.pdf');
+            
+        } catch (error) {
+            console.error('Error exporting to PDF:', error);
+            iziToast.error({
+                    messsage:'Failed to export PDF. Please try again.',
+                    position:"topCenter"
+                })
+        }
+    }
+
+    // Export to CSV
+async function exportToCSV() {
+    try {
+        const response = await fetch(`/api/participants/<%=meetingId%>?limit=1000`);
+        const data = await response.json();
+
+        if (data.error) {
+            console.error(data.error);
+            return;
+        }
+
+        const exportParticipants = data.participants || [];
+        const csv = Papa.unparse(exportParticipants.map(p => ({
+            ID: p.id,
+            Name: `${p.first_name} ${p.last_name}`,
+            Email: p.email_address,
+            Country: p.country,
+            Age_Group:p.age,
+            Organization: p.organization
+        })));
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `<%=meetingId%>_seminar_participants.csv`);
+        link.click();
+
+    } catch (error) {
+        console.error('Error exporting to CSV:', error);
+        iziToast.error({
+                    messsage:'Failed to export CSV. Please try again.',
+                    position:"topCenter"
+                })
+    }
+}
+
+
+    // Event listeners for prev/next buttons
+    document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+            fetchParticipants(currentPage - 1);
+        }
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            fetchParticipants(currentPage + 1);
+        }
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('addParticipantModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeAddParticipantModal();
+        }
+    });
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchParticipants(1);
+    });
+</script>
+</body>
+</html>

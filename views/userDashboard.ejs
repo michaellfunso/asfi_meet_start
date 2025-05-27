@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
     
      <!-- Favicon -->
-     <link rel="icon" href="https://res.cloudinary.com/diml8ljwa/image/upload/v1743263848/asfifavicon_r5jqat.png" type="image/x-icon">
+     <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://asfischolar.net">
@@ -44,7 +44,7 @@
                 <% publicMeetings.forEach(function(meeting) { %>
                     <div class="meeting-item">
                         <p><strong><%= meeting.title %></strong> <span><%= meeting.time %></span></p>
-                        <button onclick="addToCalendar('<%= meeting.title %>', '<%= meeting.time %>')">Add to Calendar</button>
+                        <button class="button" onclick="addToCalendar('<%= meeting.title %>', '<%= meeting.time %>')">Add to Calendar</button>
                     </div>
                 <% }); %>
             <% } else { %>
@@ -53,13 +53,6 @@
         </div>
     </div>
 
-    <script>
-
-        function addToCalendar(title, date) {
-            console.log(date)
-            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${date}/${date}`;
-            window.open(calendarLink, '_blank');
-        }
-    </script>
+    <script src="/js/addToCalendar.js"></script>
 </body>
 </html>

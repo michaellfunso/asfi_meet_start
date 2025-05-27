@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="https://res.cloudinary.com/diml8ljwa/image/upload/c_thumb,w_200,g_face/v1743261283/Screenshot_147_mjjyce.png">
     
     <!-- Favicon -->
-    <link rel="icon" href="https://res.cloudinary.com/diml8ljwa/image/upload/v1743263848/asfifavicon_r5jqat.png" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://asfischolar.net">
@@ -50,7 +50,11 @@
                     <label for="privateMeeting">Private</label>
                 </div>
             </div>
-
+               <div style="display: flex; align-items: center; gap: 1px; width: 100%;">
+                    <input class="input" type="checkbox" id="preRegistration" name="preRegistration" value="yes" style="width: max-content; max-width: max-content;">
+                    <label for="preRegistration" title="Require Users to Register for this Event" >Require Pre-registration</label>
+                </div>
+<%- include("./modals/description-modal.ejs") %>
             <button onclick="addMeeting()">Create Meeting</button>
         </div>
      
@@ -70,7 +74,7 @@
                 
                     <a href="/join/<%= meeting.channel %>" target="_blank"><button >Start Meeting</button></a>
                     <button onclick="copyLink(`https://asfischolar.net/join/<%= meeting.channel %>`)">Copy Link</button>
-                        <button onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
+                        <button class="button" onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
                     <button onclick="deleteMeeting('<%= meeting.id %>')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
 
                     </div>
@@ -83,131 +87,9 @@
 </div>
         
     </div>
+      <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
+  <script src="/assets/global/js/iziToast.min.js"></script>
+  <script src="/js/newMeeting.js"></script>
 
-    <script>
-        const messageContainer = document.getElementById('messageContainer');
-        function addMeeting() {
-            const name = document.getElementById('meetingName').value;
-            const meetingTime = document.getElementById('meetingTime').value;
-
-            if (!name) {
-                alert("Please enter a meeting name.");
-                return;
-            }
-            if (!meetingTime) {
-                alert("Please select a meeting time.");
-                return;
-            }
-
-            const formattedTime = new Date(meetingTime).toISOString(); // Send in UTC format
-            const displayTime = new Date(meetingTime).toLocaleString(); // Display in user's timezone
-            const isPrivate = document.querySelector('input[name="isPrivate"]:checked').value;
-
-            const meetingData = {
-                title: name,
-                time: formattedTime,
-                isPrivate: isPrivate
-            };
-
-            fetch('/createMeeting', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(meetingData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Meeting created successfully');
-
-                    const meetingList = document.getElementById('meetingList');
-                    const meetingItem = document.createElement('div');
-                    meetingItem.classList.add('meeting-item');
-
-                    meetingItem.innerHTML = `
-                        <p><strong>${name}</strong> <span> ${displayTime}</span></p>
-                        <div class="meetingsControlsContainer">
-                            <a href="/join/${data.channel}" target="_blank"><button >Start Meeting</button></a>
-                            <button onclick="copyLink('https://asfischolar.net/join/${data.channel}')">Copy Link</button>
-                        <button onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
-                        <button onclick="deleteMeeting('${data.meetingId}')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
-                        </div>
-                        
-                    `;
-
-                    meetingList.prepend(meetingItem);
-                    document.getElementById('meetingName').value = '';
-                    document.getElementById('meetingTime').value = '';
-                } else {
-                    alert(data.error);
-                    console.error('Error creating meeting:', data.error);
-                }
-            })
-            .catch(error => {
-                alert("Error creating meeting. Please try again.");
-                console.error('Error:', error);
-            });
-        }
-        function copyLink(text) {
-    // Create a temporary textarea element
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    
-    
-    document.body.appendChild(textarea);
-    
-   
-    textarea.select();
-    
-   
-    document.execCommand('copy');
-    
-
-    document.body.removeChild(textarea);
-    
-    console.log("Text copied to clipboard!");
-    messageContainer.innerText = 'Link copied to clipboard!';
-    messageContainer.style.display = 'block';
-
-setTimeout(() => {
-    messageContainer.innerText = '';
-}, 2000);  // 3000 milliseconds = 3 seconds
-}
-
-
-        function addToCalendar(title, date) {
-            const formattedDate = date.replace(/-|:|\.\d{3}/g, ""); // Format for Google Calendar
-            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${formattedDate}/${formattedDate}`;
-            window.open(calendarLink, '_blank');
-        }
-        function deleteMeeting(meeting){
-            fetch('/deleteMeeting', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ Id:meeting})
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    console.log('Meeting deleted successfully');
-                    const meetingItem = document.querySelector(`.meeting-item:has(button[onclick*="${meeting}"])`);
-                    if (meetingItem) {
-                        meetingItem.remove();
-                    }
-                } else {
-                    alert(data.error);
-                    console.error('Error deleting meeting:', data.error);
-                }
-            })
-            .catch(error => {
-                alert("Error deleting meeting. Please try again.");
-                console.error('Error:', error);
-            });
-        }
-    </script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+    <!-- Mobile Navigation -->
+    <div class="md:hidden flex justify-between items-center p-4 border-b">
+        <a href="/"><img src="/assets/asfimeet.png" alt="ASFIMeet" class="h-8"></a>
+        <button id="mobileMenuToggle" class="text-gray-600 p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="md:hidden hidden bg-white shadow-lg" id="mobileMenu">
+        <div class="px-4 py-2 space-y-2">
+            <a href="/documentation" class="block p-2 text-gray-600 hover:bg-gray-100">Documentation</a>
+            <a href="/#features" class="block p-2 text-gray-600 hover:bg-gray-100">Features</a>
+            <a href="/#testimonials" class="block p-2 text-gray-600 hover:bg-gray-100">Testimonials</a>
+            <a href="/terms" class="block p-2 text-gray-600 hover:bg-gray-100">Terms</a>
+
+            <a href="/#faq" class="block p-2 text-gray-600 hover:bg-gray-100">FAQ</a>
+            <% if(isActive == true){ %>
+            <a href="/dashboard" class="block p-2 text-purple-600 hover:bg-gray-100">Dashboard</a>
+            <% }else{ %>
+            <a href="/dashboard" class="block p-2 text-purple-600 hover:bg-gray-100">Sign In</a>
+
+            <% } %>
+        </div>
+    </div>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="/"><img src="/assets/asfimeet.png" alt="ASFIMeet" class="h-8 w-30 mr-2"></a>
+                <div class="flex items-center space-x-8">
+                    <a href="/documentation" class="text-gray-600 hover:text-purple-600">Documentation</a>
+                    <a href="/#features" class="text-gray-600 hover:text-purple-600">Features</a>
+                    <a href="/#testimonials" class="text-gray-600 hover:text-purple-600">Testimonials</a>
+                    <a href="/terms" class="text-gray-600 hover:text-purple-600">Terms</a>
+
+                    <a href="/#faq" class="text-gray-600 hover:text-purple-600">FAQ</a>
+                      <% if(isActive == true){ %>
+                    <a href="/dashboard" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">Dashboard</a>
+
+            <% }else{ %>
+                    <a href="/dashboard" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">Sign In</a>
+
+            <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+             // Mobile Menu Toggle
+          const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>

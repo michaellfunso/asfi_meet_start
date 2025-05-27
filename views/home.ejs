@@ -29,7 +29,7 @@
         <link rel="canonical" href="https://asfimeet.org/">
         
         <!-- Favicon & Theme -->
-        <link rel="icon" href="https://res.cloudinary.com/diml8ljwa/image/upload/v1743263848/asfifavicon_r5jqat.png" type="image/x-icon">
+        <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
         <meta name="theme-color" content="#6D28D9">
         
         <!-- CSS -->
@@ -72,6 +72,8 @@
             <a href="/documentation" class="block p-2 text-gray-600 hover:bg-gray-100">Documentation</a>
             <a href="/#features" class="block p-2 text-gray-600 hover:bg-gray-100">Features</a>
             <a href="/#testimonials" class="block p-2 text-gray-600 hover:bg-gray-100">Testimonials</a>
+            <a href="/terms" class="block p-2 text-gray-600 hover:bg-gray-100">Terms</a>
+
             <a href="/#faq" class="block p-2 text-gray-600 hover:bg-gray-100">FAQ</a>
             <a href="/dashboard" class="block p-2 text-purple-600 hover:bg-gray-100">Sign In</a>
         </div>
@@ -578,6 +580,8 @@
                     <li><a href="/documentation" class="hover:text-white">Documentation</a></li>
                     <li><a href="#features" class="hover:text-white">Features</a></li>
                     <li><a href="#testimonials" class="hover:text-white">Testimonials</a></li>
+                    <li><a href="/terms" class="hover:text-white">Terms</a></li>
+
                     <li><a href="#faq" class="hover:text-white">FAQ</a></li>
                 </ul>
             </div>
@@ -634,7 +638,7 @@
         function joinMeeting() {
             const meetingId = document.getElementById('meetingId').value;
             if(meetingId.trim()) {
-                window.location.href = `https://asfimeet.netlify.app/${meetingId}`;
+                window.location.href = `https://asfischolar.net/join/${meetingId}`;
             }
         }
 

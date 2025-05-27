@@ -1,12 +1,11 @@
 const { db } = require("../../routes/db.config");
 
 const meetingExists = (meetingId) => { 
-    console.log(meetingId)
     if(meetingId === undefined || meetingId === null) {
         return false; // Meeting ID is not valid
     }
     return new Promise((resolve, reject) => {
-        db.query("SELECT * FROM channels WHERE channel = ?", [meetingId], (err, result) => {
+        db.query("SELECT * FROM channels WHERE channel = ? OR id = ?", [meetingId, meetingId], (err, result) => {
             if (err) {
                 console.error("Error executing query:", err);
                 reject(err);

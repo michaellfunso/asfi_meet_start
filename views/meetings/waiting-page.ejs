@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= meetingData.title %> - Meeting Starting Soon</title>
+    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <%- include("../partials/no-loginHeader.ejs") %>
+
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-purple-800 text-white p-6 text-center">
+                    <p class="text-sm font-semibold bg-yellow-400 text-purple-900 inline-block px-2 py-1 rounded" id="countdown-badge">STARTS IN 1 HOUR!</p>
+
+                <h1 class="text-2xl font-bold"><%= meetingData.title %></h1>
+                <!-- <p class="mt-2">2025: Edition Five</p> -->
+            </div>
+
+            <div class="p-6 text-center">
+                <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                
+                <h2 class="text-xl font-bold text-gray-800 mb-2" id="countdown-text-header">This meeting hasn't started yet</h2>
+                <p class="text-gray-600 mb-6 " id="countdown-text">The seminar will begin shortly. Please check back at the scheduled time.</p>
+                
+                <div id="countdown" class="mb-6">
+                    <div class="flex justify-center space-x-4">
+                        <div class="text-center">
+                            <span id="days" class="text-3xl font-bold text-purple-600">00</span>
+                            <span class="block text-xs text-gray-500">Days</span>
+                        </div>
+                        <div class="text-center">
+                            <span id="hours" class="text-3xl font-bold text-purple-600">00</span>
+                            <span class="block text-xs text-gray-500">Hours</span>
+                        </div>
+                        <div class="text-center">
+                            <span id="minutes" class="text-3xl font-bold text-purple-600">00</span>
+                            <span class="block text-xs text-gray-500">Minutes</span>
+                        </div>
+                        <div class="text-center">
+                            <span id="seconds" class="text-3xl font-bold text-purple-600">00</span>
+                            <span class="block text-xs text-gray-500">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+                    <div class="pt-4">
+                 
+
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 " onclick="addToCalendar('<%=meetingData.title%>', '<%=meetingData.time%>')" id="addToCalendarBtn">
+                           Add To Calendar
+                        </button>
+                    </div>
+                    
+                <div class="border-t border-gray-200 pt-4">
+                    <p class="text-sm text-gray-500">Scheduled for: <span class="meetingTime"><%=meetingData.time%></span></p>
+                </div>
+            </div>
+                        <%if(meetingData.description !== "<p><br></p>"){ %>
+             <div class="mb-8 " style="padding-left: 20px;">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Description</h3>
+                <%- meetingData.description %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+ <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="/assets/global/js/iziToast.min.js"></script>
+    <script>
+          // Format meeting time
+        document.addEventListener('DOMContentLoaded', () => {
+            const utcTime = '<%= meetingData.time %>';
+            const localTime = luxon.DateTime
+                .fromISO(utcTime)
+                .setZone(luxon.DateTime.local().zoneName)
+                .toFormat('LLLL dd, yyyy hh:mm a');
+            
+            document.querySelectorAll('.meetingTime').forEach(container => {
+                container.textContent = `${localTime} ( ${luxon.DateTime.local().zoneName} )`;
+            });
+        });
+
+        // Countdown timer
+        const seminarTime = new Date('<%=meetingData.time%>').getTime();
+        
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = seminarTime - now;
+            
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const countdownBadge = document.getElementById("countdown-badge");
+                if (distance < 0) {
+                    clearInterval(updateCountdown);
+                    countdownBadge.textContent = "EVENT STARTED!";
+                    document.getElementById("countdown-text-header").textContent = "The seminar has started";
+
+                    document.getElementById("countdown-text").textContent = "You will be redirected when the host joins!";
+                    document.getElementById("countdown").classList.add("hidden");
+                    document.getElementById("addToCalendarBtn").classList.add("hidden");
+                    return
+                } else if (distance < 3600000) {
+                    countdownBadge.textContent = `STARTS IN ${minutes} MINUTES!`;
+                } else if (distance < 86400000) {
+                    countdownBadge.textContent = `STARTS IN ${hours} HOURS!`;
+                } else {
+                    countdownBadge.textContent = `STARTS IN ${days} DAYS!`;
+                }
+            document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        };
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+    <script src="/js/addToCalendar.js"></script>
+
+</body>
+</html>

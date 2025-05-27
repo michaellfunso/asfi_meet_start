@@ -34,6 +34,11 @@ const ScholarAdmin = require("../controllers/scholarAdmin/scholarAdminLoggedIn")
 const SCholarManagePosters = require("../controllers/scholarAdmin/scholarManagePosters")
 const scholarManageMeetings = require("../controllers/scholarAdmin/scholarmanageMeetings")
 const getTotalPosters = require("../controllers/data/getTotalPosters")
+const startMeeting = require("../controllers/asfi_meet_v9/startMeeting")
+const resetMeeting = require("../controllers/asfi_meet_v9/resetMeeting")
+const preRegistration = require("../controllers/data/preRegistration")
+const getParticipants = require("../controllers/data/getParticipants")
+const deleteParticipant = require("../controllers/data/deleteParticipant")
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -104,6 +109,15 @@ router.get("/logout",(req,res) => {
 router.get("/posters/:user", ScholarAdmin, SCholarManagePosters)
 router.get("/meetings/:user", ScholarAdmin, scholarManageMeetings)
 router.post("/getTotalPosters", getTotalPosters)
+router.post("/meetings/start", loggedIn, startMeeting)
+router.post("/meetings/reset", loggedIn, resetMeeting)
+router.post("/pre-reg", loggedIn, preRegistration)
+router.get("/api/participants/:meetingId", loggedIn, getParticipants)
+router.delete("/api/participants/delete/:participantId", loggedIn, deleteParticipant)
+router.get("/participants/:meetingId", loggedIn, (req,res) => {
+const meetingId = req.params.meetingId || "test-seminar-12345";
+    res.render("participants-list", {meetingId, userId:req.user.id, page:1, limit:10, total:0, totalPages:0, participants:[], isActive:true})
+})
 
 
 router.get("/live", (req,res) => {
