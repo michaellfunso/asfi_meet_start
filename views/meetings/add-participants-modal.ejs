@@ -1,0 +1,133 @@
+ <!-- Add Participant Modal -->
+  <button onclick="openAddParticipantModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md d-none hidden">
+                    Add Participant
+                </button>    
+ 
+ <div id="addParticipantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+                <div class="bg-purple-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Add New Participant</h2>
+                    <button onclick="closeAddParticipantModal()" class="text-white hover:text-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <form id="participantForm" class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name*</label>
+                            <input type="text" id="first_name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name*</label>
+                            <input type="text" id="last_name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address*</label>
+                        <input type="email" id="email_address" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="country" class="block text-sm font-medium text-gray-700">Country/Region*</label>
+                        <select id="country" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                            <option value="">Select country/region</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="organization" class="block text-sm font-medium text-gray-700">Organization*</label>
+                        <input type="text" id="organization" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="jobTitle" class="block text-sm font-medium text-gray-700">Job Title</label>
+                        <input type="text" id="jobTitle" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" id="age" min="18" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            Save Participant
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <script>
+                // Modal functions
+    function openAddParticipantModal() {
+        document.getElementById('addParticipantModal').classList.remove('hidden');
+    }
+
+    function closeAddParticipantModal() {
+        document.getElementById('addParticipantModal').classList.add('hidden');
+        document.getElementById('participantForm').reset();
+    }
+
+    // Form submission
+    document.getElementById('participantForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const newParticipant = {
+            first_name: document.getElementById('first_name').value,
+            last_name: document.getElementById('last_name').value,
+            email_address: document.getElementById('email_address').value,
+            country: document.getElementById('country').value,
+            organization: document.getElementById('organization').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            age: document.getElementById('age').value || null,
+            meetingId: '<%=meetingId%>'
+        };
+        
+        try {
+            const response = await fetch('/api/participants/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newParticipant)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to add participant');
+            }
+            
+            const result = await response.json();
+            
+            if (result.error) {
+                iziToast.error({
+                    messsage:`Error: ${result.error}`,
+                    position:"topCenter"
+                })
+                return;
+            }
+            
+            // Refresh the participant list
+            fetchParticipants(1);
+            closeAddParticipantModal();
+            
+        } catch (error) {
+            console.error('Error adding participant:', error);
+             iziToast.error({
+                    messsage:`'Failed to add participant. Please try again.'`,
+                    position:"topCenter"
+                })
+        }
+    });
+
+        </script>

@@ -9,6 +9,8 @@ const createMeeting = require("../controllers/data/createMeeting")
 const login = require("../controllers/data/login")
 const router = express.Router()
 const bodyParser = require("body-parser");
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
 const loggedIn = require("../controllers/data/loggedIn")
 const channels = require("../controllers/data/channels")
 const dashboard = require("../controllers/managemeetingsPage")
@@ -39,6 +41,16 @@ const resetMeeting = require("../controllers/asfi_meet_v9/resetMeeting")
 const preRegistration = require("../controllers/data/preRegistration")
 const getParticipants = require("../controllers/data/getParticipants")
 const deleteParticipant = require("../controllers/data/deleteParticipant")
+const adminPreReg = require("../controllers/asfi_meet_v9/admin/pre-reg-page")
+const saveRegForm = require("../controllers/asfi_meet_v9/admin/save-reg-form")
+const previewRegForm = require("../controllers/asfi_meet_v9/admin/preview-reg-form")
+const multer = require('multer');
+const NoLogInNeeded = require("../controllers/data/NoLoggedIN")
+const getAllGuests = require("../controllers/asfi_meet_v9/admin/getAllGuests")
+const deleteGuests = require("../controllers/asfi_meet_v9/admin/deleteGuests")
+const createGuest = require("../controllers/asfi_meet_v9/admin/createGuest")
+const GuestPage = require("../controllers/asfi_meet_v9/admin/guestsPage")
+const upload = multer(); // No dest = keep files in memory
 
 router.use(express.json())
 router.use(bodyParser.json());
@@ -89,7 +101,7 @@ router.get("/posterDetails/:posterId", getPosterTitle)
 router.post("/deleteMeeting", loggedIn, deleteMeeting)
 router.get("/create", loggedIn, CreatePage)
 router.get("/createMeetingFromRequest", createRoomButton)
-router.get("/join/:meeting", loggedIn, joinPage)
+router.get("/join/:meeting", csrfProtection, NoLogInNeeded, joinPage)
 router.get("/call/:meeting", startASFIScholarCall)
 router.post("/createAdmin", loggedIn, createAdmin)
 router.get("/createAdmin", loggedIn, manageAdminsPage)
@@ -111,9 +123,20 @@ router.get("/meetings/:user", ScholarAdmin, scholarManageMeetings)
 router.post("/getTotalPosters", getTotalPosters)
 router.post("/meetings/start", loggedIn, startMeeting)
 router.post("/meetings/reset", loggedIn, resetMeeting)
-router.post("/pre-reg", loggedIn, preRegistration)
+router.post("/pre-reg", NoLogInNeeded, upload.none(), preRegistration)
 router.get("/api/participants/:meetingId", loggedIn, getParticipants)
-router.delete("/api/participants/delete/:participantId", loggedIn, deleteParticipant)
+router.delete("/api/participants/delete/:participantId",  loggedIn, deleteParticipant)
+router.get("/manage/pre-reg/:meetingId", csrfProtection, loggedIn, adminPreReg)
+router.post("/manage/pre-reg/saveForm", csrfProtection, loggedIn, saveRegForm)
+router.get("/preview/pre-reg/:meetingId", csrfProtection, loggedIn, previewRegForm)
+
+// Guests 
+router.get("/api/guests/:meetingId", loggedIn, getAllGuests)
+router.delete("/api/guests/:id", loggedIn, deleteGuests)
+router.post("/api/guests", NoLogInNeeded, createGuest)
+router.get("/manage/guests/:meetingId", loggedIn, GuestPage)
+
+
 router.get("/participants/:meetingId", loggedIn, (req,res) => {
 const meetingId = req.params.meetingId || "test-seminar-12345";
     res.render("participants-list", {meetingId, userId:req.user.id, page:1, limit:10, total:0, totalPages:0, participants:[], isActive:true})

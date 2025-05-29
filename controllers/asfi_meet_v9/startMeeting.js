@@ -30,7 +30,7 @@ const startMeeting = async (req,res) =>{
             // Here you can implement the logic to notify each participant, e.g., via email or WebSocket
             console.log(`Notifying ${participant.email_address} that the meeting has started.`);
             const message = `<div class="header">
-        <img src="https://asfischolar.net/assets/logo_inverted.png" alt="ASFI Logo" class="logo">
+        <img src="https://res.cloudinary.com/dvm0bs013/image/upload/v1748442398/logo_inverted_r61aue.png" alt="ASFI Logo" class="logo">
         <h1>Your Seminar Registration is Confirmed!</h1>
     </div>
     
@@ -46,7 +46,7 @@ const startMeeting = async (req,res) =>{
             </div>
            <div class="details-row">
                 <span class="details-label">Click here to join</span>
-                <span><a href="${process.env.MEET}/${meetingData.channel}" class="button">Join Meeting</a></span>
+                <span><a href="${process.env.CURRENT_DOMAIN}/join/${meetingData.channel}?byPass=true" class="button">Join Meeting</a></span>
                
             </div>
            

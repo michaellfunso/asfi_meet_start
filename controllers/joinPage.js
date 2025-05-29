@@ -8,13 +8,19 @@ const joinPage = async (req, res) => {
         const meetingId = req.params.meeting;
         const meetingRoom = process.env.MEET;
         const postersRoom = 'https://posters.asfischolar.com'; // Consider moving to config
+        const guestMode = req.query.guest
+
+       
         
         // Check if meeting exists
         const meetingData = await meetingExists(meetingId);
         if (!meetingData?.channel) {
             return res.render("404", { message: "Meeting does not exist" });
         }
+      
 
+         const getCustomQuestions  = await dbPromise.query("SELECT * FROM pre_reg_questions WHERE meeting_id = ?",[meetingData.id])
+        const questions = getCustomQuestions[0]
         // Determine user permissions
         const isGroupOwner = meetingData.isGroupOwner == req.user.id || req.user.acct_type === "administrator";
         
@@ -22,7 +28,17 @@ const joinPage = async (req, res) => {
             "SELECT * FROM pre_registration WHERE meetingId = ? AND userId = ?", 
             [meetingData.id, req.user.id]
         );
-      
+        // Check if request is guest mode 
+        if(guestMode){
+            return res.render("guest-login", {
+                   meetingId, meetingData,
+                    postersRoom,
+                    meetingRoom,
+                    isOwner: isGroupOwner,
+                    isActive:true,
+                    csrfToken: req.csrfToken()})
+        }
+
         const hasRegistered = registrationCheck.length > 0;
    
         const formattedTime = formatDateTime(meetingData.time);
@@ -34,6 +50,12 @@ const joinPage = async (req, res) => {
             });
         }
 
+let byPass ="false"
+if(req.query.byPass == 'true' || req.query.byPass == true){
+    byPass = "true"
+}
+                    
+
         // Handle pre-registration cases
         if (meetingData.preRegistration === "yes") {
             if (!isGroupOwner && !hasRegistered) {
@@ -43,11 +65,13 @@ const joinPage = async (req, res) => {
                     meetingRoom,
                     isOwner: isGroupOwner,
                     isActive:true,
-                    meetingData
+                    meetingData,
+                    questions,
+                    byPass
                 });
             }
 
-            if (isGroupOwner && meetingData.hasStarted === "false" ) {
+            if (isGroupOwner && (meetingData.hasStarted === "false" || meetingData.hasStarted === "test") ) {
                 return res.render("admin-waitingPage", {
                     meetingId,
                     postersRoom,
@@ -59,7 +83,7 @@ const joinPage = async (req, res) => {
                 });
             }
 
-            if (!isGroupOwner && hasRegistered && meetingData.hasStarted === "false") {
+            if (!isGroupOwner && hasRegistered && (meetingData.hasStarted === "false" || meetingData.hasStarted === "test")) {
                 return res.render("waiting-page", {
                     meetingId,
                     postersRoom,
@@ -97,7 +121,7 @@ const joinPage = async (req, res) => {
 
     } catch (error) {
         console.error("Error in joinPage:", error);
-        return res.status(500).render("500", { 
+        return res.status(500).render("404", { 
             message: "An unexpected error occurred",
             error: process.env.NODE_ENV === "development" ? error.message : null
         });

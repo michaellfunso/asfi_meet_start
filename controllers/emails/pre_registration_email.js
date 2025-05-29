@@ -15,7 +15,6 @@ const preRegistrationEmail = async (meetingId, firstName, useremail) =>{
             return {error:"Meeting room link is not configured"}
         }
         const formattedDate = formatDateTime(meetingData.time, true);
-        console.log("Formatted Date:", formattedDate)
         if(!formattedDate){
             return {error:"Invalid meeting time format"}
         }
@@ -24,7 +23,7 @@ const preRegistrationEmail = async (meetingId, firstName, useremail) =>{
         const message = `
     
     <div class="header">
-        <img src="https://asfischolar.net/assets/logo_inverted.png" alt="ASFI Logo" class="logo">
+        <img src="https://res.cloudinary.com/dvm0bs013/image/upload/v1748442398/logo_inverted_r61aue.png" alt="ASFI Logo" class="logo">
         <h1>Your Seminar Registration is Confirmed!</h1>
     </div>
     

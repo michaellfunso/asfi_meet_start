@@ -17,7 +17,7 @@ const dashboard = async (req, res) => {
       res.render("userDashboard", {publicMeetings})
     }
   }else{
-    res.render("signin")
+    res.render("signin", {meetingId:""})
   }
 };
 

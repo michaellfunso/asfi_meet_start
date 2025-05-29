@@ -8,7 +8,7 @@ const ScholarAdmin = async (req,res, next) =>{
     if(userCookie){
         res.cookie("posterUser", userCookie, cookieOptions)
     }else{
-        return res.render("signin")
+        return res.render("signin", {meetingId:""})
     }
 
     if(req.cookies.posterUser){
@@ -25,12 +25,12 @@ const ScholarAdmin = async (req,res, next) =>{
                 next()
             }else{
                 console.log(data.error)
-                return res.render("signin")
+                return res.render("signin", {meetingId:""})
             }
 
         })
     }else{
-        return res.render("signin")
+        return res.render("signin", {meetingId:""})
     }
 }
 

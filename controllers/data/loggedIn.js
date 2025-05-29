@@ -13,12 +13,12 @@ const loggedIn = async (req,res, next) =>{
                 next()
             }else{
                 console.log(data.error)
-                return res.render("signin")
+                return res.render("signin", {meetingId:""})
             }
 
         })
     }else{
-        return res.render("signin")
+        return res.render("signin", {meetingId:""})
     }
 }
 

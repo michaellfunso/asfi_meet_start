@@ -16,7 +16,7 @@ const recordingsPage= async (req,res) =>{
               res.render("userDashboard")
             }
         }else{
-            res.render("signin")
+            res.render("signin", {meetingId:""})
         }
     }catch(error){
         res.render("404", {message:error.message})

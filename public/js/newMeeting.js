@@ -47,6 +47,7 @@
                 description: html ? html : text,
                 preRegistration: preRegistration
             };
+            
 
             fetch('/createMeeting', {
                 method: 'POST',
@@ -69,6 +70,10 @@
                     const meetingList = document.getElementById('meetingList');
                     const meetingItem = document.createElement('div');
                     meetingItem.classList.add('meeting-item');
+                    let participants = ``
+                    if(preRegistration === "yes"){
+                        participants = ` <a href="/participants/${data.channel}" ><button class="button" >Participants</button></a>`
+                    }
 
                     meetingItem.innerHTML = `
                         <p><strong>${name}</strong> <span> ${displayTime}</span></p>
@@ -76,6 +81,8 @@
                             <a href="/join/${data.channel}" target="_blank"><button class="button" >Start Meeting</button></a>
                             <button class="button" onclick="copyLink('https://asfischolar.net/join/${data.channel}')">Copy Link</button>
                         <button class="button" onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
+                           ${participants}
+
                         <button  onclick="deleteMeeting('${data.meetingId}')" class="deleteMeeting"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(201, 40, 40)"><path d="M5.755 20.283 4 8h16l-1.755 12.283A2 2 0 0 1 16.265 22h-8.53a2 2 0 0 1-1.98-1.717zM21 4h-5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2z"/></svg></button>
                         </div>
                         

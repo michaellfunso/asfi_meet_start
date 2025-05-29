@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Management</title>
+    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
+</head>
+<body class="bg-gray-50">
+    <%- include("../partials/no-loginHeader.ejs") %>
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Guest Lists</h1>
+            <div class="space-x-2">
+                <button onclick="exportToPDF()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                    Export PDF
+                </button>
+                <button onclick="exportToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                    Export CSV
+                </button>
+
+                <button onclick="openGuestModal()" 
+                class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md">
+            Add Guest
+        </button>
+            </div>
+        </div>
+
+        <!-- guests Table -->
+    <!-- Guest Management Section -->
+<div class="mt-8">
+    <!-- <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Guest List</h2>
+       
+    </div> -->
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="guestsTable" class="bg-white divide-y divide-gray-200">
+                <!-- Guests will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Guest Modal -->
+<div id="guestModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold">Add New Guest</h3>
+            <button onclick="closeGuestModal()" class="text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
+        </div>
+        <form id="guestForm" class="space-y-4">
+            <input type="hidden" id="meetingId" value="<%= meetingData.id %>">
+            <div>
+                <label for="guestName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                <input type="text" id="guestName" required
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+            </div>
+            <div>
+                <label for="guestEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="guestEmail" required
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button type="button" onclick="closeGuestModal()"
+                        class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button type="submit"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700">
+                    Add Guest
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+   
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="/assets/global/js/iziToast.min.js"></script>
+    <script>
+
+// Guest Management Functions
+async function loadGuests() {
+    try {
+        const meetingId = document.getElementById('meetingId').value;
+        const response = await fetch(`/api/guests/${meetingId}`);
+        
+        if (!response.ok) throw new Error('Failed to load guests');
+        
+        const guests = await response.json();
+        renderGuests(guests);
+    } catch (error) {
+        console.error('Error loading guests:', error);
+        iziToast.error({
+            message: 'Failed to load guests',
+            position: 'topCenter'
+        });
+    }
+}
+
+function renderGuests(guests) {
+    const tableBody = document.getElementById('guestsTable');
+    tableBody.innerHTML = '';
+    
+    if (guests.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">
+                    No guests found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    guests.forEach(guest => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${guest.full_name}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${guest.email}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <span class="px-2 py-1 text-xs rounded-full 
+                    ${guest.status === 'confirmed' ? 'bg-green-100 text-green-800' : 
+                      guest.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                      'bg-gray-100 text-gray-800'}">
+                    ${guest.status}
+                </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(guest.created_at)}</td>
+
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <button onclick="deleteGuest(${guest.id})" class="text-red-600 hover:text-red-900">
+                    Remove
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+async function deleteGuest(guestId) {
+    if (!confirm('Are you sure you want to remove this guest?')) return;
+    
+    try {
+        const response = await fetch(`/api/guests/${guestId}`, {
+            method: 'DELETE'
+        });
+        
+        if (!response.ok) throw new Error('Failed to delete guest');
+        
+        iziToast.success({
+            message: 'Guest removed successfully',
+            position: 'topCenter'
+        });
+        loadGuests();
+    } catch (error) {
+        console.error('Error deleting guest:', error);
+        iziToast.error({
+            message: 'Failed to remove guest',
+            position: 'topCenter'
+        });
+    }
+}
+
+// Modal Functions
+function openGuestModal() {
+    document.getElementById('guestModal').classList.remove('hidden');
+    document.getElementById('guestName').focus();
+}
+
+function closeGuestModal() {
+    document.getElementById('guestModal').classList.add('hidden');
+    document.getElementById('guestForm').reset();
+}
+
+// Form Submission
+document.getElementById('guestForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const meetingId = document.getElementById('meetingId').value;
+    const fullName = document.getElementById('guestName').value.trim();
+    const email = document.getElementById('guestEmail').value.trim();
+    
+    try {
+        const response = await fetch('/api/guests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ meetingId, email, fullName })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to add guest');
+        }
+        
+        iziToast.success({
+            message: 'Guest added successfully',
+            position: 'topCenter'
+        });
+        
+        closeGuestModal();
+        loadGuests();
+    } catch (error) {
+        console.error('Error adding guest:', error);
+        iziToast.error({
+            message: error.message,
+            position: 'topCenter'
+        });
+    }
+});
+
+// Initialize guests when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadGuests();
+});
+        // Export functions (PDF/CSV)
+        async function exportToPDF() {
+            try {
+                const response = await fetch(`/api/guests/<%=meetingData.id%>?limit=1000`);
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Standard fields
+                doc.text('Seminar guests List', 14, 16);
+                doc.autoTable({
+                    head: [['ID', 'Name', 'Email', 'Status', 'Invitation Date']],
+                    body: data.map(p => [
+                        p.id,
+                        `${p.fullname}`,
+                        p.email,
+                        p.status,
+                        new Date(p.created_at),
+                    ]),
+                    startY: 25
+                });
+                
+           
+                doc.save(`guests_<%=meetingId%>.pdf`);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to export PDF. Please try again.');
+            }
+        }
+
+        async function exportToCSV() {
+            try {
+                const response = await fetch(`/api/guests/<%=meetingId%>?limit=1000`);
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+                
+                // Prepare CSV data
+                const csvData = data.map(p => {
+                    const baseData = {
+                        ID: p.id,
+                        Name: `${p.full_name}`,
+                        Email: p.email,
+                        Status: p.status,
+                        Date: new Date(p.created_at) || 'N/A',
+                    };
+                    
+                    
+                    return baseData;
+                });
+                
+                const csv = Papa.unparse(csvData);
+                downloadCSV(csv, `guests_<%=meetingData.channel%>.csv`);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to export CSV. Please try again.');
+            }
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.click();
+        }
+
+ 
+
+        function showError(message) {
+            iziToast.error({
+                message: message,
+                position: 'topCenter'
+            });
+        }
+
+        function showSuccess(message) {
+            iziToast.success({
+                message: message,
+                position: 'topCenter'
+            });
+        }
+
+     
+    </script>
+</body>
+</html>

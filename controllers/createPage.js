@@ -15,7 +15,7 @@ const CreatePage = async (req,res) =>{
           res.render("userDashboard")
         }
     }else{
-        res.render("signin")
+        res.render("signin", {meetingId:""})
     }
 
     

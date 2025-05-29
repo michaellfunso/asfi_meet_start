@@ -14,7 +14,7 @@ const posterOverVIew = async (req,res) =>{
               res.render("userDashboard")
             }
         }else{
-            res.render("signin")
+            res.render("signin", {meetingId:""})
         }
     }catch(error){
         return res.json({error:error.message})

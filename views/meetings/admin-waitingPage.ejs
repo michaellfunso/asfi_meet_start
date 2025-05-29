@@ -32,8 +32,12 @@
                         Start Meeting Now
                     </button>
                     
-                    <button id="resetMeetingBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
+                    <!-- <button id="resetMeetingBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
                         Reset to Scheduled Time
+                    </button> -->
+
+                     <button id="startTestBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
+                        Start in Test mode
                     </button>
                     
                     <% if(meetingData.hasStarted == "true"){ %>
@@ -77,7 +81,6 @@
                         position: 'topRight',
                         timeout: 3000,
                         onclose: window.location.reload()
-                        
                     });
                     
             updateStatus("true");
@@ -97,45 +100,44 @@
                     timeout: 3000,
                 });
             });
-    
         });
         
         // Reset to scheduled time
-        document.getElementById('resetMeetingBtn').addEventListener('click', () => {
-     fetch(`/meetings/reset`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ meetingId: '<%= meetingData.id %>' }),
-            }).then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    iziToast.success({
-                        message:'Rest To Scheduled time!', 
-                        position: 'topRight',
-                        timeout: 3000,
-                    });
+    //     document.getElementById('resetMeetingBtn').addEventListener('click', () => {
+    //  fetch(`/meetings/reset`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ meetingId: '<%= meetingData.id %>' }),
+    //         }).then(res => res.json())
+    //         .then(data => {
+    //             if (data.success) {
+    //                 iziToast.success({
+    //                     message:'Rest To Scheduled time!', 
+    //                     position: 'topRight',
+    //                     timeout: 3000,
+    //                 });
                     
-            updateStatus("false");
+    //         updateStatus("false");
 
-                } else {
-                    iziToast.error({
-                        message: 'Failed to reset meeting: ' + data.error,
-                        position: 'topRight',
-                        timeout: 3000,
-                    });
-                }
-            }).catch(err => {
-                console.error('Error:', err);
-               iziToast.error( {
-                message:'An error occurred while resetting the meeting.',
-                    position: 'topRight',
-                    timeout: 3000,
-                });
-            });
+    //             } else {
+    //                 iziToast.error({
+    //                     message: 'Failed to reset meeting: ' + data.error,
+    //                     position: 'topRight',
+    //                     timeout: 3000,
+    //                 });
+    //             }
+    //         }).catch(err => {
+    //             console.error('Error:', err);
+    //            iziToast.error( {
+    //             message:'An error occurred while resetting the meeting.',
+    //                 position: 'topRight',
+    //                 timeout: 3000,
+    //             });
+    //         });
          
-        });
+    //     });
         
         updateStatus('<%=meetingData.hasStarted %>');
     </script>

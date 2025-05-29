@@ -5,7 +5,6 @@ form.addEventListener("submit", (e) =>{
         user: user.value,
         pass: pass.value
     }
-    console.log(login)
     fetch("/api/login", {
         method: "POST",
         body: JSON.stringify(login),
@@ -14,26 +13,19 @@ form.addEventListener("submit", (e) =>{
         }
     }).then(res => res.json())
     .then(data => {
-    console.log(data)
+  
         if(data.status == "error") {
-            success.style.visibility = "hidden";
-            success.style.contentVisibility = "hidden";
-            error.style.visibility = "visible";
-            error.style.opacity  = "1";
-            error.style.contentVisibility = "visible";
-            // error.style.marginTop = "0px";
-            success.style.marginTop = "20px";
+            iziToast.error({
+                message:data.error,
+                position:"topCenter"
+            })
             error.innerText = data.error;
         }
         else{
-            error.style.visibility = "hidden";
-            error.style.contentVisibility = "hidden";
-            success.style.visibility = "visible";
-            success.style.opacity  = "1";
-            success.style.contentVisibility = "visible";
-            success.style.marginTop = "0px";
-            error.style.marginTop = "-20px";
-            success.innerText = data.success;
+           iziToast.success({
+                message:data.success,
+                position:"topCenter"
+            })
             window.location.reload()
 
         }

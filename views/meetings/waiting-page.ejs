@@ -12,15 +12,15 @@
     <%- include("../partials/no-loginHeader.ejs") %>
 
     <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="bg-purple-800 text-white p-6 text-center">
+        <div class="max-w-4xl w-full bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-purple-800 text-white p-6 text-center ">
                     <p class="text-sm font-semibold bg-yellow-400 text-purple-900 inline-block px-2 py-1 rounded" id="countdown-badge">STARTS IN 1 HOUR!</p>
 
                 <h1 class="text-2xl font-bold"><%= meetingData.title %></h1>
                 <!-- <p class="mt-2">2025: Edition Five</p> -->
             </div>
 
-            <div class="p-6 text-center">
+            <div class="p-4 text-center">
                 <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -28,7 +28,7 @@
                 </div>
                 
                 <h2 class="text-xl font-bold text-gray-800 mb-2" id="countdown-text-header">This meeting hasn't started yet</h2>
-                <p class="text-gray-600 mb-6 " id="countdown-text">The seminar will begin shortly. Please check back at the scheduled time.</p>
+                <!-- <p class="text-gray-600 mb-6 " id="countdown-text">The seminar will begin shortly. Please check back at the scheduled time.</p> -->
                 
                 <div id="countdown" class="mb-6">
                     <div class="flex justify-center space-x-4">
@@ -104,9 +104,20 @@
                     countdownBadge.textContent = "EVENT STARTED!";
                     document.getElementById("countdown-text-header").textContent = "The seminar has started";
 
-                    document.getElementById("countdown-text").textContent = "You will be redirected when the host joins!";
+                    // document.getElementById("countdown-text").textContent = "You will be redirected when the host joins!";
                     document.getElementById("countdown").classList.add("hidden");
                     document.getElementById("addToCalendarBtn").classList.add("hidden");
+                  const RELOAD_INTERVAL = 30 * 60 * 1000; // 30 minutes in milliseconds
+const LAST_RELOAD_KEY = 'lastReloadTime';
+
+const now = Date.now();
+const lastReload = localStorage.getItem(LAST_RELOAD_KEY);
+
+if (!lastReload || now - parseInt(lastReload) > RELOAD_INTERVAL) {
+  localStorage.setItem(LAST_RELOAD_KEY, now.toString());
+  window.location.reload();
+}
+
                     return
                 } else if (distance < 3600000) {
                     countdownBadge.textContent = `STARTS IN ${minutes} MINUTES!`;

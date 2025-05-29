@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= meetingData.title %> - guestLogin</title>
+    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
+    <style>
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <%- include("../partials/no-loginHeader.ejs") %>
+
+    <div class="max-w-6xl mx-auto p-6 md:p-8">
+        <!-- Header Section -->
+        <div class="bg-purple-800 text-white p-6 rounded-t-lg">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-semibold bg-yellow-400 text-purple-900 inline-block px-2 py-1 rounded" id="countdown-badge">STARTS IN 1 HOUR!</p>
+                    <h1 class="text-2xl md:text-3xl font-bold mt-2"><%= meetingData.title %></h1>
+                    <h2 class="text-xl md:text-2xl font-semibold mt-1">ASFI Science Seminars</h2>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm">Powered by</p>
+                    <p class="font-bold">ASFI</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content - Two Columns on Desktop -->
+        <div class="bg-white border border-gray-200">
+            <div class="flex flex-col lg:flex-row">
+                <!-- Left Column - Meeting Details -->
+                <div class="lg:w-1/2 p-6 border-b lg:border-b-0 lg:border-r border-gray-200">
+                    <div class="border-b border-gray-200 pb-4 mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Date & Time</h3>
+                        <p class="text-gray-700 meetingTime" id="countdown-text"><%= meetingData.time %></p>
+                        <div id="countdown-timer" class="mt-2 hidden">
+                            <div class="flex space-x-4">
+                                <div class="text-center">
+                                    <span id="countdown-days" class="text-2xl font-bold text-purple-600">00</span>
+                                    <span class="block text-xs text-gray-500">Days</span>
+                                </div>
+                                <div class="text-center">
+                                    <span id="countdown-hours" class="text-2xl font-bold text-purple-600">10</span>
+                                    <span class="block text-xs text-gray-500">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span id="countdown-minutes" class="text-2xl font-bold text-purple-600">00</span>
+                                    <span class="block text-xs text-gray-500">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span id="countdown-seconds" class="text-2xl font-bold text-purple-600">00</span>
+                                    <span class="block text-xs text-gray-500">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if(meetingData.description !== "<p><br></p>"){ %>
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Description</h3>
+                        <div class="prose max-w-none">
+                            <%- meetingData.description %>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+
+                <!-- Right Column - Login Form -->
+                <div class="lg:w-1/2 p-6">
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Meeting Guest Login</h3>
+                        </div>
+
+                        <form class="space-y-4" id="guestLoginForm" onsubmit="return false">
+                            <input type="hidden" readonly name="meetingId" required value="<%= meetingData.id %>">
+                    
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address*</label>
+                                <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" value="owen@weperch.live">
+                            </div>
+
+                            <div>
+                                <label for="pass_code" class="block text-sm font-medium text-gray-700">Passcode*</label>
+                                <input type="password" name="pass_code" id="pass_code" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Your organization">
+                            </div>          
+
+                            <div>
+                                <p class="text-sm text-gray-600">
+                                    Information you provide will be shared with the account owner and host and can be used and shared by them in accordance with their Terms and Privacy Policy.
+                                </p>
+                            </div>
+                            
+                            <div class="pt-4 space-y-2">
+                                <button type="submit" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    Login
+                                </button>
+
+                                <% if(meetingData.hasStarted === "false"){ %>
+                                <button type="button" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" onclick="addToCalendar('<%=meetingData.title%>', '<%=meetingData.time%>')">
+                                    Add To Calendar
+                                </button>
+                                <% } %>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-sm text-gray-600 rounded-b-lg border border-gray-200">
+            <p>© <%= new Date().getFullYear() %> ASFI. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="/assets/global/js/iziToast.min.js"></script>
+
+    <script>
+        // Format meeting time
+        document.addEventListener('DOMContentLoaded', () => {
+            const utcTime = '<%= meetingData.time %>';
+            const localTime = luxon.DateTime
+                .fromISO(utcTime)
+                .setZone(luxon.DateTime.local().zoneName)
+                .toFormat('LLLL dd, yyyy hh:mm a');
+            
+            document.querySelectorAll('.meetingTime').forEach(container => {
+                container.textContent = `${localTime} ( ${luxon.DateTime.local().zoneName} )`;
+            });
+        });
+
+        // Countdown timer
+        document.addEventListener('DOMContentLoaded', () => {
+            const countDownDate = new Date('<%=meetingData.time%>').getTime();
+            
+            const countdownFunction = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById("countdown-days").textContent = days.toString().padStart(2, '0');
+                document.getElementById("countdown-hours").textContent = hours.toString().padStart(2, '0');
+                document.getElementById("countdown-minutes").textContent = minutes.toString().padStart(2, '0');
+                document.getElementById("countdown-seconds").textContent = seconds.toString().padStart(2, '0');
+                
+                document.getElementById("countdown-timer").classList.remove("hidden");
+                
+                const countdownBadge = document.getElementById("countdown-badge");
+                if (distance < 0 || '<%=meetingData.hasStarted%>' == 'true') {
+                    clearInterval(countdownFunction);
+                    countdownBadge.textContent = "EVENT STARTED!";
+                    document.getElementById("countdown-text").textContent = "The seminar has started, Complete Your guestLogin to continue!";
+                    document.getElementById("countdown-timer").classList.add("hidden");
+                } else if (distance < 3600000) {
+                    countdownBadge.textContent = `STARTS IN ${minutes} MINUTES!`;
+                } else if (distance < 86400000) {
+                    countdownBadge.textContent = `STARTS IN ${hours} HOURS!`;
+                } else {
+                    countdownBadge.textContent = `STARTS IN ${days} DAYS!`;
+                }
+            }, 1000);
+        });
+
+        // Form validation and submission
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('guestLoginForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const requiredFields = ['email', 'pass_code'];
+            
+            // Check form validity
+            const checkFormValidity = () => {
+                const isValid = requiredFields.every(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    return field.value.trim() !== '';
+                });
+                submitBtn.disabled = !isValid;
+            };
+            
+            // Add event listeners to all fields
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                field.addEventListener('input', checkFormValidity);
+                field.addEventListener('change', checkFormValidity);
+            });
+            
+            // Initial check
+            checkFormValidity();
+            
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Disable button and show loader
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="loader"></span> Processing...';
+                    const formData = new FormData(form)
+                
+                try {
+                    
+                    const response = await fetch('/pre-reg', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        iziToast.success({
+                            title: 'Success',
+                            message: data.success,
+                            position: 'topCenter',
+                            onclose: window.location.reload()
+                        });
+                        form.reset();
+                    } else if (data.error) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: data.error,
+                            position: 'topCenter'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Network error occurred',
+                        position: 'topCenter'
+                    });
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                    checkFormValidity();
+                }
+            });
+        });
+    </script>
+
+    <script src="/js/addToCalendar.js"></script>
+</body>
+</html>

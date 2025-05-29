@@ -27,12 +27,12 @@ const sendEmail = async (useremail, subject, message) => {
         <p>ASFI - Advancing Scientific Frontiers Initiative</p>
         <p>&copy; ${year} ASFI. All rights reserved.</p>
         <p>
-            <a href="https://asfischolar.org" style="color: purple; text-decoration: none;">asfischolar.org</a> | 
-            <a href="mailto:info@asfischolar.org" style="color: purple; text-decoration: none;">info@asfischolar.org</a>
+            <a href="https://asfischolar.org" style="color: rgb(107, 2, 110); text-decoration: none;">asfischolar.org</a> | 
+            <a href="mailto:info@asfischolar.org" style="color: rgb(107, 2, 110); text-decoration: none;">info@asfischolar.org</a>
         </p>
         <p style="margin-top: 15px; font-size: 11px; color: #9ca3af;">
             You're receiving this email because you registered for an ASFI event. 
-            <a href="#" style="color: purple;">Unsubscribe</a> from future emails.
+            <a href="#" style="color: rgb(107, 2, 110);">Unsubscribe</a> from future emails.
         </p>
     </div>
           `;
@@ -51,12 +51,12 @@ const sendEmail = async (useremail, subject, message) => {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 600px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
         .header {
-            background-color: purple;
+            background-color: rgb(107, 2, 110);
             padding: 30px 20px;
             text-align: center;
             border-radius: 8px 8px 0 0;
@@ -69,15 +69,13 @@ const sendEmail = async (useremail, subject, message) => {
         .content {
             padding: 30px 20px;
             background-color: #f9fafb;
-            border-left: 1px solid #e5e7eb;
-            border-right: 1px solid #e5e7eb;
         }
         .footer {
             padding: 20px;
             text-align: center;
             font-size: 12px;
-            color: #6b7280;
-            background-color: #f3f4f6;
+            color:rgb(253, 253, 255);
+            background-color:rgb(107, 2, 110);
             border-radius: 0 0 8px 8px;
             border-left: 1px solid #e5e7eb;
             border-right: 1px solid #e5e7eb;
@@ -86,7 +84,7 @@ const sendEmail = async (useremail, subject, message) => {
         .button {
             display: inline-block;
             padding: 12px 24px;
-            background-color: purple;
+            background-color: rgb(107, 2, 110);
             color: white;
             text-decoration: none;
             border-radius: 6px;
@@ -107,7 +105,7 @@ const sendEmail = async (useremail, subject, message) => {
         .details-label {
             font-weight: bold;
             width: 120px;
-            color: #4b5563;
+            color:rgb(95, 75, 99);
         }
         .logo {
             height: 40px;
@@ -116,24 +114,7 @@ const sendEmail = async (useremail, subject, message) => {
     </style>
 </head>
 
-                    <body style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
-    <!-- Logo Container -->
-    <div style="
-      background-color: purple;
-      padding: 20px 0;
-      text-align: center;
-      border-bottom: 1px solid #eeeeee;
-    ">
-      <img src="https://res.cloudinary.com/dll8awuig/image/upload/v1747772457/Invoz_white_xpoiqu.png" 
-           alt="InvoX Logo" 
-           style="max-height: 60px; width: auto; data-imagetype="External">
-    </div>
-    <div style="
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-    ">
+       
                     ${messageHtml}
                     ${footerMessage}
                         </body></html>`
