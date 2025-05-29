@@ -27,13 +27,15 @@
                  <button onclick="window.location.href='/manage/pre-reg/<%=meetingId%>'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md">
                    Edit Form
                 </button>
-                <a href="/manage/guests/<%= meetingId %>">Manage Guests</a>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md" onclick="window.location.href='/manage/guests/<%= meetingId %>'">
+                    Guests
+                </button>
             </div>
         </div>
 
         <!-- Participants Table -->
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
+        <div class="bg-white shadow-md rounded-lg overflow-y-auto">
+            <table class="min-w-full divide-y divide-gray-200 ">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
@@ -46,7 +48,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="participantsTable" class="bg-white divide-y divide-gray-200">
+                <tbody id="participantsTable" class="bg-white divide-y overflow-auto divide-gray-200">
                     <!-- Participants will be loaded here -->
                 </tbody>
             </table>

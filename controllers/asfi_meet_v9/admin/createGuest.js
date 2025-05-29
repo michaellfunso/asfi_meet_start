@@ -1,4 +1,5 @@
 const dbPromise = require("../../../routes/dbPromise.config");
+const sendEmail = require("../../emails/sendEmail");
 const formatDateTime = require("../../utils/formatTime");
 const generatePassCode = require("../../utils/generatePassCode");
 const meetingExists = require("../meetingExists");
@@ -41,7 +42,7 @@ const createGuest = async (req, res) => {
     
     <div class="header">
         <img src="https://res.cloudinary.com/dvm0bs013/image/upload/v1748442398/logo_inverted_r61aue.png" alt="ASFI Logo" class="logo">
-        <h1>Your Seminar Registration is Confirmed!</h1>
+        <h1>You have been invited As a Guest !</h1>
     </div>
     
     <div class="content">
@@ -61,7 +62,13 @@ const createGuest = async (req, res) => {
         
             <div class="details-row">
                 <span class="details-label">Location:</span>
-                <span>Online (click a href="${process.env.CURRENT_DOMAIN}/join/${meetingData.channel}?byPass=true&guest=true" class="button">here</a> to join / preview the meeting</span>
+                <span>Online </span>
+                <span>Click <a href="${process.env.CURRENT_DOMAIN}/join/${meetingData.channel}?byPass=true&guest=true" class="button">Join Meeting</a> 
+                <br>to join / preview the meeting
+            </div>
+            <div class="details-row">
+                <span class="details-label">Your Pass Code is:</span>
+                <h3>${passCode}</h3>
             </div>
         </div>
         
@@ -71,7 +78,7 @@ const createGuest = async (req, res) => {
         
         <a href='https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(meetingData.title)}&dates=${formattedDate}/${formattedDate}' class='button'>Add to Calendar</a>
         `;
-
+await sendEmail(email, subject, message)
         res.json({
             success: true,
             guestId: result.insertId

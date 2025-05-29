@@ -100,7 +100,7 @@ const sendEmail = async (useremail, subject, message) => {
         }
         .details-row {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .details-label {
             font-weight: bold;

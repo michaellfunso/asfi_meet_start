@@ -169,7 +169,7 @@
             });
 
             updateStatus("test");
-            window.location.reload()
+            window.location.href = "/join/<%= meetingData.channel %>"
 
           } else {
             iziToast.error({
