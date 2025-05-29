@@ -1,108 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Controls</title>
-    <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Controls</title>
+  <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
+
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100">
-    <%- include("../partials/no-loginHeader.ejs") %>
+  <%- include("../partials/no-loginHeader.ejs") %>
 
-    <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="bg-purple-800 text-white p-6 text-center">
-                <h1 class="text-2xl font-bold">ASFI Seminar Admin</h1>
-                <p class="mt-2">Control Panel</p>
-            </div>
-            
-            <div class="p-6">
-                <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Seminar Information</h2>
-                    <p class="text-gray-600"><span class="font-medium">Title:</span> <%= meetingData.title %></p>
-                    <p class="text-gray-600"><span class="font-medium">Scheduled Time:</span> <span class="meetingTime"><%=meetingTime %></span></p>
-                    <p class="text-gray-600"><span class="font-medium">Current Status:</span> <span id="statusText">Not Started</span></p>
-                </div>
-                
-                <div class="space-y-4">
-                    <button id="startMeetingBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md">
-                        Start Meeting Now
-                    </button>
-                    
-                    <!-- <button id="resetMeetingBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="bg-purple-800 text-white p-6 text-center">
+        <h1 class="text-2xl font-bold">ASFI Seminar Admin</h1>
+        <p class="mt-2">Control Panel</p>
+      </div>
+
+      <div class="p-6">
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <h2 class="text-lg font-semibold text-gray-800 mb-2">Seminar Information</h2>
+          <p class="text-gray-600"><span class="font-medium">Title:</span> <%= meetingData.title %></p>
+          <p class="text-gray-600"><span class="font-medium">Scheduled Time:</span> <span class="meetingTime"><%=meetingTime %></span></p>
+          <p class="text-gray-600"><span class="font-medium">Current Status:</span> <span id="statusText">Not Started</span></p>
+        </div>
+
+        <div class="space-y-4">
+          <button id="startMeetingBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md">
+            Start Meeting Now
+          </button>
+
+          <!-- <button id="resetMeetingBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
                         Reset to Scheduled Time
                     </button> -->
 
-                     <button id="startTestBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
-                        Start in Test mode
-                    </button>
-                    
-                    <% if(meetingData.hasStarted == "true"){ %>
-                    <a href="javascript:void()" onclick="window.location.reload()" class="block text-center text-purple-600 hover:text-purple-800 mt-4">
-                        Go to Seminar Page
-                    </a>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-    </div>
+          <button id="startTestBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md">
+            Start in Test mode
+          </button>
 
-    <script>
-        // Check meeting status
-        const updateStatus = (isStarted) => {
-            // const isStarted = '<%= meetingData.hasStarted %>';
-            if(isStarted == "true"){
-            document.getElementById('statusText').textContent = isStarted ? 'Started' : 'Not Started';
-            const startButton = document.getElementById('startMeetingBtn')
-            startButton.disabled = isStarted ? true : false;
-            startButton.classList.toggle('opacity-50', isStarted);
-            startButton.classList.toggle('cursor-not-allowed', isStarted);
-            startButton.textContent = isStarted ? 'Meeting in Progress' : 'Start Meeting Now';
-        }
-        };
-        
-        // Start meeting now
-        document.getElementById('startMeetingBtn').addEventListener('click', () => {
-          
-            fetch(`/meetings/start`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ meetingId: '<%= meetingData.id %>' }),
-            }).then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    iziToast.success({
-                        message:'Meeting started successfully!', 
-                        position: 'topRight',
-                        timeout: 3000,
-                        onclose: window.location.reload()
-                    });
-                    
+          <% if(meetingData.hasStarted == "true"){ %>
+          <a href="javascript:void()" onclick="window.location.reload()" class="block text-center text-purple-600 hover:text-purple-800 mt-4">
+            Go to Seminar Page
+          </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check meeting status
+    const updateStatus = (isStarted) => {
+      // const isStarted = '<%= meetingData.hasStarted %>';
+      if (isStarted == "true") {
+        document.getElementById('statusText').textContent = isStarted ? 'Started' : 'Not Started';
+        const startButton = document.getElementById('startMeetingBtn')
+        startButton.disabled = isStarted ? true : false;
+        startButton.classList.toggle('opacity-50', isStarted);
+        startButton.classList.toggle('cursor-not-allowed', isStarted);
+        startButton.textContent = isStarted ? 'Meeting in Progress' : 'Start Meeting Now';
+      }else if(isStarted == "test"){
+         document.getElementById('statusText').textContent = isStarted ? 'Started - Test Mode' : 'Not Started';
+        const testButton = document.getElementById('startTestBtn')
+        testButton.disabled = isStarted ? true : false;
+        testButton.classList.toggle('opacity-50', isStarted);
+        testButton.classList.toggle('cursor-not-allowed', isStarted);
+        testButton.textContent = isStarted ? 'Meeting has started in Test Mode' : 'Start Meeting Now';
+      }
+    };
+
+    // Start meeting now
+    document.getElementById('startMeetingBtn').addEventListener('click', () => {
+
+      fetch(`/meetings/start`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            meetingId: '<%= meetingData.id %>'
+          }),
+        }).then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            iziToast.success({
+              message: 'Meeting started successfully!',
+              position: 'topRight',
+              timeout: 3000,
+              onclose: window.location.reload()
+            });
+
             updateStatus("true");
 
-                } else {
-                    iziToast.error({
-                        message: 'Failed to start meeting: ' + data.error,
-                        position: 'topRight',
-                        timeout: 3000,
-                    });
-                }
-            }).catch(err => {
-                console.error('Error:', err);
-               iziToast.error( {
-                message:'An error occurred while starting the meeting.',
-                    position: 'topRight',
-                    timeout: 3000,
-                });
+          } else {
+            iziToast.error({
+              message: 'Failed to start meeting: ' + data.error,
+              position: 'topRight',
+              timeout: 3000,
             });
+          }
+        }).catch(err => {
+          console.error('Error:', err);
+          iziToast.error({
+            message: 'An error occurred while starting the meeting.',
+            position: 'topRight',
+            timeout: 3000,
+          });
         });
-        
-        // Reset to scheduled time
+    });
+
+    // Reset to scheduled time
     //     document.getElementById('resetMeetingBtn').addEventListener('click', () => {
     //  fetch(`/meetings/reset`, {
     //             method: 'POST',
@@ -118,7 +128,7 @@
     //                     position: 'topRight',
     //                     timeout: 3000,
     //                 });
-                    
+
     //         updateStatus("false");
 
     //             } else {
@@ -136,28 +146,69 @@
     //                 timeout: 3000,
     //             });
     //         });
-         
-    //     });
-        
-        updateStatus('<%=meetingData.hasStarted %>');
-    </script>
 
-<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const utcTime = '<%= meetingData.time %>';
-        const localTime = luxon.DateTime
-            .fromISO(utcTime)
-            .setZone(luxon.DateTime.local().zoneName) // User's timezone
-            .toFormat('LLLL dd, yyyy hh:mm a');
-        
-           const timeContainer = document.querySelectorAll('.meetingTime');
-    timeContainer.forEach(container => {
-       container.textContent = `${localTime} ( ${luxon.DateTime.local().zoneName} )`;
-       })
+    //     });
+
+    // test meeting 
+    document.getElementById('startTestBtn').addEventListener('click', () => {
+      fetch(`/meetings/test`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            meetingId: '<%= meetingData.id %>'
+          }),
+        }).then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            iziToast.success({
+              message: 'Meeting set to test mode!',
+              position: 'topRight',
+              timeout: 3000,
+            });
+
+            updateStatus("test");
+            window.location.reload()
+
+          } else {
+            iziToast.error({
+              message: 'Failed to reset meeting: ' + data.error,
+              position: 'topRight',
+              timeout: 3000,
+            });
+          }
+        }).catch(err => {
+          console.error('Error:', err);
+          iziToast.error({
+            message: 'An error occurred while resetting the meeting.',
+            position: 'topRight',
+            timeout: 3000,
+          });
+        });
+
     });
-</script>
-    <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
-    <script src="/assets/global/js/iziToast.min.js"></script>
+
+    updateStatus('<%=meetingData.hasStarted %>');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const utcTime = '<%= meetingData.time %>';
+      const localTime = luxon.DateTime
+        .fromISO(utcTime)
+        .setZone(luxon.DateTime.local().zoneName) // User's timezone
+        .toFormat('LLLL dd, yyyy hh:mm a');
+
+      const timeContainer = document.querySelectorAll('.meetingTime');
+      timeContainer.forEach(container => {
+        container.textContent = `${localTime} ( ${luxon.DateTime.local().zoneName} )`;
+      })
+    });
+  </script>
+  <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
+  <script src="/assets/global/js/iziToast.min.js"></script>
 </body>
+
 </html>

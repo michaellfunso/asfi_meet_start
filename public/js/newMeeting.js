@@ -78,7 +78,7 @@
                     meetingItem.innerHTML = `
                         <p><strong>${name}</strong> <span> ${displayTime}</span></p>
                         <div class="meetingsControlsContainer">
-                            <a href="/join/${data.channel}" target="_blank"><button class="button" >Start Meeting</button></a>
+                            <a href="/join/${data.channel}?pre=true" target="_blank"><button class="button" >Start Meeting</button></a>
                             <button class="button" onclick="copyLink('https://asfischolar.net/join/${data.channel}')">Copy Link</button>
                         <button class="button" onclick="addToCalendar('${name}', '${formattedTime}')">Add to Calendar</button>
                            ${participants}

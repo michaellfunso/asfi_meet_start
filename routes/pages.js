@@ -50,6 +50,8 @@ const getAllGuests = require("../controllers/asfi_meet_v9/admin/getAllGuests")
 const deleteGuests = require("../controllers/asfi_meet_v9/admin/deleteGuests")
 const createGuest = require("../controllers/asfi_meet_v9/admin/createGuest")
 const GuestPage = require("../controllers/asfi_meet_v9/admin/guestsPage")
+const validateGuest = require("../controllers/asfi_meet_v9/guests/validateGuest")
+const testMeeting = require("../controllers/asfi_meet_v9/testMeeting")
 const upload = multer(); // No dest = keep files in memory
 
 router.use(express.json())
@@ -123,6 +125,8 @@ router.get("/meetings/:user", ScholarAdmin, scholarManageMeetings)
 router.post("/getTotalPosters", getTotalPosters)
 router.post("/meetings/start", loggedIn, startMeeting)
 router.post("/meetings/reset", loggedIn, resetMeeting)
+router.post("/meetings/test", loggedIn, testMeeting)
+
 router.post("/pre-reg", NoLogInNeeded, upload.none(), preRegistration)
 router.get("/api/participants/:meetingId", loggedIn, getParticipants)
 router.delete("/api/participants/delete/:participantId",  loggedIn, deleteParticipant)
@@ -135,6 +139,7 @@ router.get("/api/guests/:meetingId", loggedIn, getAllGuests)
 router.delete("/api/guests/:id", loggedIn, deleteGuests)
 router.post("/api/guests", NoLogInNeeded, createGuest)
 router.get("/manage/guests/:meetingId", loggedIn, GuestPage)
+router.post("/api/guests/login/user", upload.none(), validateGuest)
 
 
 router.get("/participants/:meetingId", loggedIn, (req,res) => {

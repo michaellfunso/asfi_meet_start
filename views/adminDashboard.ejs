@@ -117,7 +117,7 @@
                             <a href="/manage/pre-reg/<%=meeting.channel %>">Manage Registration Form</a>
                         <% } %>
                 
-                    <a href="/join/<%= meeting.channel %>" target="_blank"><button class="button" >Start Meeting</button></a>
+                    <a href="/join/<%= meeting.channel %>?pre=true" target="_blank"><button class="button" >Start Meeting</button></a>
                     <button class="button" onclick="copyLink(`https://asfischolar.net/join/<%= meeting.channel %>`)">Copy Link</button>
                         <button class="button" onclick="addToCalendar('<%= meeting.title %>', '<%= new Date(meeting.time).toISOString() %>')">Add to Calender</button>
                          <% if(meeting.preRegistration === "yes"){ %>

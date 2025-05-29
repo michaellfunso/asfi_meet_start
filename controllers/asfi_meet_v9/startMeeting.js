@@ -22,7 +22,7 @@ const startMeeting = async (req,res) =>{
         }
     
         // Update the meeting to set hasStarted to true
-        await dbPromise.query("UPDATE channels SET hasStarted = ? WHERE id = ? ", ["true", meetingId])
+        await dbPromise.query("UPDATE channels SET hasStarted = ?, fullStart = ? WHERE id = ? ", ["true", "true", meetingId])
         // getParticipants 
         const participants = await dbPromise.query("SELECT * FROM pre_registration WHERE meetingId = ?", [meetingId])
         // Notify participants about the meeting start

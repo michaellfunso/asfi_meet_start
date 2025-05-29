@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= meetingData.title %> - guestLogin</title>
+    <title><%= meetingData.title %> - Guest Login</title>
     <link rel="icon" href="/assets/favicon_inverted.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/assets/global/css/iziToast.min.css">
@@ -97,7 +97,7 @@
                         </div>
 
                         <form class="space-y-4" id="guestLoginForm" onsubmit="return false">
-                            <input type="hidden" readonly name="meetingId" required value="<%= meetingData.id %>">
+                            <input type="hidden" readonly name="meeting" required value="<%= meetingData.id %>">
                     
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email Address*</label>
@@ -106,12 +106,12 @@
 
                             <div>
                                 <label for="pass_code" class="block text-sm font-medium text-gray-700">Passcode*</label>
-                                <input type="password" name="pass_code" id="pass_code" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Your organization">
+                                <input type="password" name="pass_code" id="pass_code" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Your Passcode, this was sent via email">
                             </div>          
 
                             <div>
                                 <p class="text-sm text-gray-600">
-                                    Information you provide will be shared with the account owner and host and can be used and shared by them in accordance with their Terms and Privacy Policy.
+                                    Information you provide will be shared with the account owner and host and can be used and shared by them in accordance with the <a href="/terms" >Terms and Privacy Policy</a>.
                                 </p>
                             </div>
                             
@@ -179,7 +179,7 @@
                 if (distance < 0 || '<%=meetingData.hasStarted%>' == 'true') {
                     clearInterval(countdownFunction);
                     countdownBadge.textContent = "EVENT STARTED!";
-                    document.getElementById("countdown-text").textContent = "The seminar has started, Complete Your guestLogin to continue!";
+                    document.getElementById("countdown-text").textContent = "The seminar has started, Enter your guest login info to continue!";
                     document.getElementById("countdown-timer").classList.add("hidden");
                 } else if (distance < 3600000) {
                     countdownBadge.textContent = `STARTS IN ${minutes} MINUTES!`;
@@ -227,7 +227,7 @@
                 
                 try {
                     
-                    const response = await fetch('/pre-reg', {
+                    const response = await fetch('/api/guests/login/user', {
                         method: 'POST',
                         body: formData
                     });
