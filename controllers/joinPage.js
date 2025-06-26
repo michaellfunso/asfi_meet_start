@@ -30,6 +30,8 @@ const joinPage = async (req, res) => {
             [meetingData.id, req.user.id]
         );
         // Check if request is guest mode 
+        const hasRegistered = registrationCheck.length > 0;
+
         if (guestMode) {
             // check if guest is confirmed 
             if (req.cookies.gst) {
@@ -70,7 +72,6 @@ const joinPage = async (req, res) => {
             }
         }
 
-        const hasRegistered = registrationCheck.length > 0;
 
         const formattedTime = formatDateTime(meetingData.time);
         // Handle private meeting access

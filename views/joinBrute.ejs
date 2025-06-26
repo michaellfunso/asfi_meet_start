@@ -11,6 +11,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <link rel="stylesheet" href="/css/meetingPage.css">
+    <style>
+        @media screen and (max-width: 768px) {
+            .room {
+                /* width: 100vw !important; */
+                height:90vh !important;
+            }
+            /* #joinRight {
+                display: none;
+            } */
+            
+        }
+        /* #roomContainer{
+            height:80vh !important
+        } */
+    </style>
 </head>
 <body>
     <input type="hidden" readonly value="<%= meetingId %>" id="meetingId">
