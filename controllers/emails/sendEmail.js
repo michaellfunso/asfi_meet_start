@@ -24,7 +24,7 @@ const sendEmail = async (useremail, subject, message) => {
     </div>
     
     <div class="footer">
-        <p>ASFI - Advancing Scientific Frontiers Initiative</p>
+        <p>ASFI - African Science Frontiers Initiatives</p>
         <p>&copy; ${year} ASFI. All rights reserved.</p>
         <p>
             <a href="https://asfischolar.org" style="color: rgb(107, 2, 110); text-decoration: none;">asfischolar.org</a> | 

@@ -217,7 +217,7 @@ function buildEmailTemplate(recipient, meeting, timeText, joinLink) {
       </div>
       
       <div style="text-align: center; padding: 15px; font-size: 12px; color: #999; border-top: 1px solid #eee;">
-        <p>ASFI - Advancing Scientific Frontiers Initiative</p>
+        <p>ASFI - African Science Frontiers Initiatives</p>
         <p>
           <a href="${process.env.CURRENT_DOMAIN}" style="color: #6c63ff;">Visit our website</a> | 
           <a href="mailto:contact@asfi.org" style="color: #6c63ff;">Contact us</a>
